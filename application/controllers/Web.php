@@ -31,6 +31,7 @@ class Web extends CI_Controller {
     }
     
     public function logincheck() {
+        
        if (s('ADMIN_USERID')) {
             redirect('dashboard');
         } 
