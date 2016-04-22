@@ -91,10 +91,15 @@ class Web extends CI_Controller {
     }
     
     public function dashboard() {
-        
-        $this->gen_contents['link_dashboard']  = 'active';
-        $this->template->write_view('content', 'dashboard', $this->gen_contents);
-        $this->template->render();
+         
+        if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            $this->gen_contents['link_dashboard']  = 'active';
+            $this->template->write_view('content', 'dashboard', $this->gen_contents);
+            $this->template->render();
+        }
     }
     
     function logout() {
@@ -104,106 +109,126 @@ class Web extends CI_Controller {
     
     function manage_agents () {  
         
-        $this->gen_contents['agents'] = $this->web_model->get_agents_names();
-        $config['per_page']   = 25;
-        $pagin = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;  
-        
-        if($this->input->post("search_user") != '')
-            $search_user = trim($this->input->post("search_user",true));
-        else 
-            $search_user = '';
-        
-        $this->gen_contents['details'] = $this->web_model->get_agents($config['per_page'], $pagin,$search_user);
-        
-        $total_user = $this->web_model->get_total_rows();
-        //--pagination
-        $this->load->library('pagination');
-        $this->load->library('bspagination');   
-        $config['base_url']     = base_url().'manage_agents';
-        $config['total_rows']   = $total_user;
-        $bs_init = $this->bspagination->config();
-        $config = array_merge($config, $bs_init);
-        $this->pagination->initialize($config);
-        $this->gen_contents['links'] =  $this->pagination->create_links();     
-        
-        $this->gen_contents['link_agent']  = 'active';
-        $this->template->write_view('content', 'agentlist', $this->gen_contents);
-        $this->template->render();
+       if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            $this->gen_contents['agents'] = $this->web_model->get_agents_names();
+            $config['per_page']   = 25;
+            $pagin = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;  
+
+            if($this->input->post("search_user") != '')
+                $search_user = trim($this->input->post("search_user",true));
+            else 
+                $search_user = '';
+
+            $this->gen_contents['details'] = $this->web_model->get_agents($config['per_page'], $pagin,$search_user);
+
+            $total_user = $this->web_model->get_total_rows();
+            //--pagination
+            $this->load->library('pagination');
+            $this->load->library('bspagination');   
+            $config['base_url']     = base_url().'manage_agents';
+            $config['total_rows']   = $total_user;
+            $bs_init = $this->bspagination->config();
+            $config = array_merge($config, $bs_init);
+            $this->pagination->initialize($config);
+            $this->gen_contents['links'] =  $this->pagination->create_links();     
+
+            $this->gen_contents['link_agent']  = 'active';
+            $this->template->write_view('content', 'agentlist', $this->gen_contents);
+            $this->template->render();
+        }
     }
     
     function manage_payment () {  
         
-        
-        $this->gen_contents['users'] = $this->web_model->get_users();
-        $config['per_page']   = 25;
-        $pagin = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;  
-        
-        if($this->input->post("search_user") != '')
-            $search_user = trim($this->input->post("search_user",true));
-        else 
-            $search_user = '';
-        
-        $this->gen_contents['details'] = $this->web_model->get_payments($config['per_page'], $pagin,$search_user);
-        
-        $total_user = $this->web_model->get_total_rows();
-        //--pagination
-        $this->load->library('pagination');
-        $this->load->library('bspagination');   
-        $config['base_url']     = base_url().'manage_payment';
-        $config['total_rows']   = $total_user;
-        $bs_init = $this->bspagination->config();
-        $config = array_merge($config, $bs_init);
-        $this->pagination->initialize($config);
-        $this->gen_contents['links'] =  $this->pagination->create_links();     
-        
-        $this->gen_contents['link_payment']  = 'active';
-        $this->template->write_view('content', 'payment', $this->gen_contents);
-        $this->template->render();
-    }
-    public function manageuser() {   
-        $this->load->library('pagination');
-        $agent_id=$this->session->get_userdata('session_data'); 
-        $agent_id=$agent_id['ADMIN_USERID'];
-        $where = array('agent_id' => $agent_id);
-        $total_count = $this->web_model->get_userdetails_count($where);
-        $config['base_url'] = base_url().'manageuser';
-        $config['total_rows'] = $total_count;
-        $config['per_page'] = 25;
-        $config['display_pages'] = true; 
-        $config['full_tag_open'] = "<ul class='pagination'>";
-        $config['full_tag_close'] ="</ul>";
-        $config['num_tag_open'] = '<li>';
-        $config['num_tag_close'] = '</li>';
-        $config['cur_tag_open'] = "<li class='disabled'><li class='active'><a href='#'>";
-        $config['cur_tag_close'] = "<span class='sr-only'></span></a></li>";
-        $config['next_tag_open'] = "<li>";
-        $config['next_tagl_close'] = "</li>";
-        $config['prev_tag_open'] = "<li>";
-        $config['prev_tagl_close'] = "</li>";
-        $config['first_tag_open'] = "<li>";
-        $config['first_tagl_close'] = "</li>";
-        $config['last_tag_open'] = "<li>";
-        $config['last_tagl_close'] = "</li>";
-        $config['page_query_string'] = FALSE;
-        if($this->uri->segment(2)){
-            $page = $this->uri->segment(2);
-        }else{
-            $page = 0;
+         if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
         }
-        $this->pagination->initialize($config);
-        $this->gen_contents['results'] = $this->web_model->get_userdetails($where,$page,$config['per_page']);
-        $this->gen_contents['js_files'] = array(); 
-        $this->gen_contents['link_user']  = 'active';
-        $this->template->write_view('content', 'manageuser', $this->gen_contents);
-        $this->template->render();
-        
-        
+        else {
+            $this->gen_contents['users'] = $this->web_model->get_users();
+            $config['per_page']   = 25;
+            $pagin = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;  
 
+            if($this->input->post("search_user") != '')
+                $search_user = trim($this->input->post("search_user",true));
+            else 
+                $search_user = '';
+
+            $this->gen_contents['details'] = $this->web_model->get_payments($config['per_page'], $pagin,$search_user);
+
+            $total_user = $this->web_model->get_total_rows();
+            //--pagination
+            $this->load->library('pagination');
+            $this->load->library('bspagination');   
+            $config['base_url']     = base_url().'manage_payment';
+            $config['total_rows']   = $total_user;
+            $bs_init = $this->bspagination->config();
+            $config = array_merge($config, $bs_init);
+            $this->pagination->initialize($config);
+            $this->gen_contents['links'] =  $this->pagination->create_links();     
+
+            $this->gen_contents['link_payment']  = 'active';
+            $this->template->write_view('content', 'payment', $this->gen_contents);
+            $this->template->render();
+        }
     }
+    public function manageuser() {  
+         if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            $this->load->library('pagination');
+            $agent_id=$this->session->get_userdata('session_data'); 
+            $agent_id=$agent_id['ADMIN_USERID'];
+            $where = array();
+            if(s('ADMIN_TYPE') == 1){
+                  $where = array('agent_id' => $agent_id);
+            }
+
+            $total_count = $this->web_model->get_userdetails_count($where);
+            $config['base_url'] = base_url().'manageuser';
+            $config['total_rows'] = $total_count;
+            $config['per_page'] = 25;
+            $config['display_pages'] = true; 
+            $config['full_tag_open'] = "<ul class='pagination'>";
+            $config['full_tag_close'] ="</ul>";
+            $config['num_tag_open'] = '<li>';
+            $config['num_tag_close'] = '</li>';
+            $config['cur_tag_open'] = "<li class='disabled'><li class='active'><a href='#'>";
+            $config['cur_tag_close'] = "<span class='sr-only'></span></a></li>";
+            $config['next_tag_open'] = "<li>";
+            $config['next_tagl_close'] = "</li>";
+            $config['prev_tag_open'] = "<li>";
+            $config['prev_tagl_close'] = "</li>";
+            $config['first_tag_open'] = "<li>";
+            $config['first_tagl_close'] = "</li>";
+            $config['last_tag_open'] = "<li>";
+            $config['last_tagl_close'] = "</li>";
+            $config['page_query_string'] = FALSE;
+            if($this->uri->segment(2)){
+                $page = $this->uri->segment(2);
+            }else{
+                $page = 0;
+            }
+            $this->pagination->initialize($config);
+            $this->gen_contents['results'] = $this->web_model->get_userdetails($where,$page,$config['per_page']);
+            $this->gen_contents['js_files'] = array(); 
+            $this->gen_contents['link_user']  = 'active';
+            $this->template->write_view('content', 'manageuser', $this->gen_contents);
+            $this->template->render();
+        }
+    }
+    
     public function adduser() {  
-        $this->load->library('form_validation');
-        $agent_id=$this->session->get_userdata('session_data'); 
-        $agent_id=$agent_id['ADMIN_USERID'];
+         if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            $this->load->library('form_validation');
+            $agent_id=$this->session->get_userdata('session_data'); 
+            $agent_id=$agent_id['ADMIN_USERID'];
             if(!empty($_POST)){
             $this->form_validation->set_rules('firstname','First Name', 'required|trim');
             $this->form_validation->set_rules('lastname','Last Name', 'required|trim');
@@ -257,7 +282,7 @@ class Web extends CI_Controller {
             $this->gen_contents['link_user']  = 'active';
             $this->template->write_view('content', 'adduser', $this->gen_contents);
             $this->template->render();
-        
+        }
            
     }
     function edituser($user_id){
@@ -325,18 +350,22 @@ class Web extends CI_Controller {
         $this->template->render();
     }
     function viewuser($user_id){
-        if(!$user_id){
-            redirect('manageuser');
+         if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
         }
-        $get_user_details = $this->web_model->get_user_detail($user_id);
-        if(empty($get_user_details)){ 
-            redirect('manageuser');
+        else {
+            if(!$user_id){
+                redirect('manageuser');
+            }
+            $get_user_details = $this->web_model->get_user_detail($user_id);
+            if(empty($get_user_details)){ 
+                redirect('manageuser');
+            }
+            $this->gen_contents['user_details']=$get_user_details[0];
+            $this->gen_contents['link_user']  = 'active';
+            $this->template->write_view('content', 'viewuser', $this->gen_contents);
+            $this->template->render();
         }
-        $this->gen_contents['user_details']=$get_user_details[0];
-        $this->gen_contents['link_user']  = 'active';
-        $this->template->write_view('content', 'viewuser', $this->gen_contents);
-        $this->template->render();
-        
     }
     function deleteuser($user_id){
        if(!$user_id){
@@ -361,13 +390,16 @@ class Web extends CI_Controller {
 
     public function add_payments () {
         
-        
-        $this->form_validation->set_rules('user', 'User', 'required');
-        $this->form_validation->set_rules('title', 'Title', 'required');
-        $this->form_validation->set_rules('amount', 'Amount', 'required|numeric');
+         if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            $this->form_validation->set_rules('user', 'User', 'required');
+            $this->form_validation->set_rules('title', 'Title', 'required');
+            $this->form_validation->set_rules('amount', 'Amount', 'required|numeric');
             $page = 1;
             if($this->form_validation->run() == TRUE){
-                
+
                 $userdata = array(
                     "user_id"   => $this->input->post("user",true),
                     "title"  => $this->input->post("title",true),
@@ -375,14 +407,14 @@ class Web extends CI_Controller {
                     "comments"  => $this->input->post("comments",true),
                     "agent_id"  => s('ADMIN_USERID'),
                 );
-                
+
                 $tbl_name = 'payments';
                 $result = $this->web_model->insert_datas($userdata,$tbl_name);
-                
+
                 if($result){
                     sf( 'success_message', "Payment details inserted successfully" );
                     //redirect("manage_payment");
-                    
+
                     $get_user_data = $this->web_model->get_user_details($this->input->post("user",true));
                     if($get_user_data){
                         $this->gen_contents['name'] = $get_user_data['first_name'].' '.$get_user_data['last_name'];
@@ -396,7 +428,7 @@ class Web extends CI_Controller {
                     }
                     $this->gen_contents['amount'] = $this->input->post("amount",true);
                     $this->gen_contents['title'] = $this->input->post("title",true);
-                    
+
                     $page = 2;
                     $this->template->write_view('content', 'invoice', $this->gen_contents);
                     //$this->template->render();
@@ -407,142 +439,157 @@ class Web extends CI_Controller {
                     redirect("manage_payment");
                 }
             }
-            
+
             $this->gen_contents['users'] = $this->web_model->get_users();
             $this->gen_contents['link_payment']  = 'active';
             if($page == 1){
                 $this->template->write_view('content', 'payment_add', $this->gen_contents);
             }
             $this->template->render();
+        }
     }
     
     public function add_agents () {
         
-        
-        $this->form_validation->set_rules('username', 'Username', 'required');
-        $this->form_validation->set_rules('password', 'Password', 'required');
-        $this->form_validation->set_rules('first_name', 'First name', 'required');
-        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
-        $this->form_validation->set_rules('phone', 'Phone', 'numeric');
-        
-            if($this->form_validation->run() == TRUE){
-                
-                $userdata = array(
-                    "agent_code"   => $this->input->post("agent_code",true),
-                    "username"  => $this->input->post("username",true),
-                    "password"  => $this->input->post("password",true),
-                    "first_name"  => $this->input->post("first_name",true),
-                    "last_name"  => $this->input->post("last_name",true),
-                    "email"  => $this->input->post("email",true),
-                    "phone"  => $this->input->post("phone",true),
-                    "address"  => $this->input->post("address",true),
-                    "pincode"  => $this->input->post("pincode",true),
-                    "address"  => $this->input->post("address",true)
-                );
-                
-                $tbl_name = 'crm_agents';
-                $result = $this->web_model->insert_datas($userdata,$tbl_name);
-                if($result){
-                    sf( 'success_message', "Agents details inserted successfully" );
-                    redirect("manage_agents");
-                }
-                else {
-                    sf('error_message', 'Agents details not inserted, Please try agin later');
-                    redirect("manage_agents");
-                }
-            }
-            
-            $this->gen_contents['link_agent']  = 'active';
-            $this->template->write_view('content', 'agents_add', $this->gen_contents);
-            $this->template->render();
-    }
-    
-    public function edit_agents ($id = 0) {  
-        if($id != 0 && is_numeric($id)){
-            
+         if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
             $this->form_validation->set_rules('username', 'Username', 'required');
             $this->form_validation->set_rules('password', 'Password', 'required');
             $this->form_validation->set_rules('first_name', 'First name', 'required');
             $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
             $this->form_validation->set_rules('phone', 'Phone', 'numeric');
- 
-            if($this->form_validation->run() == TRUE){ 
-                
-                $userdata = array(
-                    "agent_code"   => $this->input->post("agent_code",true),
-                    "username"  => $this->input->post("username",true),
-                    "password"  => $this->input->post("password",true),
-                    "first_name"  => $this->input->post("first_name",true),
-                    "last_name"  => $this->input->post("last_name",true),
-                    "email"  => $this->input->post("email",true),
-                    "phone"  => $this->input->post("phone",true),
-                    "address"  => $this->input->post("address",true),
-                    "pincode"  => $this->input->post("pincode",true),
-                    "address"  => $this->input->post("address",true)
-                );
-                
-                $agent_id  = $this->input->post("id",true);  
-                $tbl_name = 'crm_agents';
-                $result = $this->web_model->update_contents_agents($userdata,$agent_id,$tbl_name);
-                if($result) {
-                    sf( 'success_message', "Agent details updated successfully" );
-                    redirect("manage_agents");
+
+                if($this->form_validation->run() == TRUE){
+
+                    $userdata = array(
+                        "agent_code"   => $this->input->post("agent_code",true),
+                        "username"  => $this->input->post("username",true),
+                        "password"  => $this->input->post("password",true),
+                        "first_name"  => $this->input->post("first_name",true),
+                        "last_name"  => $this->input->post("last_name",true),
+                        "email"  => $this->input->post("email",true),
+                        "phone"  => $this->input->post("phone",true),
+                        "address"  => $this->input->post("address",true),
+                        "pincode"  => $this->input->post("pincode",true),
+                        "address"  => $this->input->post("address",true)
+                    );
+
+                    $tbl_name = 'crm_agents';
+                    $result = $this->web_model->insert_datas($userdata,$tbl_name);
+                    if($result){
+                        sf( 'success_message', "Agents details inserted successfully" );
+                        redirect("manage_agents");
+                    }
+                    else {
+                        sf('error_message', 'Agents details not inserted, Please try agin later');
+                        redirect("manage_agents");
+                    }
                 }
-                else {
-                    sf( 'error_message', "No modification done" );
-                    redirect("manage_agents");
-                }
-            }
-            
-            $this->gen_contents['link_agent']  = 'active';
-            $this->gen_contents['details'] = $this->web_model->get_agent_details($id);
-            $this->template->write_view('content', 'modify_agents', $this->gen_contents);
-            $this->template->render();   
-            
-        }
-        else {
-            redirect("manage_agents");
+
+                $this->gen_contents['link_agent']  = 'active';
+                $this->template->write_view('content', 'agents_add', $this->gen_contents);
+                $this->template->render();
         }
     }
     
-    public function edit_payments ($id = 0) {  
-        if($id != 0 && is_numeric($id)){
-            
-            $this->form_validation->set_rules('user', 'User', 'required');
-            $this->form_validation->set_rules('title', 'Title', 'required');
-            $this->form_validation->set_rules('amount', 'Amount', 'required|numeric');
- 
-            if($this->form_validation->run() == TRUE){ 
-                
-                $userdata = array(
-                    "user_id"   => $this->input->post("user",true),
-                    "title"  => $this->input->post("title",true),
-                    "amount"  => $this->input->post("amount",true),
-                    "comments"  => $this->input->post("comments",true)
-                );
-                
-                $payment_id  = $this->input->post("id",true);  
-                $tbl_name = 'payments';
-                $result = $this->web_model->update_contents($userdata,$payment_id,$tbl_name);
-                if($result) {
-                    sf( 'success_message', "Payment details updated successfully" );
-                    redirect("manage_payment");
-                }
-                else {
-                    sf( 'error_message', "No modification done" );
-                    redirect("manage_payment");
-                }
-            }
-            
-            $this->gen_contents['link_payment']  = 'active';
-            $this->gen_contents['users'] = $this->web_model->get_users();
-            $this->gen_contents['details'] = $this->web_model->get_payment_details($id);
-            $this->template->write_view('content', 'modify_payments', $this->gen_contents);
-            $this->template->render();   
-            
+    public function edit_agents ($id = 0) {  
+         if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
         }
         else {
-            redirect("manage_payment");
+            if($id != 0 && is_numeric($id)){
+
+                $this->form_validation->set_rules('username', 'Username', 'required');
+                $this->form_validation->set_rules('password', 'Password', 'required');
+                $this->form_validation->set_rules('first_name', 'First name', 'required');
+                $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+                $this->form_validation->set_rules('phone', 'Phone', 'numeric');
+
+                if($this->form_validation->run() == TRUE){ 
+
+                    $userdata = array(
+                        "agent_code"   => $this->input->post("agent_code",true),
+                        "username"  => $this->input->post("username",true),
+                        "password"  => $this->input->post("password",true),
+                        "first_name"  => $this->input->post("first_name",true),
+                        "last_name"  => $this->input->post("last_name",true),
+                        "email"  => $this->input->post("email",true),
+                        "phone"  => $this->input->post("phone",true),
+                        "address"  => $this->input->post("address",true),
+                        "pincode"  => $this->input->post("pincode",true),
+                        "address"  => $this->input->post("address",true)
+                    );
+
+                    $agent_id  = $this->input->post("id",true);  
+                    $tbl_name = 'crm_agents';
+                    $result = $this->web_model->update_contents_agents($userdata,$agent_id,$tbl_name);
+                    if($result) {
+                        sf( 'success_message', "Agent details updated successfully" );
+                        redirect("manage_agents");
+                    }
+                    else {
+                        sf( 'error_message', "No modification done" );
+                        redirect("manage_agents");
+                    }
+                }
+
+                $this->gen_contents['link_agent']  = 'active';
+                $this->gen_contents['details'] = $this->web_model->get_agent_details($id);
+                $this->template->write_view('content', 'modify_agents', $this->gen_contents);
+                $this->template->render();   
+
+            }
+            else {
+                redirect("manage_agents");
+            }
+        }
+    }
+    
+    public function edit_payments ($id = 0) { 
+        if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            if($id != 0 && is_numeric($id)){
+
+                $this->form_validation->set_rules('user', 'User', 'required');
+                $this->form_validation->set_rules('title', 'Title', 'required');
+                $this->form_validation->set_rules('amount', 'Amount', 'required|numeric');
+
+                if($this->form_validation->run() == TRUE){ 
+
+                    $userdata = array(
+                        "user_id"   => $this->input->post("user",true),
+                        "title"  => $this->input->post("title",true),
+                        "amount"  => $this->input->post("amount",true),
+                        "comments"  => $this->input->post("comments",true)
+                    );
+
+                    $payment_id  = $this->input->post("id",true);  
+                    $tbl_name = 'payments';
+                    $result = $this->web_model->update_contents($userdata,$payment_id,$tbl_name);
+                    if($result) {
+                        sf( 'success_message', "Payment details updated successfully" );
+                        redirect("manage_payment");
+                    }
+                    else {
+                        sf( 'error_message', "No modification done" );
+                        redirect("manage_payment");
+                    }
+                }
+
+                $this->gen_contents['link_payment']  = 'active';
+                $this->gen_contents['users'] = $this->web_model->get_users();
+                $this->gen_contents['details'] = $this->web_model->get_payment_details($id);
+                $this->template->write_view('content', 'modify_payments', $this->gen_contents);
+                $this->template->render();   
+
+            }
+            else {
+                redirect("manage_payment");
+            }
         }
     }
     
@@ -571,28 +618,31 @@ class Web extends CI_Controller {
     
 
     public function deleteagent ($agent_id = 0) { 
-        if($agent_id != 0 && is_numeric($agent_id)){  
-            
-            $userdata = array(
-                    "status"   => '0'
-            );
-            
-            $tbl_name = 'crm_agents';   
-            $result = $this->web_model->update_contents_agents($userdata,$agent_id,$tbl_name);
-            if($result) {
-                sf( 'success_message', "Agent details deleted successfully" );
-                redirect("manage_agents");
-            }
-            else {
-                sf( 'error_message', "Agent details not deleted,Please try again later" );
-                redirect("manage_agents");
-            }
+        if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
         }
         else {
-            redirect("manage_agents");
+            if($agent_id != 0 && is_numeric($agent_id)){  
+
+                $userdata = array(
+                        "status"   => '0'
+                );
+
+                $tbl_name = 'crm_agents';   
+                $result = $this->web_model->update_contents_agents($userdata,$agent_id,$tbl_name);
+                if($result) {
+                    sf( 'success_message', "Agent details deleted successfully" );
+                    redirect("manage_agents");
+                }
+                else {
+                    sf( 'error_message', "Agent details not deleted,Please try again later" );
+                    redirect("manage_agents");
+                }
+            }
+            else {
+                redirect("manage_agents");
+            }
         }
     }
-    
-
     
 }
