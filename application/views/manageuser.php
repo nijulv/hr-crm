@@ -11,6 +11,13 @@
                     <h1 class="page-header">Manage User</h1>
                 </div>
             </div><!--/.row-->
+            <?php if ( f('success_message') != '' ) :?>
+            <div class="text-center">                                        
+                <div class="alert alert-success">
+                    <?php echo f('success_message');?>
+                </div>                                        
+            </div>
+            <?php endif;?>
 
             <div class="row" style="padding-bottom:10px;">
                 <div class="col-lg-12">

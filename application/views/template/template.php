@@ -48,15 +48,11 @@
             
             <ul class="nav menu"> 
 
-                <li><a href="<?php echo base_url()?>dashboard"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Dashboard</a></li>
-                <li class="active"><a href="<?php echo base_url()?>manageagents"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Manage Agents</a></li>
-                <li><a href="<?php echo base_url()?>manageuser"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"/></svg> Manage Users</a></li>
-                <li><a href="<?php echo base_url()?>manage_payment"><svg class="glyph stroked tag"><use xlink:href="#stroked-tag"/></svg> Manage Payments</a></li>
                 <li class="<?php echo $link_dashboard;?>"><a href="<?php echo base_url()?>dashboard"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Dashboard</a></li>
                 <?php if(s('ADMIN_TYPE') == 0) {?>
                     <li class="<?php echo $link_agent;?>"><a href="<?php echo base_url()?>manage_agents"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Manage Agents</a></li>
                 <?php }?>
-                <li class="<?php echo $link_user;?>"><a href=""><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"/></svg> Manage Users</a></li>
+                <li class="<?php echo $link_user;?>"><a href="<?php echo base_url()?>manageuser"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"/></svg> Manage Users</a></li>
                 <li class="<?php echo $link_payment;?>"><a href="<?php echo base_url()?>manage_payment"><svg class="glyph stroked tag"><use xlink:href="#stroked-tag"/></svg> Manage Payments</a></li>
                 
 

@@ -241,7 +241,8 @@ class Web extends CI_Controller {
                 if(!$error){
                     $sts = $this->db->insert('crm_users', $update_data);
                     if($sts){
-                        $this->gen_contents['form_success_message'] = 'User details added successfully.';
+                        sf( 'success_message', "User Details Added Successfully." );
+                        redirect('manageuser');
                     }else{
                          $this->gen_contents['form_validation_error'] = 'Sorry. There is a problem to add details.';
                     }
@@ -301,7 +302,8 @@ class Web extends CI_Controller {
                    $where = array('user_id' => $user_id);
                    $sts = $this->db->update('crm_users', $update_data,$where);
                     if($sts){
-                        $this->gen_contents['form_success_message'] = 'User Details updated successfully.';
+                        sf( 'success_message', "User Details Updated Successfully." );
+                        redirect('manageuser');
                     }else{
                          $this->gen_contents['form_validation_error'] = 'Sorry. There is a problem to add details.';
                     }
