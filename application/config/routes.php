@@ -55,7 +55,9 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 
-$route['logincheck']        = "web/logincheck";
+$route['logincheck']       = "web/logincheck";
 $route['dashboard']        = "web/dashboard";
+$route['logout']           = "web/logout";
+$route['manage_payment']   = "web/manage_payment";
 
  

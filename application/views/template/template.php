@@ -33,7 +33,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
                                 <li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
-                                <li><a href="#"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
+                                <li><a href="<?php echo base_url()?>logout"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout rterter</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -48,14 +48,12 @@
             </div>
 
             <ul class="nav menu"> 
-                <li><a href="index.html"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Dashboard</a></li>
-                <li class="active"><a href="schedule.html"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Manage Schedule</a></li>
-                <li><a href="clients.html"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"/></svg> Manage Clients</a></li>
-                <li><a href="manage-payment.html"><svg class="glyph stroked tag"><use xlink:href="#stroked-tag"/></svg> Manage Payments</a></li>
-                <li><a href="manage-invoice.html"><svg class="glyph stroked app-window"><use xlink:href="#stroked-app-window"></use></svg> Manage Invoices</a></li>
-                <li><a href="ehr.html"><svg class="glyph stroked clipboard with paper"><use xlink:href="#stroked-clipboard-with-paper"/></svg> Manage EHR </a></li>
+                <li><a href="<?php echo base_url()?>dashboard"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Dashboard</a></li>
+                <li class="active"><a href="<?php echo base_url()?>manageagents"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Manage Agents</a></li>
+                <li><a href=""><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"/></svg> Manage Users</a></li>
+                <li><a href="<?php echo base_url()?>manage_payment"><svg class="glyph stroked tag"><use xlink:href="#stroked-tag"/></svg> Manage Payments</a></li>
                 <li role="presentation" class="divider"></li>
-                <li><a href="index.html"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
+                <li><a href="<?php echo base_url()?>logout"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
             </ul>
 
         </div><!--/.sidebar-->
