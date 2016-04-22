@@ -130,6 +130,45 @@ class Web extends CI_Controller {
         $this->template->write_view('content', 'payment', $this->gen_contents);
         $this->template->render();
     }
+    public function manageuser() {   
+        $this->load->library('pagination');
+        $total_count = $this->web_model->get_userdetails_count();
+        $config['base_url'] = base_url().'manageuser';
+        $config['total_rows'] = $total_count;
+        $config['per_page'] = 1;
+        $config['display_pages'] = true; 
+        $config['full_tag_open'] = "<ul class='pagination'>";
+        $config['full_tag_close'] ="</ul>";
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = "<li class='disabled'><li class='active'><a href='#'>";
+        $config['cur_tag_close'] = "<span class='sr-only'></span></a></li>";
+        $config['next_tag_open'] = "<li>";
+        $config['next_tagl_close'] = "</li>";
+        $config['prev_tag_open'] = "<li>";
+        $config['prev_tagl_close'] = "</li>";
+        $config['first_tag_open'] = "<li>";
+        $config['first_tagl_close'] = "</li>";
+        $config['last_tag_open'] = "<li>";
+        $config['last_tagl_close'] = "</li>";
+        $config['page_query_string'] = FALSE;
+        if($this->uri->segment(2)){
+            $page = $this->uri->segment(2);
+        }else{
+            $page = 0;
+        }
+        $this->pagination->initialize($config);
+        $where = array();
+        $agent_id=$this->session->userdata('session_data'); 
+        print_r($agent_id);
+        exit;
+        $this->gen_contents['results'] = $this->web_model->get_userdetails($where,$page,$config['per_page']);
+        $this->gen_contents['js_files'] = array(); 
+        $this->template->write_view('content', 'manageuser', $this->gen_contents);
+        $this->template->render();
+        
+        
     
+    }
     
 }

@@ -48,5 +48,21 @@ class Web_model extends CI_Model {
         } else {
             return FALSE;
         }
+        
+    }
+    function get_userdetails_count(){
+        
+        $this->db->select("COUNT(user_id) AS cnt");
+        $query = $this->db->get('crm_users');
+        $row = $query->row();
+        return intval($row->cnt);
+        
+    }
+    function get_userdetails($where, $start=0, $limit=25){
+        $this->db->select('user_id,agent_id,first_name,last_name,email,phone,status');
+        $this->db->order_by('user_id', 'DESC');
+        $this->db->limit($limit, $start);
+        $query = $this->db->get('crm_users');
+        return $query->result_array();
     }
 }

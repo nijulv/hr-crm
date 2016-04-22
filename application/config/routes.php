@@ -59,6 +59,9 @@ $route['logincheck']       = "web/logincheck";
 $route['dashboard']        = "web/dashboard";
 $route['logout']           = "web/logout";
 
+$route['manageuser']              = "web/manageuser";
+$route['manageuser/(:any)']       = "web/manageuser/$1";
+
 $route['manage_payment']   = "web/manage_payment";
 $route['manage_payment/(:num)']   = "web/manage_payment/$1";
  
