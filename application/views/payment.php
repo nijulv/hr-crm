@@ -28,7 +28,7 @@
                         <form class="form-inline">
                             <div class="form-group">
                                 <label for="exampleInputName2">Select Client &nbsp;&nbsp;&nbsp;</label>
-                                <select name="" class="form-control" style="width: 280px;">
+                                <select name="search_user" class="form-control" style="width: 280px;">
                                     <option value = "">Select Client</option>
                                     <?php if($users){
                                         foreach ($users as $user) { ?>
@@ -40,6 +40,8 @@
                             <button type="submit" class="btn btn-primary">Search</button>
                         </form>
                         <br>
+                        <?php if (!empty($details)) { ?>
+                        <?php echo $links; ?>
                         <table class="table table-bordered table-striped table-hover table-responsive">
                             <thead>
                                 <tr>

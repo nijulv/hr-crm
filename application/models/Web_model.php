@@ -26,5 +26,27 @@ class Web_model extends CI_Model {
         else
             return false;
     }
-  
+    
+    //funtion to get total rows
+    public function get_total_rows(){
+        $query = $this->db->query('SELECT FOUND_ROWS() AS `Count`');
+        return $query->row()->Count;
+    }
+    
+    public function get_payments ($limit, $start,$search_user = '') {
+        $this->db->select("SQL_CALC_FOUND_ROWS *",FALSE); 
+        $this->db->from('payments');
+        if($search_user != ''){
+            $this->db->where('user_id',$search_user);
+        }
+        
+        $this->db->order_by("payment_id","desc");
+        $this->db->limit($limit, $start);
+        $query = $this->db->get();          
+        if($query->num_rows() > 0){
+            return $query->result_array();
+        } else {
+            return FALSE;
+        }
+    }
 }

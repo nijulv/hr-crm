@@ -101,54 +101,21 @@ class Web extends CI_Controller {
         redirect('web');
     }
     
-    
-    
-    public function manage_payment(){
+    function manage_payment () {
         
-        $page = 'payment';                       
         
-        if($this->input->post("record_page_limit")){
-            $this->session->set_userdata('page_limit', $this->input->post("record_page_limit"));
-            $config['per_page']   = s('page_limit');   
-        }
-        else if(NULL != s('page_limit')){
-            $config['per_page']   = s('page_limit');
-        }  
-        else {
-             $config['per_page']   = 25;
-        }
-        
-        $this->gen_contents['per_page'] = $config['per_page'];
+        $this->gen_contents['users'] = $this->web_model->get_users();
+        $config['per_page']   = 25;
         $pagin = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;  
         
-        if($this->input->post("contact_name_search") != '')
-            $contact_name_search = trim($this->input->post("contact_name_search",true));
+        if($this->input->post("search_user") != '')
+            $search_user = trim($this->input->post("search_user",true));
         else 
-            $contact_name_search = '';
-        if($this->input->post("city_suburb_search") != '')
-            $city_suburb_search = $this->input->post("city_suburb_search",true);
-        else 
-            $city_suburb_search = '';
-        if($this->input->post("status_search") != '')
-            $status_search = $this->input->post("status_search",true);
-        else 
-            $status_search = '';
-        if($this->input->post("email_search") != '')
-            $email_search = trim($this->input->post("email_search",true));
-        else 
-            $email_search = '';
-        if($this->input->post("company_search") != '')
-            $company_search = trim($this->input->post("company_search",true));
-        else 
-            $company_search = '';
-        if($this->input->post("postcode_search") != '')
-            $postcode_search = trim($this->input->post("postcode_search",true));
-        else 
-            $postcode_search = '';
+            $search_user = '';
         
-        $this->gen_contents['users'] = $this->admin_model->get_users($config['per_page'], $pagin,$contact_name_search,$city_suburb_search,$status_search,$email_search,$company_search,$postcode_search,$user_id);
+        $this->gen_contents['payments'] = $this->web_model->get_payments($config['per_page'], $pagin,$search_user);
         
-        $total_user = $this->admin_model->get_total_rows();
+        $total_user = $this->web_model->get_total_rows();
         //--pagination
         $this->load->library('pagination');
         $this->load->library('bspagination');   
@@ -159,9 +126,10 @@ class Web extends CI_Controller {
         $this->pagination->initialize($config);
         $this->gen_contents['links'] =  $this->pagination->create_links();
         
-        $this->gen_contents['page_heading'] = 'Manage Suppliers';
-        $this->template->set_template('admin');
-        $this->template->write_view('content', $page, $this->gen_contents);
+        
+        $this->template->write_view('content', 'payment', $this->gen_contents);
         $this->template->render();
     }
+    
+    
 }

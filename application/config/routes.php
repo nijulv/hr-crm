@@ -58,6 +58,7 @@ $route['translate_uri_dashes'] = FALSE;
 $route['logincheck']       = "web/logincheck";
 $route['dashboard']        = "web/dashboard";
 $route['logout']           = "web/logout";
-$route['manage_payment']   = "web/manage_payment";
 
+$route['manage_payment']   = "web/manage_payment";
+$route['manage_payment/(:num)']   = "web/manage_payment/$1";
  
