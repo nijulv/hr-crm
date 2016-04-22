@@ -2,13 +2,13 @@
         <div class="row">
             <ol class="breadcrumb">
                 <li><a href="index.html"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-                <li class="active">Manage Payments</li>
+                <li class="active">Manage Agents</li>
             </ol>
         </div><!--/.row-->
 
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Manage Payments</h1>
+                <h1 class="page-header">Manage Agents</h1>
             </div>
         </div><!--/.row-->
         <?php
@@ -32,23 +32,23 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        List Clients and their Payments
+                        List Agents and their details
                         
                         <div class="pull-right">
                             <div class="form-group">
-                                <a href = "<?php echo base_url()?>add_payments"><button class="btn btn-primary"><i class="fa fa-comment"></i> Add New Payment</button></a>
+                                <a href = "<?php echo base_url()?>add_agents"><button class="btn btn-primary"><i class="fa fa-comment"></i> Add New Agent</button></a>
                             </div>
                         </div>
                     </div>
                     <div class="panel-body">
                         <?php echo form_open("",array("id" => "payment"));?>
                             <div class="form-group">
-                                <label for="exampleInputName2">Select Client &nbsp;&nbsp;&nbsp;</label>
+                                <label for="exampleInputName2">Select Agent &nbsp;&nbsp;&nbsp;</label>
                                 <select name="search_user" class="form-control" style="width: 280px;">
-                                    <option value = "">Select Client</option>
-                                    <?php if($users){
-                                        foreach ($users as $user) { ?>
-                                    <option value = "<?php echo $user['user_id']?>" ><?php echo $user['first_name'].' '.$user['last_name']?></option>
+                                    <option value = "">Select Agent</option>
+                                    <?php if($agents){
+                                        foreach ($agents as $user) { ?>
+                                    <option value = "<?php echo $user['agent_id']?>" ><?php echo $user['first_name'].' '.$user['last_name']?></option>
                                         <?php }}?>
                                 </select>
                             </div>
@@ -63,26 +63,32 @@
                                     <tr>
                                         <th style = "text-align:center;">#</th>
                                         <th>Name</th>
-                                        <th>Title</th>
-                                        <th>Amount</th>
-                                        <th>Contact Number</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Status</th>
                                         <th style = "text-align:center;">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php 
                                     $i++;  
-                                    foreach ($details as $data) {   
+                                    foreach ($details as $data) { 
+                                        if($data['status'] == 1){
+                                            $status = 'Active';
+                                        }
+                                        else {
+                                            $status = 'Deactive';
+                                        }
                                         ?>
                                         <tr>
                                             <td style = "text-align:center;"><?php echo $i++; ?></td>
                                             <td><?php echo $data['first_name'].' '.$data['last_name'];?></td> 
-                                            <td><?php echo $data['title'];?></td>
-                                            <td><?php echo $data['amount'];?></td>
-                                            <td><?php echo $data['phone'];?></td> 
+                                            <td><?php echo $data['email'];?></td>
+                                            <td><?php echo $data['phone'];?></td>
+                                            <td><?php echo $status?></td> 
                                             <td style = "text-align:center;">
-                                                <a href="<?php echo base_url(); ?>edit_payments/<?php echo $data['payment_id'] ?>" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
-                                                <a onclick="return confirm('Are you sure you want to delete this payment details?');" href="<?php echo base_url(); ?>deletepayments/<?php echo $data['payment_id'] ?>" class="label label-danger"><span class="fa fa-trash"></span> Delete</a>
+                                                <a href="<?php echo base_url(); ?>edit_agents/<?php echo $data['agent_id'] ?>" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
+                                                <a onclick="return confirm('Are you sure you want to delete this agent details?');" href="<?php echo base_url(); ?>deleteagent/<?php echo $data['agent_id'] ?>" class="label label-danger"><span class="fa fa-trash"></span> Delete</a>
                                             </td>
                                         </tr>
                                     <?php }?>

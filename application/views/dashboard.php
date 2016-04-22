@@ -21,7 +21,7 @@
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
                                 <div class="large">26</div>
-                                <div class="text-muted">Appointments</div>
+                                <div class="text-muted">Users</div>
                             </div>
                         </div>
                     </div>

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Marshall Leadership Consulting</title>
+        <title>HR-CRM</title>
         <link href="<?php echo assets_url();?>css/bootstrap.min.css" rel="stylesheet">
         <link href="<?php echo assets_url();?>css/datepicker3.css" rel="stylesheet">
         <!--<link href="css/styles.css" rel="stylesheet">-->
@@ -27,7 +27,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="#"></a>
-                    <ul class="user-menu">
+                    <ul class="user-menu" style = "display:none;">
                         <li class="dropdown pull-right">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg>Welcome Marshall <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
@@ -44,14 +44,16 @@
 
         <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
             <div class="logo" align="center">
-                <img src="<?php echo assets_url();?>images/logo_small2.png" class="img-responsive">
             </div>
-
+            
             <ul class="nav menu"> 
-                <li><a href="<?php echo base_url()?>dashboard"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Dashboard</a></li>
-                <li class="active"><a href="<?php echo base_url()?>manageagents"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Manage Agents</a></li>
-                <li><a href=""><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"/></svg> Manage Users</a></li>
-                <li><a href="<?php echo base_url()?>manage_payment"><svg class="glyph stroked tag"><use xlink:href="#stroked-tag"/></svg> Manage Payments</a></li>
+                <li class="<?php echo $link_dashboard;?>"><a href="<?php echo base_url()?>dashboard"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Dashboard</a></li>
+                <?php if(s('ADMIN_TYPE') == 0) {?>
+                    <li class="<?php echo $link_agent;?>"><a href="<?php echo base_url()?>manage_agents"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Manage Agents</a></li>
+                <?php }?>
+                <li class="<?php echo $link_user;?>"><a href=""><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"/></svg> Manage Users</a></li>
+                <li class="<?php echo $link_payment;?>"><a href="<?php echo base_url()?>manage_payment"><svg class="glyph stroked tag"><use xlink:href="#stroked-tag"/></svg> Manage Payments</a></li>
+                
                 <li role="presentation" class="divider"></li>
                 <li><a href="<?php echo base_url()?>logout"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
             </ul>

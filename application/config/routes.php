@@ -60,9 +60,18 @@ $route['dashboard']        = "web/dashboard";
 $route['logout']           = "web/logout";
 
 $route['add_payments']   = "web/add_payments";
+$route['add_agents']   = "web/add_agents";
+
 $route['edit_payments/(:any)']  = "web/edit_payments/$1"; 
+$route['edit_agents/(:any)']  = "web/edit_agents/$1"; 
+
 $route['deletepayments/(:any)']          = "web/deletepayments/$1";
+$route['deleteagent/(:any)']          = "web/deleteagent/$1";
 
 $route['manage_payment']   = "web/manage_payment";
 $route['manage_payment/(:num)']   = "web/manage_payment/$1";
+
+
+$route['manage_agents']   = "web/manage_agents";
+$route['manage_agents/(:num)']   = "web/manage_agents/$1";
  
