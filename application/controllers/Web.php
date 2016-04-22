@@ -193,6 +193,7 @@ class Web extends CI_Controller {
         $this->pagination->initialize($config);
         $this->gen_contents['results'] = $this->web_model->get_userdetails($where,$page,$config['per_page']);
         $this->gen_contents['js_files'] = array(); 
+        $this->gen_contents['link_user']  = 'active';
         $this->template->write_view('content', 'manageuser', $this->gen_contents);
         $this->template->render();
         
@@ -247,12 +248,14 @@ class Web extends CI_Controller {
                          $this->gen_contents['form_validation_error'] = 'Sorry. There is a problem to add details.';
                     }
                 }
+                redirect("manageuser");
             
            }else{
                  $this->gen_contents['edit_return'] = 1;
                  $this->gen_contents['form_validation_error'] = validation_errors();
             }
             }
+            $this->gen_contents['link_user']  = 'active';
             $this->template->write_view('content', 'adduser', $this->gen_contents);
             $this->template->render();
         
@@ -308,7 +311,7 @@ class Web extends CI_Controller {
                          $this->gen_contents['form_validation_error'] = 'Sorry. There is a problem to add details.';
                     }
                 }
-        
+                 redirect("manageuser");
             }else{
                  $this->gen_contents['edit_return'] = 1;
                  $this->gen_contents['form_validation_error'] = validation_errors();
@@ -319,6 +322,7 @@ class Web extends CI_Controller {
         if(empty($get_user_details)){ 
             redirect('manageuser');
         }
+        $this->gen_contents['link_user']  = 'active';
         $this->template->write_view('content', 'edituser', $this->gen_contents);
         $this->template->render();
     }
@@ -331,6 +335,7 @@ class Web extends CI_Controller {
             redirect('manageuser');
         }
         $this->gen_contents['user_details']=$get_user_details[0];
+        $this->gen_contents['link_user']  = 'active';
         $this->template->write_view('content', 'viewuser', $this->gen_contents);
         $this->template->render();
         
