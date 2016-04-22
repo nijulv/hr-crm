@@ -58,7 +58,7 @@
                                             <td>
                                             <a href="<?php echo base_url() ?>viewuser/<?php echo $res['user_id']?>" class="label label-primary"><i class="fa fa-comment"></i>View</a>
                                             <a href="<?php echo base_url() ?>edituser/<?php echo $res['user_id']?>" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
-                                            <a href="<?php echo base_url() ?>deleteuser/<?php echo $res['user_id']?>" class="label label-danger"><span class="fa fa-trash"></span> Delete</a>
+                                            <a onclick="return confirm('Are you sure you want to delete this User details?');" href="<?php echo base_url() ?>deleteuser/<?php echo $res['user_id']?>" class="label label-danger"><span class="fa fa-trash"></span> Delete</a>
                                         </td>
                                         </tr>
                                 <?php $i++; } ?>

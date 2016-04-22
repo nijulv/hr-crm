@@ -75,9 +75,11 @@
                                     foreach ($details as $data) { 
                                         if($data['status'] == 1){
                                             $status = 'Active';
+                                            $changestatus='Deactive';
                                         }
                                         else {
                                             $status = 'Deactive';
+                                            $changestatus='Active';
                                         }
                                         ?>
                                         <tr>
@@ -88,6 +90,7 @@
                                             <td><?php echo $status?></td> 
                                             <td style = "text-align:center;">
                                                 <a href="<?php echo base_url(); ?>edit_agents/<?php echo $data['agent_id'] ?>" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
+                                                <a onclick="return confirm('Are you sure you want to change status');" href="<?php echo base_url(); ?>changestatus/<?php echo $data['agent_id'] ?>" class="label label-success"><span class="fa fa-trash"></span><?php echo $changestatus ?></a>
                                                 <a onclick="return confirm('Are you sure you want to delete this agent details?');" href="<?php echo base_url(); ?>deleteagent/<?php echo $data['agent_id'] ?>" class="label label-danger"><span class="fa fa-trash"></span> Delete</a>
                                             </td>
                                         </tr>

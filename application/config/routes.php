@@ -72,6 +72,8 @@ $route['viewuser']                = "web/viewuser";
 
 $route['add_payments']   = "web/add_payments";
 $route['add_agents']   = "web/add_agents";
+$route['changestatus/(:any)']   = "web/changestatus/$1";
+$route['changestatus']          = "web/changestatus";
 
 $route['edit_payments/(:any)']  = "web/edit_payments/$1"; 
 $route['edit_agents/(:any)']  = "web/edit_agents/$1"; 

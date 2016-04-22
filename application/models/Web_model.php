@@ -68,7 +68,7 @@ class Web_model extends CI_Model {
         if($search_user != ''){
             $this->db->where('agent_id',$search_user);
         }
-        $this->db->where('status','1');
+        $this->db->where_in('status',['1','2']);
         $this->db->order_by("agent_id","desc");
         $this->db->limit($limit, $start);
         $query = $this->db->get();          
@@ -183,5 +183,15 @@ class Web_model extends CI_Model {
             return true;
         else
             return false;
+    }
+    public function get_agent_status($agent_id){
+        if(empty($agent_id)) return false;
+        else{
+            $this->db->select('status');
+            $this->db->from('crm_agents');
+            $this->db->where('agent_id',$agent_id);
+            $query = $this->db->get(); 
+            return $query->result_array();
+        }
     }
 }

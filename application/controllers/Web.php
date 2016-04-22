@@ -340,11 +340,43 @@ class Web extends CI_Controller {
         $this->template->render();
         
     }
+    function changestatus($agent_id){
+       if(!$agent_id){
+            redirect('manage_agents');
+        } 
+        $getstatus=$this->web_model->get_agent_status($agent_id);
+        $getstatus=$getstatus[0]['status'];
+        if($getstatus==1)
+        {
+        $status=2;
+        }
+        else
+        {
+            $status=1;
+        }
+        
+        $update_data = array(
+                    'status'            => $status
+            );
+        $where = array('agent_id' => $agent_id);
+        $sts = $this->db->update('crm_agents', $update_data,$where);
+        if($sts){
+                    sf( 'success_message', "Change Status successfully." );
+                    redirect('manage_agents');
+
+                }else{
+                    sf( 'error_message', "Sorry. There is a problem to update details." );
+                    redirect('manage_agents');
+                    
+                } 
+      
+    }
     function deleteuser($user_id){
        if(!$user_id){
             redirect('manageuser');
         } 
         $delete=2;
+        
         $update_data = array(
                     'status'            => $delete
             );
