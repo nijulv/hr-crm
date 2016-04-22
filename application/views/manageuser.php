@@ -20,7 +20,7 @@
             <div class="portlet-body">
                 <?php if(!empty($results)){
                     $i=1;?>
-                <div class="table-container">
+                <div class="table-container table-responsive">
                     <table class="table table-bordered table-striped table-hover table-responsive">
                             <thead><tr role="row" class="heading">
                                 <th class="no-sort" width="10%">Sl.No</th>
@@ -33,16 +33,25 @@
                             </thead>
                             <tbody>
                                     <?php foreach($results as $res){?>
+                                        <?php if($res['status']==0){
+                                        $status="Guest";
+                                        }
+                                        if($res['status']==1){
+                                        $status="User";
+                                        }
+                                        if($res['status']==2){
+                                        $status="Deleted";
+                                        }?>
                                         <tr role="row" class="heading">
-                                            <td><?php echo $i ?></td>
+                                            <td><?php echo $i;?></td>
                                             <td><?php echo $res['first_name']?>&nbsp;<?php echo $res['last_name']?></td>
                                             <td><?php echo $res['phone']?></td>
                                             <td><?php echo $res['email']?></td>
-                                            <td><?php echo $res['status']?></td>
+                                            <td><?php echo $status?></td>
                                             <td>
-                                            <a href="#" class="label label-primary"><i class="fa fa-comment"></i>View</a>
-                                            <a href="#" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
-                                            <a href="#" class="label label-danger"><span class="fa fa-trash"></span> Delete</a>
+                                            <a href="<?php echo base_url() ?>viewuser/<?php echo $res['user_id']?>" class="label label-primary"><i class="fa fa-comment"></i>View</a>
+                                            <a href="<?php echo base_url() ?>edituser/<?php echo $res['user_id']?>" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
+                                            <a href="<?php echo base_url() ?>deleteuser/<?php echo $res['user_id']?>" class="label label-danger"><span class="fa fa-trash"></span> Delete</a>
                                         </td>
                                         </tr>
                                 <?php $i++; } ?>

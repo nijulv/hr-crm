@@ -51,9 +51,10 @@ class Web_model extends CI_Model {
         }
         
     }
-    function get_userdetails_count(){
+    function get_userdetails_count($where){
         
         $this->db->select("COUNT(user_id) AS cnt");
+        $this->db->where($where);
         $query = $this->db->get('crm_users');
         $row = $query->row();
         return intval($row->cnt);
@@ -61,12 +62,21 @@ class Web_model extends CI_Model {
     }
     function get_userdetails($where, $start=0, $limit=25){
         $this->db->select('user_id,agent_id,first_name,last_name,email,phone,status');
+        $this->db->where($where);
         $this->db->order_by('user_id', 'DESC');
         $this->db->limit($limit, $start);
         $query = $this->db->get('crm_users');
         return $query->result_array();
     }
-    
+    public function get_user_detail($user_id){
+        if(empty($user_id)) return false;
+        else{
+            $this->db->from('crm_users');
+            $this->db->where('user_id',$user_id);
+            $query = $this->db->get(); 
+            return $query->result_array();
+        }
+    }
     public function insert_datas ($data = array(),$tbl_name = '') {
         $this->db->insert($tbl_name,$data);
         if($this->db->affected_rows() >0)

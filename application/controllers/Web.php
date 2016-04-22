@@ -132,10 +132,13 @@ class Web extends CI_Controller {
     }
     public function manageuser() {   
         $this->load->library('pagination');
-        $total_count = $this->web_model->get_userdetails_count();
+        $agent_id=$this->session->get_userdata('session_data'); 
+        $agent_id=$agent_id['ADMIN_USERID'];
+        $where = array('agent_id' => $agent_id);
+        $total_count = $this->web_model->get_userdetails_count($where);
         $config['base_url'] = base_url().'manageuser';
         $config['total_rows'] = $total_count;
-        $config['per_page'] = 1;
+        $config['per_page'] = 25;
         $config['display_pages'] = true; 
         $config['full_tag_open'] = "<ul class='pagination'>";
         $config['full_tag_close'] ="</ul>";
@@ -158,10 +161,6 @@ class Web extends CI_Controller {
             $page = 0;
         }
         $this->pagination->initialize($config);
-        $where = array();
-        $agent_id=$this->session->userdata('session_data'); 
-        print_r($agent_id);
-        exit;
         $this->gen_contents['results'] = $this->web_model->get_userdetails($where,$page,$config['per_page']);
         $this->gen_contents['js_files'] = array(); 
         $this->template->write_view('content', 'manageuser', $this->gen_contents);
@@ -169,6 +168,160 @@ class Web extends CI_Controller {
         
         
 
+    }
+    public function adduser() {  
+        $this->load->library('form_validation');
+        $agent_id=$this->session->get_userdata('session_data'); 
+        $agent_id=$agent_id['ADMIN_USERID'];
+            if(!empty($_POST)){
+            $this->form_validation->set_rules('firstname','First Name', 'required|trim');
+            $this->form_validation->set_rules('lastname','Last Name', 'required|trim');
+            $this->form_validation->set_rules('useremail','Email', 'required|trim');
+            $this->form_validation->set_rules('phonenumber','Phone Number', 'required|numeric');
+            $this->form_validation->set_rules('useraddress','Address', 'required|trim');
+            $this->form_validation->set_rules('pincode','Pincode', 'required|numeric');
+            $this->form_validation->set_rules('userstatus','Status', 'required');
+            $error = '';
+            if ($this->form_validation->run() == TRUE) {
+            $update_data = array(
+                    'agent_id'              => $agent_id,
+                    'first_name'            => $this->input->post("firstname", true),
+                    'last_name'             => $this->input->post("lastname", true),
+                    'email'                 => $this->input->post("useremail", true),
+                    'phone'                 => $this->input->post("phonenumber", true),
+                    'address'               => $this->input->post("useraddress", true),
+                    'pincode'               => $this->input->post("pincode", true),
+                    'status'                => $this->input->post("userstatus", true)
+                
+                   );
+            if(!empty($_FILES['attachment']['name'])){
+                    $this->load->library('upload');
+                    $image_path='./attachment/';
+                    $this->upload->initialize(upload_config_image($image_path));
+                    $file_name = '';
+                    if($this->upload->do_upload('attachment')){
+                        $img = $this->upload->data();
+                        $file_name = $img['file_name'];
+                        $update_data['attachments'] = $file_name;
+                    }else{
+                        $this->gen_contents['form_validation_error'] = $this->upload->display_errors();
+                        $error = "error";
+                    }
+                }
+                if(!$error){
+                    $sts = $this->db->insert('crm_users', $update_data);
+                    if($sts){
+                        $this->gen_contents['form_success_message'] = 'User details added successfully.';
+                    }else{
+                         $this->gen_contents['form_validation_error'] = 'Sorry. There is a problem to add details.';
+                    }
+                }
+            
+           }else{
+                 $this->gen_contents['edit_return'] = 1;
+                 $this->gen_contents['form_validation_error'] = validation_errors();
+            }
+            }
+            $this->template->write_view('content', 'adduser', $this->gen_contents);
+            $this->template->render();
+        
+           
+    }
+    function edituser($user_id){
+        if(!$user_id){
+            redirect('manageuser');
+        }
+        $this->load->library('form_validation');
+        if(!empty($_POST)){
+            $this->form_validation->set_rules('firstname','First Name', 'required|trim');
+            $this->form_validation->set_rules('lastname','Last Name', 'required|trim');
+            $this->form_validation->set_rules('useremail','Email', 'required|trim');
+            $this->form_validation->set_rules('phonenumber','Phone Number', 'required|numeric');
+            $this->form_validation->set_rules('useraddress','Address', 'required|trim');
+            $this->form_validation->set_rules('pincode','Pincode', 'required|numeric');
+            $this->form_validation->set_rules('userstatus','Status', 'required');
+            if ($this->form_validation->run() == TRUE) {// form validation                
+                $update_data = array(
+                    'first_name'            => $this->input->post("firstname", true),
+                    'last_name'             => $this->input->post("lastname", true),
+                    'email'                 => $this->input->post("useremail", true),
+                    'phone'                 => $this->input->post("phonenumber", true),
+                    'address'               => $this->input->post("useraddress", true),
+                    'pincode'               => $this->input->post("pincode", true),
+                    'status'                => $this->input->post("userstatus", true)
+                );
+                if(!empty($_FILES['attachment']['name'])){
+                    $this->load->library('upload');
+                    $image_path='./attachment/';
+                    $this->upload->initialize(upload_config_image($image_path));
+                    $file_name = '';
+                    $where = array('user_id' => $user_id);
+//                    $get_image_details = $this->common_model->get_data('crm_users','attachments',$where);		
+//                    $get_image_details = @$get_image_details[0];
+                    if($this->upload->do_upload('attachment')){
+                        $img = $this->upload->data();
+                        $file_name = $img['file_name'];
+                        $update_data['attachments'] = $file_name;
+                    }else{
+                        $this->gen_contents['form_validation_error'] = $this->upload->display_errors();
+                        $error = "error";
+                    }
+                }
+                if(!$error){
+                   $where = array('user_id' => $user_id);
+                   $sts = $this->db->update('crm_users', $update_data,$where);
+                    if($sts){
+                        $this->gen_contents['form_success_message'] = 'User Details updated successfully.';
+                    }else{
+                         $this->gen_contents['form_validation_error'] = 'Sorry. There is a problem to add details.';
+                    }
+                }
+        
+            }else{
+                 $this->gen_contents['edit_return'] = 1;
+                 $this->gen_contents['form_validation_error'] = validation_errors();
+            }
+        }
+        $get_user_details = $this->web_model->get_user_detail($user_id);		
+        $this->gen_contents['user_details']=$get_user_details[0];
+        if(empty($get_user_details)){ 
+            redirect('manageuser');
+        }
+        $this->template->write_view('content', 'edituser', $this->gen_contents);
+        $this->template->render();
+    }
+    function viewuser($user_id){
+        if(!$user_id){
+            redirect('manageuser');
+        }
+        $get_user_details = $this->web_model->get_user_detail($user_id);
+        if(empty($get_user_details)){ 
+            redirect('manageuser');
+        }
+        $this->gen_contents['user_details']=$get_user_details[0];
+        $this->template->write_view('content', 'viewuser', $this->gen_contents);
+        $this->template->render();
+        
+    }
+    function deleteuser($user_id){
+       if(!$user_id){
+            redirect('manageuser');
+        } 
+        $delete=2;
+        $update_data = array(
+                    'status'            => $delete
+            );
+        $where = array('user_id' => $user_id);
+        $sts = $this->db->update('crm_users', $update_data,$where);
+        if($sts){
+                    $this->gen_contents['form_success_message'] = 'User Details deleted successfully.';
+                    redirect('manageuser');
+
+                }else{
+                    $this->gen_contents['form_validation_error'] = 'Sorry. There is a problem to update health details.';
+                    
+                } 
+      
     }
 
     public function add_payments () {

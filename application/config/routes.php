@@ -62,6 +62,13 @@ $route['logout']           = "web/logout";
 
 $route['manageuser']              = "web/manageuser";
 $route['manageuser/(:any)']       = "web/manageuser/$1";
+$route['adduser']                 = "web/adduser";
+$route['edituser/(:any)']         = "web/edituser/$1";
+$route['edituser']                = "web/edituser";
+$route['deleteuser/(:any)']       = "web/deleteuser/$1";
+$route['deleteuser']              = "web/deleteuser";
+$route['viewuser/(:any)']         = "web/viewuser/$1";
+$route['viewuser']                = "web/viewuser";
 
 $route['add_payments']   = "web/add_payments";
 $route['edit_payments/(:any)']  = "web/edit_payments/$1"; 

@@ -886,3 +886,10 @@ function get_leadprice_answer ($ansid = 0) {
     $CI->load->model('admin/admin_model');
     return $CI->admin_model->get_answer_byid($ansid);
 }
+function upload_config_image($image_path, $allowed_types = 'pdf|doc|docx') {
+        $CI = & get_instance();
+        $CI->config->config['upload_path'] = $image_path;
+        $CI->config->config['allowed_types'] = $allowed_types;
+        $CI->config->config['max_size'] = "2048000"; // Can be set to particular file size , here it is 2 MB(2048 Kb)
+        return $CI->config->config;
+    }
