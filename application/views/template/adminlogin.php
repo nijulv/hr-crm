@@ -94,7 +94,7 @@
             <!-- Begin # DIV Form -->
             <div id="div-forms">
                 <!-- Begin # Login Form -->
-                <form id="login-form" action="<?php echo base_url(); ?>logincheck">
+                <?php echo form_open(base_url()."logincheck");?>
                     <div class="modal-body">
                         <div id="div-login-msg">
                             <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
@@ -113,7 +113,7 @@
                         </div>
                     </div>
                      <input type = "hidden" name = "type" value = "agent">
-                </form>
+                <?php echo form_close(); ?>
                 <!-- End # Login Form -->
             </div>
             <!-- End # DIV Form -->

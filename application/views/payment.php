@@ -20,7 +20,7 @@
                         
                         <div class="pull-right">
                             <div class="form-group">
-                                <button class="btn btn-primary"><i class="fa fa-comment"></i> Add New Payment</button>
+                                <a href = "<?php echo base_url()?>add_payments"><button class="btn btn-primary"><i class="fa fa-comment"></i> Add New Payment</button></a>
                             </div>
                         </div>
                     </div>
@@ -41,79 +41,42 @@
                         </form>
                         <br>
                         <?php if (!empty($details)) { ?>
-                        <?php echo $links; ?>
-                        <table class="table table-bordered table-striped table-hover table-responsive">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Client ID</th>
-                                    <th>Name</th>
-                                    <th>Email ID</th>
-                                    <th>Contact Number</th>
-                                    <th>Payment History</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>C9090</td>
-                                    <td>Allen John</td>
-                                    <td>allenjohn@ymail.com</td>
-                                    <td>+65 60413685</td>
-                                    <td>
-                                        <a href="payment-add.html" class="label label-primary"><span class="fa fa-plus"></span> Add</a>
-                                        <a href="payment-list.html" class="label label-info"><span class="fa fa-list"></span> Summary</a>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>C9091</td>
-                                    <td>Brian</td>
-                                    <td>brian222@ymail.com</td>
-                                    <td>+65 60413995</td>
-                                    <td>
-                                        <a href="payment-add.html" class="label label-primary"><span class="fa fa-plus"></span> Add</a>
-                                        <a href="payment-list.html" class="label label-info"><span class="fa fa-list"></span> Summary</a>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>C9093</td>
-                                    <td>Max</td>
-                                    <td>maxx00@ymail.com</td>
-                                    <td>+65 60400685</td>
-                                    <td>
-                                        <a href="payment-add.html" class="label label-primary"><span class="fa fa-plus"></span> Add</a>
-                                        <a href="payment-list.html" class="label label-info"><span class="fa fa-list"></span> Summary</a>
-                                    </td>
-
-                                </tr>
-                            </tbody>
-                        </table>
-                        <nav>
-                            <ul class="pagination pagination-sm pull-right">
-                                <li>
-                                    <a href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li>
-                                    <a href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                            <?php echo $links; ?>
+                            <table class="table table-bordered table-striped table-hover table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th style = "text-align:center;">#</th>
+                                        <th>Name</th>
+                                        <th>Title</th>
+                                        <th>Amount</th>
+                                        <th>Contact Number</th>
+                                        <th style = "text-align:center;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php 
+                                    $i++;  
+                                    foreach ($details as $data) {   
+                                        ?>
+                                        <tr>
+                                            <td style = "text-align:center;"><?php echo $i++; ?></td>
+                                            <td><?php echo $data['first_name'].' '.$data['last_name'];?></td> 
+                                            <td><?php echo $data['title'];?></td>
+                                            <td><?php echo $data['amount'];?></td>
+                                            <td><?php echo $data['phone'];?></td> 
+                                            <td style = "text-align:center;">
+                                                <a href="<?php echo base_url(); ?>edit_payments/<?php echo $data['payment_id'] ?>" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
+                                                <a onclick="return confirm('Are you sure you want to delete this payment details?');" href="<?php echo base_url(); ?>deletepayments/<?php echo $data['payment_id'] ?>" class="label label-danger"><span class="fa fa-trash"></span> Delete</a>
+                                            </td>
+                                        </tr>
+                                    <?php }?>
+                                </tbody>
+                            </table>
+                        <?php } else {
+                            echo '<div class="alert alert-warning">Sorry! There is no details available now.</div>';
+                        } ?>
                     </div>
                 </div>
             </div>
-        </div><!--/.row-->
+        </div>
     </div>

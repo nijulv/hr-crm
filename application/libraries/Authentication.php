@@ -125,7 +125,7 @@ class Authentication {
             }
             return false;
         }
-        else {
+        else {     
             
             $this->CI->db->select("username AS USERNAME, agent_id as USERID, first_name as NAME, status as STATUS,type as TYPE ");
             $this->CI->db->where('username', $emailid);
@@ -242,10 +242,11 @@ class Authentication {
             'ADMIN_USERNAME' => '',
             'ADMIN_NAME' => '',
             'ADMIN_USERID' => '',
-            'ADMIN_STATUS' => ''
+            'ADMIN_STATUS' => '',
+            'ADMIN_TYPE' => ''
         );
         unset(
-                $_SESSION['ADMIN_USERNAME'], $_SESSION['ADMIN_NAME'], $_SESSION['ADMIN_USERID'], $_SESSION['ADMIN_STATUS']
+                $_SESSION['ADMIN_USERNAME'], $_SESSION['ADMIN_NAME'], $_SESSION['ADMIN_USERID'], $_SESSION['ADMIN_STATUS'], $_SESSION['ADMIN_TYPE']
         );
         $this->CI->session->unset_userdata($session_data);
         return TRUE;

@@ -101,7 +101,7 @@ class Web extends CI_Controller {
         redirect('web');
     }
     
-    function manage_payment () {
+    function manage_payment () {  
         
         
         $this->gen_contents['users'] = $this->web_model->get_users();
@@ -113,22 +113,122 @@ class Web extends CI_Controller {
         else 
             $search_user = '';
         
-        $this->gen_contents['payments'] = $this->web_model->get_payments($config['per_page'], $pagin,$search_user);
+        $this->gen_contents['details'] = $this->web_model->get_payments($config['per_page'], $pagin,$search_user);
         
         $total_user = $this->web_model->get_total_rows();
         //--pagination
         $this->load->library('pagination');
         $this->load->library('bspagination');   
-        $config['base_url']     = admin_url().'users';
+        $config['base_url']     = base_url().'manage_payment';
         $config['total_rows']   = $total_user;
         $bs_init = $this->bspagination->config();
         $config = array_merge($config, $bs_init);
         $this->pagination->initialize($config);
-        $this->gen_contents['links'] =  $this->pagination->create_links();
+        $this->gen_contents['links'] =  $this->pagination->create_links();     
         
         
         $this->template->write_view('content', 'payment', $this->gen_contents);
         $this->template->render();
+    }
+    
+    public function add_payments () {
+        
+        
+        $this->form_validation->set_rules('user', 'User', 'required');
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('amount', 'Amount', 'required|numeric');
+        
+            if($this->form_validation->run() == TRUE){
+                
+                $userdata = array(
+                    "user_id"   => $this->input->post("user",true),
+                    "title"  => $this->input->post("title",true),
+                    "amount"  => $this->input->post("amount",true),
+                    "comments"  => $this->input->post("comments",true)
+                );
+                
+                $tbl_name = 'payments';
+                $result = $this->web_model->insert_datas($userdata,$tbl_name);
+                if($result){
+                    sf( 'success_message', "Payment details inserted successfully" );
+                    redirect("manage_payment");
+                }
+                else {
+                    sf('error_message', 'Payment details not inserted, Please try agin later');
+                    redirect("manage_payment");
+                }
+            }
+            
+            $this->gen_contents['users'] = $this->web_model->get_users();
+            
+            $this->template->write_view('content', 'payment_add', $this->gen_contents);
+            $this->template->render();
+    }
+    
+    public function edit_payments ($id = 0) {  
+        if($id != 0 && is_numeric($id)){
+            
+            $this->form_validation->set_rules('user', 'User', 'required');
+            $this->form_validation->set_rules('title', 'Title', 'required');
+            $this->form_validation->set_rules('amount', 'Amount', 'required|numeric');
+ 
+            if($this->form_validation->run() == TRUE){ 
+                
+                $userdata = array(
+                    "user_id"   => $this->input->post("user",true),
+                    "title"  => $this->input->post("title",true),
+                    "amount"  => $this->input->post("amount",true),
+                    "comments"  => $this->input->post("comments",true)
+                );
+                
+                $payment_id  = $this->input->post("id",true);  
+                $tbl_name = 'payments';
+                $result = $this->web_model->update_contents($userdata,$payment_id,$tbl_name);
+                if($result) {
+                    sf( 'success_message', "Payment details updated successfully" );
+                    redirect("manage_payment");
+                }
+                else {
+                    sf( 'error_message', "No modification done" );
+                    redirect("manage_payment");
+                }
+            }
+            
+            $this->gen_contents['users'] = $this->web_model->get_users();
+            $this->gen_contents['details'] = $this->web_model->get_payment_details($id);
+            $this->template->write_view('content', 'modify_payments', $this->gen_contents);
+            $this->template->render();   
+            
+        }
+        else {
+            redirect("manage_payment");
+        }
+    }
+    
+    public function deletepayments ($id = 0) {
+        if($id != 0 && is_numeric($id)){  
+            
+            $userdata = array(
+                    "user_id"   => $this->input->post("user",true),
+                    "title"  => $this->input->post("title",true),
+                    "amount"  => $this->input->post("amount",true),
+                    "comments"  => $this->input->post("comments",true)
+                );
+            
+            
+            $delete_details = $this->web_model->delete_payments($id);
+                if($delete_details) {
+                sf( 'success_message', "Payment details deleted successfully" );
+                redirect("manage_payment");
+            }
+            else {
+                sf( 'error_message', "Payment details not deleted,Please try again" );
+                redirect("manage_payment");
+            }
+        }
+        else {
+            redirect("manage_payment");
+        }
     }
     
     

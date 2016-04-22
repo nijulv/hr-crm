@@ -35,12 +35,13 @@ class Web_model extends CI_Model {
     
     public function get_payments ($limit, $start,$search_user = '') {
         $this->db->select("SQL_CALC_FOUND_ROWS *",FALSE); 
-        $this->db->from('payments');
+        $this->db->from('payments p');
+        $this->db->join('crm_users u', 'u.user_id = p.user_id', 'left');
         if($search_user != ''){
-            $this->db->where('user_id',$search_user);
+            $this->db->where('p.user_id',$search_user);
         }
         
-        $this->db->order_by("payment_id","desc");
+        $this->db->order_by("p.payment_id","desc");
         $this->db->limit($limit, $start);
         $query = $this->db->get();          
         if($query->num_rows() > 0){
@@ -48,5 +49,42 @@ class Web_model extends CI_Model {
         } else {
             return FALSE;
         }
+    }
+    
+    public function insert_datas ($data = array(),$tbl_name = '') {
+        $this->db->insert($tbl_name,$data);
+        if($this->db->affected_rows() >0)
+            return true;
+        else
+            return false; 
+    }
+    
+    public function update_contents ($data = array(),$id = 0,$tbl_name = '') {
+        $this->db->where('payment_id',$id);
+        $this->db->update($tbl_name,$data);
+        if($this->db->affected_rows() >0)
+            return true;
+        else
+            return false;
+    }
+    
+    public function get_payment_details($id = 0){
+        $this->db->select('*');
+        $this->db->where("payment_id",$id);
+        $this->db->from('payments');  
+        $query = $this->db->get();  
+        if($query->num_rows () >0)
+            return $query->row_array();
+        else
+            return false;
+    }
+    
+    public function delete_payments ($id = 0) {
+         $this->db->where('payment_id',$id);
+        $this->db->delete('payments');
+        if($this->db->affected_rows() >0)
+            return true;
+        else
+            return false;
     }
 }
