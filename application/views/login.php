@@ -48,7 +48,26 @@
                 </div>
             </div>
         </header>
-
+        
+        
+        <?php
+            $error = f('error_message') ? f('error_message') : validation_errors();
+            if(!empty($error)){
+                echo '<div class="text-center">                                        
+                        <div class="alert alert-danger">
+                        '.$error.'
+                        </div>                                        
+                     </div>';
+            }
+        ?>
+        <?php if ( f('success_message') != '' ) :?>
+            <div class="text-center">                                        
+                <div class="alert alert-success">
+                    <?php echo f('success_message');?>
+                </div>                                        
+            </div>
+        <?php endif;?>
+        
         <!-- Page Content -->
         <div class="container">
             <hr class="featurette-divider">
