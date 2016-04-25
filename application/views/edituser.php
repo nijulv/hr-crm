@@ -96,10 +96,3 @@
                 </form>
             <?php } ?>
 </div>
-<script>
-     $('#btnCancel').on('click', function(){   
-               alert("haaaaaaaaaa");
-               window.location=base_url+'manageuser';
-               return false;
-            });
-</script>
