@@ -34,10 +34,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12 " for="txtLastname">Last Name<span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12 " for="txtLastname">Last Name
                         </label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
-                            <input type="text" class="form-control col-md-7 col-xs-12" name="lastname" id="lastname" value="<?php echo set_value('lastname') ?>" required>
+                            <input type="text" class="form-control col-md-7 col-xs-12" name="lastname" id="lastname" value="<?php echo set_value('lastname') ?>">
                         </div>
                     </div>
                    <div class="form-group">
@@ -55,28 +55,28 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12 " for="txtUseraddress">Address<span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12 " for="txtUseraddress">Address
                         </label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
-                            <textarea class="form-control col-md-7 col-xs-12" name="useraddress" id="useraddress" style="height:500px;" value="<?php echo set_value('address') ?>" required></textarea>
+                            <textarea class="form-control col-md-7 col-xs-12" name="useraddress" id="useraddress" style="height:150px ! important;" value="<?php echo set_value('address') ?>" ></textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12 " for="txtPincode">Pincode<span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12 " for="txtPincode">Pincode
                         </label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
-                            <input type="text" class="form-control col-md-7 col-xs-12" name="pincode" id="pincode" value="<?php echo set_value('pincode') ?>" required>
+                            <input type="text" class="form-control col-md-7 col-xs-12" name="pincode" id="pincode" value="<?php echo set_value('pincode') ?>" >
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12 " for="txtAttachment">Attachment<span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12 " for="txtAttachment">Attachment
                         </label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
                             <input type="file" class="form-control col-md-7 col-xs-12" name="attachment" id="attachment" style="height:500px;padding-bottom: 48px;" value="<?php echo set_value('attachment') ?>">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12 " for="txtUserstatus">Status
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12 " for="txtUserstatus">Status<span class="required">*</span>
                         </label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
                             <select name="userstatus" id="Userstatus" class="form-control col-md-7 col-xs-12">

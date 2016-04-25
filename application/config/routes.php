@@ -88,4 +88,7 @@ $route['manage_payment/(:num)']   = "web/manage_payment/$1";
 
 $route['manage_agents']   = "web/manage_agents";
 $route['manage_agents/(:num)']   = "web/manage_agents/$1";
+
+$route['edit_profile']   = "web/edit_profile";
+$route['change_password']   = "web/change_password";
  

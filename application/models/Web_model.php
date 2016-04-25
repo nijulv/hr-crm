@@ -18,7 +18,7 @@ class Web_model extends CI_Model {
     public function get_users () {
         $this->db->select('*');
         $this->db->from("crm_users");
-        $this->db->where("status", '1');
+        //$this->db->where("status", '1');
         
         if(s('ADMIN_TYPE') == 1){
              $this->db->where('agent_id',s('ADMIN_USERID'));
@@ -147,6 +147,20 @@ class Web_model extends CI_Model {
             return false;
     }
     
+    public function update_profile ($data = array(),$id = 0,$tbl_name = '') {
+        if($tbl_name == 'crm_admin'){
+            $this->db->where('admin_id',$id);
+        }
+        else {
+            $this->db->where('agent_id',$id);
+        }
+        $this->db->update($tbl_name,$data);
+        if($this->db->affected_rows() >0)
+            return true;
+        else
+            return false;
+    }
+    
     public function update_contents_agents ($data = array(),$id = 0,$tbl_name = '') {
         $this->db->where('agent_id',$id);
         $this->db->update($tbl_name,$data);
@@ -195,5 +209,80 @@ class Web_model extends CI_Model {
             $query = $this->db->get(); 
             return $query->result_array();
         }
+    }
+    public function get_total_users_count ($staus = '') {
+        $this->db->where('status', $staus);
+        $this->db->from('crm_users');
+        
+        if(s('ADMIN_TYPE') == 1){
+             $this->db->where('agent_id',s('ADMIN_USERID'));
+        }
+        
+        return $this->db->count_all_results();
+    }
+    
+    public function get_total_payment_count () {
+        
+        $this->db->select_sum('amount', 'amount');
+        $this->db->where('status','1');
+        if(s('ADMIN_TYPE') == 1){
+             $this->db->where('agent_id',s('ADMIN_USERID'));
+        }
+        $query = $this->db->get('payments');
+        $result = $query->result();
+
+        return $result[0]->amount;
+    }
+    
+    public function get_profile_details ($id = 0) {
+        $this->db->select('*');
+        if(s('ADMIN_TYPE') == 1){
+            $this->db->from('crm_agents');  
+            $this->db->where("agent_id",$id);
+        }
+        else {
+            $this->db->from('crm_admin');  
+            $this->db->where("admin_id",$id);
+        }
+        
+        $query = $this->db->get();  
+        if($query->num_rows () >0)
+            return $query->row_array();
+        else
+            return false;
+    }
+    
+    public function check_oldpassword($password,$id){
+        
+        if(s('ADMIN_TYPE') == 1){
+            $this->db->from('crm_agents');  
+            $this->db->where("agent_id",$id);
+        }
+        else {
+            $this->db->from('crm_admin');  
+            $this->db->where("admin_id",$id);
+        }
+        $this->db->where("password",$password);
+        $query = $this->db->get();       
+        if($query->num_rows () >0)
+            return true;
+        else
+            return false;
+    }
+    
+    public function update_password($data = array(), $id = 0) {
+        
+        if(s('ADMIN_TYPE') == 1){
+             $this->db->where("agent_id",$id); 
+            $this->db->update('crm_agents',$data);  
+        }
+        else {
+            $this->db->where("admin_id",$id);
+            $this->db->update('crm_admin',$data); 
+        }
+        if($this->db->affected_rows() >0)
+            return true;
+        else
+            return false;
     }
 }

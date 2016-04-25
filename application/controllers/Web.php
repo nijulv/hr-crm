@@ -96,6 +96,11 @@ class Web extends CI_Controller {
             redirect("web");
         }
         else {
+            
+            $this->gen_contents['users_count']  = $this->web_model->get_total_users_count($status = '1');
+            $this->gen_contents['guest_count']  = $this->web_model->get_total_users_count($status = '0');
+            $this->gen_contents['payment_count']  = $this->web_model->get_total_payment_count();
+            
             $this->gen_contents['link_dashboard']  = 'active';
             $this->template->write_view('content', 'dashboard', $this->gen_contents);
             $this->template->render();
@@ -227,19 +232,26 @@ class Web extends CI_Controller {
         }
         else {
             $this->load->library('form_validation');
-            $agent_id=$this->session->get_userdata('session_data'); 
-            $agent_id=$agent_id['ADMIN_USERID'];
+            
             if(!empty($_POST)){
-            $this->form_validation->set_rules('firstname','First Name', 'required|trim');
-            $this->form_validation->set_rules('lastname','Last Name', 'required|trim');
-            $this->form_validation->set_rules('useremail','Email', 'required|trim');
-            $this->form_validation->set_rules('phonenumber','Phone Number', 'required|numeric');
-            $this->form_validation->set_rules('useraddress','Address', 'required|trim');
-            $this->form_validation->set_rules('pincode','Pincode', 'required|numeric');
-            $this->form_validation->set_rules('userstatus','Status', 'required');
-            $error = '';
-            if ($this->form_validation->run() == TRUE) {
-            $update_data = array(
+                $this->form_validation->set_rules('firstname','First Name', 'required|trim');
+                //$this->form_validation->set_rules('lastname','Last Name', 'required|trim');
+                $this->form_validation->set_rules('useremail','Email', 'required|trim');
+                $this->form_validation->set_rules('phonenumber','Phone Number', 'required|numeric');
+                //$this->form_validation->set_rules('useraddress','Address', 'required|trim');
+                //$this->form_validation->set_rules('pincode','Pincode', 'required|numeric');
+                $this->form_validation->set_rules('userstatus','Status', 'required');
+                $error = '';
+                if ($this->form_validation->run() == TRUE) {
+                
+                if(s('ADMIN_TYPE') == 1){
+                    $agent_id = s('ADMIN_USERID');
+                }
+                else {
+                    $agent_id = 0;
+                }
+                
+                $update_data = array(
                     'agent_id'              => $agent_id,
                     'first_name'            => $this->input->post("firstname", true),
                     'last_name'             => $this->input->post("lastname", true),
@@ -249,7 +261,7 @@ class Web extends CI_Controller {
                     'pincode'               => $this->input->post("pincode", true),
                     'status'                => $this->input->post("userstatus", true)
                 
-                   );
+                );
             if(!empty($_FILES['attachment']['name'])){
                     $this->load->library('upload');
                     $image_path='./attachment/';
@@ -293,11 +305,11 @@ class Web extends CI_Controller {
         $this->load->library('form_validation');
         if(!empty($_POST)){
             $this->form_validation->set_rules('firstname','First Name', 'required|trim');
-            $this->form_validation->set_rules('lastname','Last Name', 'required|trim');
+            //$this->form_validation->set_rules('lastname','Last Name', 'required|trim');
             $this->form_validation->set_rules('useremail','Email', 'required|trim');
             $this->form_validation->set_rules('phonenumber','Phone Number', 'required|numeric');
-            $this->form_validation->set_rules('useraddress','Address', 'required|trim');
-            $this->form_validation->set_rules('pincode','Pincode', 'required|numeric');
+            //$this->form_validation->set_rules('useraddress','Address', 'required|trim');
+            //$this->form_validation->set_rules('pincode','Pincode', 'required|numeric');
             $this->form_validation->set_rules('userstatus','Status', 'required');
             if ($this->form_validation->run() == TRUE) {// form validation                
                 $update_data = array(
@@ -433,13 +445,20 @@ class Web extends CI_Controller {
             $this->form_validation->set_rules('amount', 'Amount', 'required|numeric');
             $page = 1;
             if($this->form_validation->run() == TRUE){
-
+                
+                if(s('ADMIN_TYPE') == 1){
+                    $agent_id = s('ADMIN_USERID');
+                }
+                else {
+                    $agent_id = 0;
+                }
+        
                 $userdata = array(
                     "user_id"   => $this->input->post("user",true),
                     "title"  => $this->input->post("title",true),
                     "amount"  => $this->input->post("amount",true),
                     "comments"  => $this->input->post("comments",true),
-                    "agent_id"  => s('ADMIN_USERID'),
+                    "agent_id"  => $agent_id
                 );
 
                 $tbl_name = 'payments';
@@ -676,6 +695,103 @@ class Web extends CI_Controller {
             else {
                 redirect("manage_agents");
             }
+        }
+    }
+    
+    public function edit_profile () {
+        
+        if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            
+            $this->form_validation->set_rules('username', 'Username', 'required');
+            $this->form_validation->set_rules('first_name', 'First name', 'required');
+            $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+            $this->form_validation->set_rules('phone', 'Phone', 'numeric');
+
+                if($this->form_validation->run() == TRUE){
+
+                    if(s('ADMIN_TYPE') == 1){
+                        $tbl_name = 'crm_agents';
+                        
+                        $userdata = array(
+                            "username"   => $this->input->post("username",true),
+                            "first_name"  => $this->input->post("first_name",true),
+                            "last_name"  => $this->input->post("last_name",true),
+                            "email"  => $this->input->post("email",true),
+                            "phone"  => $this->input->post("phone",true),
+                            "agent_code"  => $this->input->post("agent_code",true),
+                            "address"  => $this->input->post("address",true),
+                            "pincode"  => $this->input->post("pincode",true),
+                        );
+                    }
+                    else {
+                        $tbl_name = 'crm_admin';
+                        
+                        $userdata = array(
+                            "username"   => $this->input->post("username",true),
+                            "first_name"  => $this->input->post("first_name",true),
+                            "last_name"  => $this->input->post("last_name",true),
+                            "email"  => $this->input->post("email",true),
+                            "phone"  => $this->input->post("phone",true)
+                        );
+                    }
+                    $id = s('ADMIN_USERID');   
+                    $result = $this->web_model->update_profile($userdata,$id,$tbl_name);
+                    if($result){
+                        sf( 'success_message', "Profile details updated successfully" );
+                        redirect("edit_profile");
+                    }
+                    else {
+                        sf('error_message', 'No modifications done');
+                        redirect("edit_profile");
+                    }
+                }
+            $id = s('ADMIN_USERID');
+            $this->gen_contents['details'] = $this->web_model->get_profile_details($id); 
+            $this->template->write_view('content', 'profile_update', $this->gen_contents);
+            $this->template->render();
+        }
+    }
+    
+    public function change_password (){
+        if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            $this->form_validation->set_rules('oldpassword', 'Old Password', 'required');
+            $this->form_validation->set_rules('newpassword', 'New Password', 'required');
+            $this->form_validation->set_rules('confirmpassword', 'Password Confirmation', 'required|matches[newpassword]');
+
+            if($this->form_validation->run() == TRUE){
+                $userdata = array(
+                    "password" => $this->input->post("newpassword",true)
+                );
+
+                $id = s('ADMIN_USERID');
+                $old_password = $this->input->post("oldpassword",true);
+
+                $check_oldpassword = $this->web_model->check_oldpassword($old_password,$id); 
+                if($check_oldpassword){
+                    $result = $this->web_model->update_password($userdata,$id);
+                    if($result) {
+                        sf( 'success_message', "Password modified successfully" );
+                        redirect("change_password");
+                    }
+                    else {
+                        sf( 'error_message', "No modifications done" );
+                        redirect("change_password");
+                    }
+                }
+                else {
+                    sf( 'error_message', "Please check your old password" );
+                        redirect("change_password");
+                }
+            }
+
+            $this->template->write_view('content','changepassword', $this->gen_contents);
+            $this->template->render();
         }
     }
     

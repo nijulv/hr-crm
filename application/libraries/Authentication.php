@@ -98,7 +98,7 @@ class Authentication {
         $type = $login['type'];
         if($type == 'admin') {
             
-            $this->CI->db->select("username AS USERNAME, admin_id as USERID, name as NAME,status as STATUS,type as TYPE ");
+            $this->CI->db->select("username AS USERNAME, admin_id as USERID, first_name as NAME,status as STATUS,type as TYPE ");
             $this->CI->db->where('username', $emailid);
             $password = $this->CI->db->escape_like_str($password);
             //$password = 'cc' . $password;
@@ -140,7 +140,7 @@ class Authentication {
                     $this->CI->db->update('crm_agents', $arr);
                     $session_data = array(
                         'ADMIN_USERNAME' => $row->USERNAME,
-                        'ADMIN_NAME' => $row->first_name,
+                        'ADMIN_NAME' => $row->NAME,
                         'ADMIN_USERID' => $row->USERID,
                         'ADMIN_STATUS' => $row->STATUS,
                         'ADMIN_TYPE' => $row->TYPE,

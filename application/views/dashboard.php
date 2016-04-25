@@ -20,8 +20,8 @@
                                 <svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"/></svg>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
-                                <div class="large">26</div>
-                                <div class="text-muted">Users</div>
+                                <div class="large"><?php echo $users_count;?></div>
+                                <div class="text-muted">Total Users</div>
                             </div>
                         </div>
                     </div>
@@ -46,8 +46,8 @@
                                 <svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
-                                <div class="large">256</div>
-                                <div class="text-muted">Total Clients</div>
+                                <div class="large"><?php echo $guest_count;?></div>
+                                <div class="text-muted">Total Guests</div>
                             </div>
                         </div>
                     </div>
@@ -59,7 +59,7 @@
                                 <svg class="glyph stroked app-window-with-content"><use xlink:href="#stroked-app-window-with-content"></use></svg>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
-                                <div class="large">$25,000</div>
+                                <div class="large"><?php if($payment_count){echo '$ '.number_format($payment_count); }else {echo '$ 0';}?></div>  
                                 <div class="text-muted">Payments</div>
                             </div>
                         </div>

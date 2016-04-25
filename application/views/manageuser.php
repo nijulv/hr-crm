@@ -31,10 +31,10 @@
                 <div class="table-container table-responsive">
                     <table class="table table-bordered table-striped table-hover table-responsive">
                             <thead><tr role="row" class="heading">
-                                <th class="no-sort" width="10%">Sl.No</th>
+                                <th class="no-sort" width="5%">Sl.No</th>
                                 <th class="no-sort" width="20%">Name</th>
                                 <th class="no-sort" width="20%">Phone</th>
-                                <th class="no-sort" width="20%">Email</th>
+                                <th class="no-sort" width="25%">Email</th>
                                 <th class="no-sort" width="10%">Status</th>
                                 <th class="no-sort" width="20%">Action</th>
                             </tr>
@@ -42,10 +42,12 @@
                             <tbody>
                                     <?php foreach($results as $res){?>
                                         <?php if($res['status']==0){
-                                        $status="Guest";
+                                            $status="Guest";
+                                            $color = 'blue';
                                         }
                                         if($res['status']==1){
-                                        $status="User";
+                                            $status="User";
+                                             $color = 'green';
                                         }
                                         if($res['status']==2){
                                         $status="Deleted";
@@ -55,7 +57,7 @@
                                             <td><?php echo $res['first_name']?>&nbsp;<?php echo $res['last_name']?></td>
                                             <td><?php echo $res['phone']?></td>
                                             <td><?php echo $res['email']?></td>
-                                            <td><?php echo $status?></td>
+                                            <td style = "color:<?php echo  $color;?>"><?php echo $status;?></td>
                                             <td>
                                             <a href="<?php echo base_url() ?>viewuser/<?php echo $res['user_id']?>" class="label label-primary"><i class="fa fa-comment"></i>View</a>
                                             <a href="<?php echo base_url() ?>edituser/<?php echo $res['user_id']?>" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
