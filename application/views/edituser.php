@@ -81,8 +81,8 @@
                         </label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
                             <select name="userstatus" id="Userstatus" class="form-control col-md-7 col-xs-12">
-                                <option value="0">Guest</option>
-                                <option value="1">User</option>
+                                <option value="0" <?php if($user_details['status'] == '0') {echo 'selected=""';} ?>>Guest</option>
+                                <option value="1" <?php if($user_details['status']== '1') {echo 'selected=""';} ?>>User</option>
                             </select>
                         </div>
                     </div>
@@ -96,3 +96,10 @@
                 </form>
             <?php } ?>
 </div>
+<script>
+     $('#btnCancel').on('click', function(){   
+               alert("haaaaaaaaaa");
+               window.location=base_url+'manageuser';
+               return false;
+            });
+</script>

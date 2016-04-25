@@ -33,7 +33,7 @@ class Web_model extends CI_Model {
     }
     
     public function get_user_details($user_id = 0) {
-         $this->db->select('*');
+        $this->db->select('*');
         $this->db->from("crm_users");
         $this->db->where("user_id", $user_id);
         $this->db->where("status", '1');
@@ -115,6 +115,7 @@ class Web_model extends CI_Model {
     function get_userdetails($where, $start=0, $limit=25){
         $this->db->select('user_id,agent_id,first_name,last_name,email,phone,status');
         $this->db->where($where);
+        $this->db->where_in("status", ['0','1']);
         $this->db->order_by('user_id', 'DESC');
         $this->db->limit($limit, $start);
         $query = $this->db->get('crm_users');
