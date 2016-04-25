@@ -390,7 +390,7 @@ class Web extends CI_Controller {
         $where = array('agent_id' => $agent_id);
         $sts = $this->db->update('crm_agents', $update_data,$where);
         if($sts){
-                    sf( 'success_message', "Change Status successfully." );
+                    sf( 'success_message', "Status changed successfully." );
                     redirect('manage_agents');
 
                 }else{

@@ -65,7 +65,7 @@
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Phone</th>
-                                        <th>Status</th>
+                                        <th style = "text-align:center;">Status</th>
                                         <th style = "text-align:center;">Actions</th>
                                     </tr>
                                 </thead>
@@ -76,10 +76,16 @@
                                         if($data['status'] == 1){
                                             $status = 'Active';
                                             $changestatus='Deactive';
+                                            
+                                            $style = 'label label-danger';
+                                            $color = 'green';
                                         }
                                         else {
                                             $status = 'Deactive';
                                             $changestatus='Active';
+                                            
+                                            $style = 'label label-success';
+                                            $color = 'red';
                                         }
                                         ?>
                                         <tr>
@@ -87,11 +93,11 @@
                                             <td><?php echo $data['first_name'].' '.$data['last_name'];?></td> 
                                             <td><?php echo $data['email'];?></td>
                                             <td><?php echo $data['phone'];?></td>
-                                            <td><?php echo $status?></td> 
+                                            <td style = "text-align:center;color:<?php echo  $color;?>"><?php echo $status;?></td>
                                             <td style = "text-align:center;">
-                                                <a href="<?php echo base_url(); ?>edit_agents/<?php echo $data['agent_id'] ?>" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
-                                                <a onclick="return confirm('Are you sure you want to change status');" href="<?php echo base_url(); ?>changestatus/<?php echo $data['agent_id'] ?>" class="label label-success"><span class="fa fa-trash"></span><?php echo $changestatus ?></a>
-                                                <a onclick="return confirm('Are you sure you want to delete this agent details?');" href="<?php echo base_url(); ?>deleteagent/<?php echo $data['agent_id'] ?>" class="label label-danger"><span class="fa fa-trash"></span> Delete</a>
+                                                <a title="Modify status" onclick="return confirm('Are you sure you want to change status');" href="<?php echo base_url(); ?>changestatus/<?php echo $data['agent_id'] ?>" class="<?php echo $style?>" ><span class="fa fa-trash"></span><?php echo $changestatus ?></a>
+                                                <a title="Modify"href="<?php echo base_url(); ?>edit_agents/<?php echo $data['agent_id'] ?>" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
+                                                <a title="Delete" onclick="return confirm('Are you sure you want to delete this agent details?');" href="<?php echo base_url(); ?>deleteagent/<?php echo $data['agent_id'] ?>" class="label label-danger"><span class="fa fa-trash"></span> Delete</a>
                                             </td>
                                         </tr>
                                     <?php }?>

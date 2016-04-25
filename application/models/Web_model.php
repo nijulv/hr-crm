@@ -47,7 +47,7 @@ class Web_model extends CI_Model {
         public function get_agents_names () {
         $this->db->select('*');
         $this->db->from("crm_agents");
-        $this->db->where("status", '1');
+        //$this->db->where("status", '1');
         $this->db->order_by("agent_id","asc");
         $query = $this->db->get();  
         if($query->num_rows () >0)
@@ -106,6 +106,7 @@ class Web_model extends CI_Model {
         
         $this->db->select("COUNT(user_id) AS cnt");
         $this->db->where($where);
+        
         $query = $this->db->get('crm_users');
         $row = $query->row();
         return intval($row->cnt);
