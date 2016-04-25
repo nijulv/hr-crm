@@ -53,11 +53,12 @@
                                 </select>
                             </div>
                             &nbsp;&nbsp;&nbsp;
-                            <button type="submit" class="btn btn-info">Search</button>
+                            <button type="submit" class="btn btn-info">Search</button><br>
                         <?php form_close(); ?>
                         <br>
                         <?php if (!empty($details)) { ?>
                             <?php echo $links; ?>
+                        <div class="table-container table-responsive">
                             <table class="table table-bordered table-striped table-hover table-responsive">
                                 <thead>
                                     <tr>
@@ -88,6 +89,7 @@
                                     <?php }?>
                                 </tbody>
                             </table>
+                        </div>
                         <?php } else {
                             echo '<div class="alert alert-warning">Sorry! There is no details available now.</div>';
                         } ?>

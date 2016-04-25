@@ -29,16 +29,20 @@
             </div>
         <?php endif;?>
         <div class="row">
-            <div class="col-lg-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">
+                    <div class="row">
+                    <div class="panel-heading" style="padding-bottom: 10px;">
+                       <div class="col-sm-8 col-lg-8 col-md-8">
                         List Agents and their details
-                        
+                       </div>
                         <div class="pull-right">
+                           <div class="col-sm-4 col-lg-4 col-md-4">
                             <div class="form-group">
                                 <a href = "<?php echo base_url()?>add_agents"><button class="btn btn-primary"><i class="fa fa-comment"></i> Add New Agent</button></a>
                             </div>
+                           </div>
                         </div>
+                    </div>
                     </div>
                     <div class="panel-body">
                         <?php echo form_open("",array("id" => "payment"));?>
@@ -53,11 +57,13 @@
                                 </select>
                             </div>
                             &nbsp;&nbsp;&nbsp;
-                            <button type="submit" class="btn btn-info">Search</button>
+                            <button type="submit" class="btn btn-info">Search</button><br>
                         <?php form_close(); ?>
                         <br>
                         <?php if (!empty($details)) { ?>
                             <?php echo $links; ?>
+                        <div class="row">
+                            <div class="table-container table-responsive">
                             <table class="table table-bordered table-striped table-hover table-responsive">
                                 <thead>
                                     <tr>
@@ -97,11 +103,12 @@
                                     <?php }?>
                                 </tbody>
                             </table>
+                            </div>
+                        </div>
                         <?php } else {
                             echo '<div class="alert alert-warning">Sorry! There is no details available now.</div>';
                         } ?>
                     </div>
                 </div>
             </div>
-        </div>
     </div>

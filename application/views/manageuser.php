@@ -18,15 +18,16 @@
                 </div>                                        
             </div>
             <?php endif;?>
-
-            <div class="row" style="padding-bottom:10px;">
-                <div class="col-lg-12">
-                        <div class="pull-right"><a style="text-decoration: none;padding-right: 20px;" class="btn btn-success" href="<?php echo base_url()?>adduser">Add User</a></div>
-                        </div>
+            <div class="panel panel-default">
+            <div class="row" style="padding:10px;">
+                <div class="col-lg-12" a style="padding-top: 10px;">
+                    <div class="pull-right text-center"><a style="text-decoration: none;padding-top: 10px;" class="btn btn-success" href="<?php echo base_url()?>adduser">Add User</a></div>
+                </div>
            </div>
             <div class="portlet-body">
                 <?php if(!empty($results)){
                     $i=1;?>
+                <div class="panel-body">
                 <div class="table-container table-responsive">
                     <table class="table table-bordered table-striped table-hover table-responsive">
                             <thead><tr role="row" class="heading">
@@ -65,10 +66,14 @@
                             </tbody>
                     </table>
                 </div>
+                </div>
                 <?php echo $this->pagination->create_links(); ?>
-                <?php } ?>
+                <?php }
+                else {
+                        echo '<div class="alert alert-warning">Sorry! There is no details available now.</div>';
+                     } ?>
             </div>
-                    
+            </div>      
                                     
 
         </div>	<!--/.main-->
