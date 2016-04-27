@@ -49,7 +49,7 @@
             </div>
         </header>
         
-        
+        <div class="col-sm-6 col-sm-offset-3">	
         <?php
             $error = f('error_message') ? f('error_message') : validation_errors();
             if(!empty($error)){
@@ -67,7 +67,7 @@
                 </div>                                        
             </div>
         <?php endif;?>
-        
+         </div>
         <!-- Page Content -->
         <div class="container">
             <hr class="featurette-divider">
