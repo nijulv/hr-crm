@@ -38,7 +38,7 @@
                         <div class="pull-right">
                            <div class="col-sm-4 col-lg-4 col-md-4">
                             <div class="form-group">
-                                <a href = "<?php echo base_url()?>add_agents"><button class="btn btn-primary"><i class="fa fa-comment"></i> Add New Agent</button></a>
+                                <a href = "<?php echo base_url()?>add_agents"><button class="btn btn-primary"><i class="fa fa-plus"></i> Add New Agent</button></a>
                             </div>
                            </div>
                         </div>

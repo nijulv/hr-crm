@@ -36,7 +36,7 @@
                         
                         <div class="pull-right">
                             <div class="form-group">
-                                <a href = "<?php echo base_url()?>add_payments"><button class="btn btn-primary"><i class="fa fa-comment"></i> Add New Payment</button></a>
+                                <a href = "<?php echo base_url()?>add_payments"><button class="btn btn-primary"><i class="fa fa-plus"></i> Add New Payment</button></a>
                             </div>
                         </div>
                     </div>
