@@ -49,7 +49,7 @@
             </div>
         </header>
         
-        
+        <div class="col-sm-6 col-sm-offset-3">	
         <?php
             $error = f('error_message') ? f('error_message') : validation_errors();
             if(!empty($error)){
@@ -67,7 +67,7 @@
                 </div>                                        
             </div>
         <?php endif;?>
-        
+         </div>
         <!-- Page Content -->
         <div class="container">
             <hr class="featurette-divider">
@@ -75,10 +75,14 @@
             <div class="featurette" id="about">
                 <img class="featurette-image img-circle img-responsive pull-right" src="<?php echo assets_url();?>images/facilitation.jpg">
                 <h2 class="featurette-heading">Neque porro quisquam 
-                    <span class="text-muted">est qui dolorem ipsum quia dolor sit amet</span>
+                    <span class="text-muted">est qui dolorem ipsum quia </span>
                 </h2>
                 <p class="lead">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard 
+                    dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                    It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. 
+                    It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with 
+                    desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
                 </p>
             </div>
             <hr class="featurette-divider">
@@ -86,7 +90,7 @@
             <footer>
                 <div class="row">
                     <div class="col-lg-12">
-                        <p>© Copyright 2015 HR-CRM</p>
+                        <p>© Copyright <?php echo date('Y');?> HR-CRM</p>
                     </div>
                 </div>
             </footer>

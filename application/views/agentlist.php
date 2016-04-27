@@ -38,7 +38,7 @@
                         <div class="pull-right">
                            <div class="col-sm-4 col-lg-4 col-md-4">
                             <div class="form-group">
-                                <a href = "<?php echo base_url()?>add_agents"><button class="btn btn-primary"><i class="fa fa-comment"></i> Add New Agent</button></a>
+                                <a href = "<?php echo base_url()?>add_agents"><button class="btn btn-primary"><i class="fa fa-plus"></i> Add New Agent</button></a>
                             </div>
                            </div>
                         </div>
@@ -101,7 +101,7 @@
                                             <td><?php echo $data['phone'];?></td>
                                             <td style = "text-align:center;color:<?php echo  $color;?>"><?php echo $status;?></td>
                                             <td style = "text-align:center;">
-                                                <a title="Modify status" onclick="return confirm('Are you sure you want to change status');" href="<?php echo base_url(); ?>changestatus/<?php echo $data['agent_id'] ?>" class="<?php echo $style?>" ><span class="fa fa-trash"></span><?php echo $changestatus ?></a>
+                                                <a title="Modify status" onclick="return confirm('Are you sure you want to change status');" href="<?php echo base_url(); ?>changestatus/<?php echo $data['agent_id'] ?>" class="<?php echo $style?>" ><?php echo $changestatus ?></a>
                                                 <a title="Modify"href="<?php echo base_url(); ?>edit_agents/<?php echo $data['agent_id'] ?>" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
                                                 <a title="Delete" onclick="return confirm('Are you sure you want to delete this agent details?');" href="<?php echo base_url(); ?>deleteagent/<?php echo $data['agent_id'] ?>" class="label label-danger"><span class="fa fa-trash"></span> Delete</a>
                                             </td>
