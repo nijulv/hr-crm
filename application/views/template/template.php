@@ -8,13 +8,16 @@
         <link href="<?php echo assets_url();?>css/datepicker3.css" rel="stylesheet">
         <!--<link href="css/styles.css" rel="stylesheet">-->
         <link href="<?php echo assets_url();?>css/marshall.css" rel="stylesheet">
+        <link href="<?php echo assets_url();?>css/bootstrap-table.css" rel="stylesheet">
+        <link rel="stylesheet" href="<?php echo assets_url();?>fonts/font-awesome/css/font-awesome.min.css">
         <!--Icons-->
         <script src="<?php echo assets_url();?>js/lumino.glyphs.js"></script>
-
+        
         <!--[if lt IE 9]>
         <script src="js/html5shiv.js"></script>
         <script src="js/respond.min.js"></script>
         <![endif]-->
+        <link rel="icon" href="<?php echo assets_url();?>images/fav.jpg" type="image/x-icon" />
     </head>
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -43,11 +46,9 @@
         </nav>
 
         <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-            <div class="logo" align="center">
-            </div>
-            
+            <div class="logo" align="center"></div>
+          
             <ul class="nav menu"> 
-
                 <li class="<?php echo $link_dashboard;?>"><a href="<?php echo base_url()?>dashboard"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Dashboard</a></li>
                 <?php if(s('ADMIN_TYPE') == 0) {?>
                     <li class="<?php echo $link_agent;?>"><a href="<?php echo base_url()?>manage_agents"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Manage Agents</a></li>
@@ -66,13 +67,14 @@
                 echo $content;
             ?>
             
-     <script src="<?php echo assets_url();?>js/jquery-1.11.1.min.js"></script>
+        <script src="<?php echo assets_url();?>js/jquery-1.11.1.min.js"></script>
         <script src="<?php echo assets_url();?>js/bootstrap.min.js"></script>
         <script src="<?php echo assets_url();?>js/chart.min.js"></script>
         <script src="<?php echo assets_url();?>js/chart-data.js"></script>
         <script src="<?php echo assets_url();?>js/easypiechart.js"></script>
         <script src="<?php echo assets_url();?>js/easypiechart-data.js"></script>
-        <script src="<?php echo assets_url();?>js/bootstrap-datepicker.js"></script>
+        <script src="<?php echo assets_url();?>js/bootstrap-datepicker.js"></script>  
+        <script src="<?php echo assets_url();?>js/bootstrap-table.js"></script>
         <script>
             $('#calendar').datepicker({
             });
@@ -94,7 +96,6 @@
             })
         </script>	
     </body>
-
 </html>       
           
 
