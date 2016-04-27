@@ -958,17 +958,15 @@ added for marshall
 .logo{
     padding: 0px 30px 10px !important;
 }
-
+.error{
+        color: #fe6965;
+        font-weight: 400;
+}
+.success{
+        color: green;
+        font-weight: 400;
+}
 .form-inline{
     background: none repeat scroll 0% 0% #F6F6F6;
     padding: 15px;
 }
-
-
-
-
-
-
-
-
-

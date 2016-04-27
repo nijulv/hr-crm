@@ -292,6 +292,7 @@ class Web extends CI_Controller {
                  $this->gen_contents['form_validation_error'] = validation_errors();
             }
             }
+            
             $this->gen_contents['link_user']  = 'active';
             $this->template->write_view('content', 'adduser', $this->gen_contents);
             $this->template->render();

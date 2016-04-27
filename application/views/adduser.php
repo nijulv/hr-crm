@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12 " for="txtUseraddress">Address
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtUseraddress">Address
                         </label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
                             <textarea class="form-control col-md-7 col-xs-12" name="useraddress" id="useraddress" style="height:150px ! important;" value="<?php echo set_value('address') ?>" ></textarea>
