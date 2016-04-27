@@ -37,6 +37,6 @@ var Manageuser = function(){
             $('#btnCancel').on('click', function(){   
                window.location=base_url+'manageuser';
                return false;
-            });
+            }); 
            
 }();

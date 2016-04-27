@@ -31,7 +31,7 @@ var Manageagent = function(){
               .closest('.form-group').addClass('has-error'); // set error class to the control group
 
               $(element)
-              .closest('.form-group').find('.error').removeClass('success');
+              .closest('.form-group').find('.error').removeClass('success'); 
             },
             unhighlight: function (element) { // revert the change done by hightlight
                     $(element)
