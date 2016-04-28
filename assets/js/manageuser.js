@@ -12,8 +12,9 @@ var Manageuser = function(){
               required: true
              },
              phonenumber: {
-              minlength: 2,
-              required: true
+              minlength: 10,
+              required: true,
+              number:true
              },
             },
 
