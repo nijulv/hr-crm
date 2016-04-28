@@ -31,7 +31,7 @@
                 <div class="table-container table-responsive">
                     <table class="table table-bordered table-striped table-hover table-responsive">
                             <thead><tr role="row" class="heading">
-                                <th class="no-sort" width="5%">Sl.No</th>
+                                <th class="no-sort" width="5%" style = "text-align:center;">Sl.No</th>
                                 <th class="no-sort" width="20%">Name</th>
                                 <th class="no-sort" width="20%">Phone</th>
                                 <th class="no-sort" width="25%">Email</th>
@@ -53,7 +53,7 @@
                                         $status="Deleted";
                                         }?>
                                         <tr role="row" class="heading">
-                                            <td><?php echo $i;?></td>
+                                            <td style = "text-align:center;"><?php echo $i;?></td>
                                             <td><?php echo $res['first_name']?>&nbsp;<?php echo $res['last_name']?></td>
                                             <td><?php echo $res['phone']?></td>
                                             <td><?php echo $res['email']?></td>

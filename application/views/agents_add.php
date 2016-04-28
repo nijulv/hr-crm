@@ -36,19 +36,19 @@
                             
                             <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Agent code <small class="text-muted"></small></label>
+                                        <label>Agent code <small class="text-muted"></small><span class="required">*</span></label>
                                         <input type="text" name="agent_code" id="agent_code" class="form-control" placeholder="Agent Code" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>Username</label>
+                                        <label>Username <span class="required">*</span></label>
                                         <input type="text" name="username" id="username"  class="form-control" placeholder="Username" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>Password</label>
+                                        <label>Password <span class="required">*</span></label>
                                         <input type="text" name="password" id="password" class="form-control" placeholder="Password" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>First name</label>
+                                        <label>First name <span class="required">*</span></label>
                                         <input type="text" name="first_name" id="first_name" class="form-control" placeholder="First Name" required>
                                     </div>
                                     <div class="form-group">
@@ -58,11 +58,11 @@
                             </div>
                             <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Email</label>
+                                        <label>Email <span class="required">*</span></label>
                                         <input type="text" name="email" id="email" class="form-control" placeholder="Email" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>Phone</label>
+                                        <label>Phone <span class="required">*</span></label>
                                         <input type="text" name="phone" id="phone" class="form-control" placeholder="Phone" required>
                                     </div>
                                     <div class="form-group">

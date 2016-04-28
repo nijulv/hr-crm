@@ -35,7 +35,7 @@
                         <div class="panel-body">
                             <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Select Client</label>
+                                        <label>Select Client <span class="required">*</span></label>
                                         <select name="user" class="form-control" required>
                                             <option value = "">Select Client</option>
                                             <?php if($users){
@@ -45,11 +45,11 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label>Payment Title <small class="text-muted"><i>(It should be easy to identify later)</i></small></label>
+                                        <label>Payment Title <span class="required">*</span><small class="text-muted"><i>(It should be easy to identify later)</i></small></label>
                                         <input type="text" name="title" class="form-control" placeholder="Payment Title" value = "<?php echo set_value('title',$details['title']); ?>" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>Amount</label>
+                                        <label>Amount <span class="required">*</span></label>
                                         <input type="text" name="amount" class="form-control" placeholder="Amount" value = "<?php echo set_value('amount',$details['amount']); ?>" required>
                                     </div>
                                     <div class="form-group">
