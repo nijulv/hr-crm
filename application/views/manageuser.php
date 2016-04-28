@@ -61,7 +61,7 @@
                                             <td style = "text-align:center;">
                                                 <a href="<?php echo base_url() ?>viewuser/<?php echo $res['user_id']?>" class="label label-primary"><i class="fa fa-list"></i>View</a>
                                                 <a href="<?php echo base_url() ?>edituser/<?php echo $res['user_id']?>" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
-                                                <a onclick="return confirm('Are you sure you want to delete this User details?');" href="<?php echo base_url() ?>deleteuser/<?php echo $res['user_id']?>" class="label label-danger"><span class="fa fa-trash"></span> Delete</a>
+                                                <a id="delete" class="label label-danger delete" data-id="<?php echo $res['user_id']?>" data-url="deleteuser"><span class="fa fa-trash"></span> Delete</a>
                                             </td>
                                         </tr>
                                 <?php $i++; } ?>
@@ -79,3 +79,6 @@
                                     
 
         </div>	<!--/.main-->
+
+        
+ 

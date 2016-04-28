@@ -101,9 +101,9 @@
                                             <td><?php echo $data['phone'];?></td>
                                             <td style = "text-align:center;color:<?php echo  $color;?>"><?php echo $status;?></td>
                                             <td style = "text-align:center;">
-                                                <a title="Modify status" onclick="return confirm('Are you sure you want to change status');" href="<?php echo base_url(); ?>changestatus/<?php echo $data['agent_id'] ?>" class="<?php echo $style?>" ><?php echo $changestatus ?></a>
+                                                <a title="Modify status"  id="status" class="label label-danger status" data-id="<?php echo $data['agent_id']?>" data-url="changestatus" class="<?php echo $style?>"  data-status="<?php echo $changestatus ?>"><?php echo $changestatus ?></a>
                                                 <a title="Modify"href="<?php echo base_url(); ?>edit_agents/<?php echo $data['agent_id'] ?>" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
-                                                <a title="Delete" onclick="return confirm('Are you sure you want to delete this agent details?');" href="<?php echo base_url(); ?>deleteagent/<?php echo $data['agent_id'] ?>" class="label label-danger"><span class="fa fa-trash"></span> Delete</a>
+                                                <a  title="Delete" id="delete" class="label label-danger delete" data-id="<?php echo $data['agent_id']?>" data-url="deleteagent"><span class="fa fa-trash"></span> Delete</a>
                                             </td>
                                         </tr>
                                     <?php }?>

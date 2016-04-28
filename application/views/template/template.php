@@ -75,16 +75,14 @@
         <script src="<?php echo assets_url();?>js/easypiechart-data.js"></script>
         <script src="<?php echo assets_url();?>js/bootstrap-datepicker.js"></script>
         <script> var base_url = '<?php echo base_url(); ?>'; </script>
-        <script src="<?php echo assets_url();?>js/jquery.js"></script>
         <script src="<?php echo assets_url();?>jquery-validation/js/jquery.validate.min.js"></script>
-        <script src="<?php echo assets_url();?>js/cancelbutton.js"></script>
         <script src="<?php echo assets_url();?>js/manageuser.js"></script>
         <script src="<?php echo assets_url();?>js/manageagent.js"></script>
-        <script src="<?php echo assets_url();?>js/bootstrap-datepicker.js"></script>  
         <script src="<?php echo assets_url();?>js/bootstrap-table.js"></script>
+        <script src="<?php echo assets_url();?>js/bootbox.min.js"></script>
         <script>
-            $('#calendar').datepicker({
-            });
+            
+            $('#calendar').datepicker({});
 
             !function ($) {
                 $(document).on("click", "ul.nav li.parent > a > span.icon", function () {

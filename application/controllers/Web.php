@@ -346,7 +346,8 @@ class Web extends CI_Controller {
                         sf( 'success_message', "User Details Updated Successfully." );
                         redirect('manageuser');
                     }else{
-                         $this->gen_contents['form_validation_error'] = 'Sorry. There is a problem to add details.';
+                        sf( 'error_message', "No modification done" );
+                        redirect("manageuser");
                     }
                 }
                  redirect("manageuser");
@@ -414,6 +415,7 @@ class Web extends CI_Controller {
       
     }
     function deleteuser($user_id){
+
        if(!$user_id){
             redirect('manageuser');
         } 
@@ -425,11 +427,12 @@ class Web extends CI_Controller {
         $where = array('user_id' => $user_id);
         $sts = $this->db->update('crm_users', $update_data,$where);
         if($sts){
-                    $this->gen_contents['form_success_message'] = 'User Details deleted successfully.';
+                    sf( 'success_message', "User details deleted successfully" );
                     redirect('manageuser');
 
                 }else{
-                    $this->gen_contents['form_validation_error'] = 'Sorry. There is a problem to update health details.';
+                        sf( 'error_message', "User details not deleted,Please try again later" );
+                        redirect('manageuser');
                     
                 } 
       

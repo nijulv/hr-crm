@@ -42,4 +42,15 @@ var Manageagent = function(){
 //            }, 
            })
            })
+           $('.status').on('click', function(e){    
+                      var u_id = $(this).data('id'); 
+                      var url = $(this).data('url'); 
+                      var status = $(this).data('status'); 
+                       var ppup_content = "<b>Are you sure?</b><br><br>Do you want to "+status+" this agent?";
+                      bootbox.confirm(ppup_content, function(result) {
+                      if(result){
+                            window.location = base_url+url+'/'+u_id
+                      }
+                      })
+            });
 }();
