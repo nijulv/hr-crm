@@ -32,7 +32,7 @@
                 <div class="panel panel-default">
                     <div class="row">
                     <div class="panel-heading" style="padding-bottom: 10px;">
-                       <div class="col-sm-8 col-lg-8 col-md-8">
+                       <div class="col-sm-8 col-lg-8 col-md-8 hidden-xs">
                         List Agents and their details
                        </div>
                         <div class="pull-right">
