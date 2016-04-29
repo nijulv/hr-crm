@@ -35,19 +35,19 @@
                         <div class="panel-body">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Agent code <small class="text-muted"></small></label>
+                                    <label>Agent code <small class="text-muted"></small> <span class="required">*</span></label>
                                     <input type="text" name="agent_code" class="form-control" placeholder="Agent Code" required value = "<?php echo set_value('agent_code',$details['agent_code']); ?>">
                                 </div>
                                 <div class="form-group">
-                                    <label>Username</label>
+                                    <label>Username <span class="required">*</span></label>
                                     <input type="text" name="username" class="form-control" placeholder="Username" required value = "<?php echo set_value('username',$details['username']); ?>">
                                 </div>
                                 <div class="form-group">
-                                    <label>Password</label>
+                                    <label>Password <span class="required">*</span></label>
                                     <input type="text" name="password" class="form-control" placeholder="Password" required value = "<?php echo set_value('password',$details['password']); ?>">
                                 </div>
                                 <div class="form-group">
-                                    <label>First name</label>
+                                    <label>First name <span class="required">*</span></label>
                                     <input type="text" name="first_name" class="form-control" placeholder="First Name" required value = "<?php echo set_value('first_name',$details['first_name']); ?>">
                                 </div>
                                 <div class="form-group">
@@ -57,11 +57,11 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Email</label>
+                                    <label>Email <span class="required">*</span></label>
                                     <input type="text" name="email" class="form-control" placeholder="Email" required value = "<?php echo set_value('email',$details['email']); ?>">
                                 </div>
                                 <div class="form-group">
-                                    <label>Phone</label>
+                                    <label>Phone <span class="required">*</span></label>
                                     <input type="text" name="phone" class="form-control" placeholder="Phone" required value = "<?php echo set_value('phone',$details['phone']); ?>">
                                 </div>
                                 <div class="form-group">

@@ -83,7 +83,7 @@
                                             <td><?php echo $data['phone'];?></td> 
                                             <td style = "text-align:center;">
                                                 <a href="<?php echo base_url(); ?>edit_payments/<?php echo $data['payment_id'] ?>" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
-                                                <a onclick="return confirm('Are you sure you want to delete this payment details?');" href="<?php echo base_url(); ?>deletepayments/<?php echo $data['payment_id'] ?>" class="label label-danger"><span class="fa fa-trash"></span> Delete</a>
+                                                <a id="delete" class="label label-danger delete" data-id="<?php echo $data['payment_id']?>" data-url="deletepayments"><span class="fa fa-trash"></span> Delete</a>
                                             </td>
                                         </tr>
                                     <?php }?>
