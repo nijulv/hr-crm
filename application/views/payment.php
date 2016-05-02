@@ -32,7 +32,9 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
+                        <div class="col-sm-8 col-lg-8 col-md-8 hidden-xs">
                         List Clients and their Payments
+                        </div>
                         
                         <div class="pull-right">
                             <div class="form-group">

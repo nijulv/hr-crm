@@ -36,7 +36,7 @@
                             <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Select Client <span class="required">*</span></label>
-                                        <select name="user" class="form-control" required>
+                                        <select name="user" id="user" class="form-control" required>
                                             <option value = "">Select Client</option>
                                             <?php if($users){
                                                 foreach ($users as $user) { ?>
@@ -46,11 +46,11 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Payment Title <span class="required">*</span><small class="text-muted"><i>(It should be easy to identify later)</i></small></label>
-                                        <input type="text" name="title" class="form-control" placeholder="Payment Title" required>
+                                        <input type="text" name="title" id="title" class="form-control" placeholder="Payment Title" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Amount <span class="required">*</span></label>
-                                        <input type="text" name="amount" class="form-control" placeholder="Amount" required>
+                                        <input type="text" name="amount" id="amount" class="form-control" placeholder="Amount" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Comments <small class="text-muted"></small></label>

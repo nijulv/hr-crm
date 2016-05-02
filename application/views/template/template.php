@@ -77,6 +77,7 @@
         <script> var base_url = '<?php echo base_url(); ?>'; </script>
         <script src="<?php echo assets_url();?>jquery-validation/js/jquery.validate.min.js"></script>
         <script src="<?php echo assets_url();?>js/manageuser.js"></script>
+        <script src="<?php echo assets_url();?>js/managepayments.js"></script>
         <script src="<?php echo assets_url();?>js/manageagent.js"></script>
         <script src="<?php echo assets_url();?>js/bootstrap-table.js"></script>
         <script src="<?php echo assets_url();?>js/bootbox.min.js"></script>
