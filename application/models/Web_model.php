@@ -69,7 +69,7 @@ class Web_model extends CI_Model {
             $this->db->where('agent_id',$search_user);
         }
         //$this->db->where_in('status',['1','2']);
-        $this->db->where('status','0');
+        $this->db->where('status !=','0');
         $this->db->order_by("agent_id","desc");
         $this->db->limit($limit, $start);
         $query = $this->db->get();          
