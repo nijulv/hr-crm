@@ -73,19 +73,25 @@ $route['todo']                    = "web/todo";
 $route['savetodo']                = "web/savetodo";
 
 $route['add_payments']   = "web/add_payments";
+$route['add_bankpayments']   = "web/add_bankpayments";
 $route['add_agents']   = "web/add_agents";
 $route['changestatus/(:any)']   = "web/changestatus/$1";
 $route['changestatus']          = "web/changestatus";
 
+$route['edit_bankpayments/(:any)']  = "web/edit_bankpayments/$1"; 
 $route['edit_payments/(:any)']  = "web/edit_payments/$1"; 
 $route['edit_agents/(:any)']  = "web/edit_agents/$1"; 
 
 $route['deletepayments/(:any)']          = "web/deletepayments/$1";
+$route['deletebankpayments/(:any)']          = "web/deletebankpayments/$1";
 $route['deleteagent/(:any)']          = "web/deleteagent/$1";
 
 
 $route['manage_payment']   = "web/manage_payment";
 $route['manage_payment/(:num)']   = "web/manage_payment/$1";
+
+$route['manage_cash']   = "web/manage_cash";
+$route['manage_cash/(:num)']   = "web/manage_cash/$1";
 
 
 $route['manage_agents']   = "web/manage_agents";

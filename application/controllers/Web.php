@@ -13,16 +13,16 @@ class Web extends CI_Controller {
         
     );
     
-    public function __construct() {
+    public function __construct() {   
         // Call the CI_Model constructor
         parent::__construct();
         ini_set("display_errors", "0");
         error_reporting(0);
-        $this->load->model('web_model');
+        $this->load->model('web_model'); 
     }
 
     //default index page
-    public function index() {    
+    public function index() {      
         
         
         $this->template->set_template('adminlogin');
@@ -196,6 +196,39 @@ class Web extends CI_Controller {
 
             $this->gen_contents['link_agent']  = 'active';
             $this->template->write_view('content', 'agentlist', $this->gen_contents);
+            $this->template->render();
+        }
+    }
+    
+    function manage_cash () {  
+        
+         if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            $this->gen_contents['users'] = $this->web_model->get_users();
+            $config['per_page']   = 25;
+            $pagin = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;  
+
+            if($this->input->post("search_user") != '')
+                $search_user = trim($this->input->post("search_user",true));
+            else 
+                $search_user = '';
+
+            $this->gen_contents['details'] = $this->web_model->get_bank_payments($config['per_page'], $pagin);
+            $total_record = $this->web_model->get_total_rows();
+            //--pagination
+            $this->load->library('pagination');
+            $this->load->library('bspagination');   
+            $config['base_url']     = base_url().'manage_cash';
+            $config['total_rows']   = $total_record;
+            $bs_init = $this->bspagination->config();
+            $config = array_merge($config, $bs_init);
+            $this->pagination->initialize($config);
+            $this->gen_contents['links'] =  $this->pagination->create_links();     
+
+            $this->gen_contents['link_bank']  = 'active';
+            $this->template->write_view('content', 'bank_paymentlist', $this->gen_contents);
             $this->template->render();
         }
     }
@@ -560,6 +593,51 @@ class Web extends CI_Controller {
         }
     }
     
+     public function add_bankpayments () {
+        
+         if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            $this->form_validation->set_rules('total_payment', 'total payment', 'required|numeric');
+            $this->form_validation->set_rules('bank_payment', 'bank payment', 'required|numeric');
+            
+            if($this->form_validation->run() == TRUE){
+                
+                if(s('ADMIN_TYPE') == 1){
+                    $agent_id = s('ADMIN_USERID');
+                }
+                else {
+                    $agent_id = 0;
+                }
+                $user_id = implode(",",$this->input->post("user",true)); 
+                $userdata = array(
+                    "total_payment"   => $this->input->post("total_payment",true),
+                    "bank_payment"  => $this->input->post("bank_payment",true),
+                    "reason"  => $this->input->post("reason",true),
+                    "agent_id"  => $agent_id,
+                    "user_id"  => $user_id
+                );
+
+                $tbl_name = 'crm_bank_payment';
+                $result = $this->web_model->insert_datas($userdata,$tbl_name);
+
+                if($result){
+                    sf( 'success_message', "Bank payment details inserted successfully" );
+                    redirect("manage_cash");
+                }
+                else {
+                    sf('error_message', 'Bank payment details not inserted, Please try agin later');
+                    redirect("manage_cash");
+                }
+            }
+            $this->gen_contents['users'] = $this->web_model->get_users();
+            $this->gen_contents['link_bank']  = 'active';
+            $this->template->write_view('content', 'bankpayment_add', $this->gen_contents);
+            $this->template->render();
+        }
+    }
+    
     public function add_agents () {
         
          if (!($this->session->userdata("ADMIN_USERID"))) {
@@ -704,6 +782,50 @@ class Web extends CI_Controller {
         }
     }
     
+    public function edit_bankpayments ($id = 0) { 
+        if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            if($id != 0 && is_numeric($id)){
+
+                $this->form_validation->set_rules('total_payment', 'total payment', 'required|numeric');
+                $this->form_validation->set_rules('bank_payment', 'bank payment', 'required|numeric');
+
+                if($this->form_validation->run() == TRUE){ 
+                    $user_id = implode(",",$this->input->post("user",true)); 
+                    $userdata = array(
+                        "total_payment"   => $this->input->post("total_payment",true),
+                        "bank_payment"  => $this->input->post("bank_payment",true),
+                        "reason"  => $this->input->post("reason",true),
+                        "user_id"  => $user_id
+                    );
+
+                    $bank_payment_id  = $this->input->post("id",true);  
+                    $tbl_name = 'crm_bank_payment';
+                    $result = $this->web_model->update_contents_bankpayment($userdata,$bank_payment_id,$tbl_name);
+                    if($result) {
+                        sf( 'success_message', "Bank payment details updated successfully" );
+                        redirect("manage_cash");
+                    }
+                    else {
+                        sf( 'error_message', "No modification done" );
+                        redirect("manage_cash");
+                    }
+                }
+                $this->gen_contents['users'] = $this->web_model->get_users();
+                $this->gen_contents['link_bank']  = 'active';
+                $this->gen_contents['details'] = $this->web_model->get_bankpayment_details($id);
+                $this->template->write_view('content', 'modify_bankpayments', $this->gen_contents);
+                $this->template->render();   
+
+            }
+            else {
+                redirect("manage_payment");
+            }
+        }
+    }
+    
     public function deletepayments ($payment_id = 0) { 
         if($payment_id != 0 && is_numeric($payment_id)){  
             
@@ -727,7 +849,29 @@ class Web extends CI_Controller {
         }
     }
     
-
+    public function deletebankpayments ($bank_payment_id = 0) { 
+        if($bank_payment_id != 0 && is_numeric($bank_payment_id)){  
+            
+            $userdata = array(
+                    "status"   => '0'
+            );
+            
+            $tbl_name = 'crm_bank_payment';   
+            $result = $this->web_model->update_contents_bankpayment($userdata,$bank_payment_id,$tbl_name);
+            if($result) {
+                sf( 'success_message', "Bank payment details deleted successfully" );
+                redirect("manage_cash");
+            }
+            else {
+                sf( 'error_message', "Bank payment details not deleted,Please try again later" );
+                redirect("manage_cash");
+            }
+        }
+        else {
+            redirect("manage_cash");
+        }
+    }
+    
     public function deleteagent ($agent_id = 0) { 
         if (!($this->session->userdata("ADMIN_USERID"))) {
             redirect("web");

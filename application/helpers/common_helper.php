@@ -881,6 +881,12 @@ function get_leadprice_question ($qustion_id = 0) {
     return $CI->admin_model->get_qustion_byid($qustion_id);
 }
 
+function get_username ($user_id = 0) {  
+    $CI = &get_instance();
+    $CI->load->model('web_model');
+    return $CI->web_model->get_username($user_id);
+}
+
 function get_leadprice_answer ($ansid = 0) {
     $CI = &get_instance();
     $CI->load->model('admin/admin_model');
