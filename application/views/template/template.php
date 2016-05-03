@@ -55,7 +55,7 @@
                 <?php }?>
                 <li class="<?php echo $link_user;?>"><a href="<?php echo base_url()?>manageuser"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"/></svg> Manage Users</a></li>
                 <li class="<?php echo $link_payment;?>"><a href="<?php echo base_url()?>manage_payment"><svg class="glyph stroked tag"><use xlink:href="#stroked-tag"/></svg> Manage Payments</a></li>
-                
+                <li class = "<?php echo $link_bank;?>"><a href="<?php echo base_url()?>manage_cash"><svg class="glyph stroked clipboard with paper"><use xlink:href="#stroked-clipboard-with-paper"/></svg> Manage Bank Payment </a></li>
 
                 <li role="presentation" class="divider"></li>
                 <li><a href="<?php echo base_url()?>logout"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>

@@ -23,7 +23,7 @@ class Web_model extends CI_Model {
         if(s('ADMIN_TYPE') == 1){
              $this->db->where('agent_id',s('ADMIN_USERID'));
         }
-        
+        $this->db->where("status !=", '2');
         $this->db->order_by("user_id","asc");
         $query = $this->db->get();  
         if($query->num_rows () >0)
@@ -68,7 +68,8 @@ class Web_model extends CI_Model {
         if($search_user != ''){
             $this->db->where('agent_id',$search_user);
         }
-        $this->db->where_in('status',['1','2']);
+        //$this->db->where_in('status',['1','2']);
+        $this->db->where('status','0');
         $this->db->order_by("agent_id","desc");
         $this->db->limit($limit, $start);
         $query = $this->db->get();          
@@ -79,7 +80,7 @@ class Web_model extends CI_Model {
         }
     }
     
-     public function get_payments ($limit, $start,$search_user = '') {
+    public function get_payments ($limit, $start,$search_user = '') {
         $this->db->select("SQL_CALC_FOUND_ROWS *",FALSE); 
         $this->db->from('payments p');
         $this->db->join('crm_users u', 'u.user_id = p.user_id', 'left');
@@ -102,6 +103,27 @@ class Web_model extends CI_Model {
         }
         
     }
+    public function get_bank_payments ($limit, $start,$search_user = '') {
+        $this->db->select("SQL_CALC_FOUND_ROWS *",FALSE); 
+        $this->db->from('crm_bank_payment');
+        
+        $this->db->where('status','1');
+        
+        if(s('ADMIN_TYPE') == 1){
+             $this->db->where('agent_id',s('ADMIN_USERID'));
+        }
+        
+        $this->db->order_by("bank_payment_id","desc");
+        $this->db->limit($limit, $start);
+        $query = $this->db->get();          
+        if($query->num_rows() > 0){
+            return $query->result_array();
+        } else {
+            return FALSE;
+        }
+        
+    }
+    
     function get_userdetails_count($where){
         
         $this->db->select("COUNT(user_id) AS cnt");
@@ -115,7 +137,8 @@ class Web_model extends CI_Model {
     function get_userdetails($where, $start=0, $limit=25){
         $this->db->select('user_id,agent_id,first_name,last_name,email,phone,status');
         $this->db->where($where);
-        $this->db->where_in("status", ['0','1']);
+        //$this->db->where_in("status", ['0','1']);
+        $this->db->where("status !=",'2');
         $this->db->order_by('user_id', 'DESC');
         $this->db->limit($limit, $start);
         $query = $this->db->get('crm_users');
@@ -140,6 +163,15 @@ class Web_model extends CI_Model {
     
     public function update_contents ($data = array(),$id = 0,$tbl_name = '') {
         $this->db->where('payment_id',$id);
+        $this->db->update($tbl_name,$data);
+        if($this->db->affected_rows() >0)
+            return true;
+        else
+            return false;
+    }
+    
+    public function update_contents_bankpayment ($data = array(),$id = 0,$tbl_name = '') {
+        $this->db->where('bank_payment_id',$id);
         $this->db->update($tbl_name,$data);
         if($this->db->affected_rows() >0)
             return true;
@@ -174,6 +206,17 @@ class Web_model extends CI_Model {
         $this->db->select('*');
         $this->db->where("payment_id",$id);
         $this->db->from('payments');  
+        $query = $this->db->get();  
+        if($query->num_rows () >0)
+            return $query->row_array();
+        else
+            return false;
+    }
+    
+    public function get_bankpayment_details($id = 0){
+        $this->db->select('*');
+        $this->db->where("bank_payment_id",$id);
+        $this->db->from('crm_bank_payment');  
         $query = $this->db->get();  
         if($query->num_rows () >0)
             return $query->row_array();
@@ -282,6 +325,17 @@ class Web_model extends CI_Model {
         }
         if($this->db->affected_rows() >0)
             return true;
+        else
+            return false;
+    }
+    
+    public function get_username ($user_id = 0) {
+        $this->db->select('*'); 
+        $this->db->from('crm_users'); 
+        $this->db->where('user_id',$user_id); 
+        $query = $this->db->get();    
+        if($query->num_rows () >0)
+            return $query->row_array();
         else
             return false;
     }
