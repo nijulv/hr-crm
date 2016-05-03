@@ -71,6 +71,8 @@ $route['viewuser/(:any)']         = "web/viewuser/$1";
 $route['viewuser']                = "web/viewuser";
 $route['todo']                    = "web/todo";
 $route['savetodo']                = "web/savetodo";
+$route['deletetodo']              = "web/deletetodo";
+$route['deletetodo/(:any)']       = "web/deletetodo/$1";
 
 $route['add_payments']   = "web/add_payments";
 $route['add_bankpayments']   = "web/add_bankpayments";

@@ -58,6 +58,7 @@
                                     <div class="form-group">
                                         <label  for="txtAttachment">Attachment</label>
                                         <input type="file" class="form-control" name="attachment" id="attachment" style="height:500px;padding-bottom: 48px;" value="<?php echo set_value('attachment') ?>">
+                                        <div>Allowed types: pdf|doc|docx</div>
                                     </div>
                                     <div class="form-group">
                                         <label for="txtUserstatus">Status<span class="required">*</span></label>

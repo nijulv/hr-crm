@@ -86,7 +86,7 @@
                         <div class="panel-body">
                             <ul class="todo-list">
                                 <?php foreach($todo as $res){?>
-                                <li class="todo-list-item">
+                                <li class="todo-list-item" id='<?php echo $res['id']; ?>'>
                                     <div class="checkbox">
                                         <input type="checkbox" id="checkbox">
                                         <label for="checkbox"><?php echo $res['todo']; ?></label>
@@ -94,7 +94,7 @@
                                     <div class="pull-right action-buttons">
                                         <a href="#"><svg class="glyph stroked pencil"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-pencil"></use></svg></a>
                                         <a href="#" class="flag"><svg class="glyph stroked flag"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-flag"></use></svg></a>
-                                        <a data-id="<?php echo $res['id']; ?>" id="deletetodo" data-url='deletetodo' class="trash deletetodo"><svg class="glyph stroked trash"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-trash"></use></svg></a>
+                                        <a data-id="<?php echo $res['id']; ?>" data-url='deletetodo' class="trash deletetodo"><svg class="glyph stroked trash"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-trash"></use></svg></a>
                                     </div>
                                 </li>
                                 <?php } ?>

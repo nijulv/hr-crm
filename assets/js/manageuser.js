@@ -55,14 +55,14 @@ var Manageuser = function(){
                     return false;
                 }
             });
-            $('.deletetodo').on('click', function(){ 
+            $('#todo-panel').on('click','.deletetodo', function(){ 
                  var todo_id = $(this).data('id'); 
                  var todourl = $(this).data('url'); 
                  var ppup_content = "<b>Are you sure?</b><br><br>Do you want to delete this details?";
                  bootbox.confirm(ppup_content, function(result) {
                       if(result){
-                            window.location = base_url+todourl+'/'+todo_id
-                      }
+                              window.location = base_url+todourl+'/'+todo_id
+                        }
                       })
                  
             })

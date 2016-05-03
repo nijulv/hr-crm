@@ -165,6 +165,11 @@ class Web extends CI_Controller {
         $this->load->view('show_message',array('message'=>  json_encode($result)));
    
     }
+    function deletetodo($todoid) { 
+       $id   = $this->db->query('DELETE FROM todo where id='.$todoid);
+       redirect('dashboard');
+      
+    }
 
     function manage_agents () {  
         
@@ -359,7 +364,7 @@ class Web extends CI_Controller {
                         $file_name = $img['file_name'];
                         $update_data['attachments'] = $file_name;
                     }else{
-                        $this->gen_contents['form_validation_error'] = $this->upload->display_errors();
+                         $this->gen_contents['form_validation_error']=$this->upload->display_errors();
                         $error = "error";
                     }
                 }
@@ -372,7 +377,6 @@ class Web extends CI_Controller {
                          $this->gen_contents['form_validation_error'] = 'Sorry. There is a problem to add details.';
                     }
                 }
-                redirect("manageuser");
             
            }else{
                  $this->gen_contents['edit_return'] = 1;
