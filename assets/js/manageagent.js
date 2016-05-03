@@ -53,4 +53,8 @@ var Manageagent = function(){
                       }
                       })
             });
+            $('#agtbtnCancel').on('click', function(){   
+               window.location=base_url+'manage_agents';
+               return false;
+            });
 }();

@@ -74,6 +74,7 @@
                                         <input type="text" name="pincode" id="pincode" class="form-control" placeholder="Pin code">
                                     </div>
                                     <div class="form-group">
+                                         <button type="reset" id="agtbtnCancel" class="btn btn-default">Cancel</button>
                                         <input type="submit" class="btn btn-primary" value="Add Agents">
                                     </div>
                                  

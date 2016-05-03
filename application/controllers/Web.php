@@ -441,7 +441,6 @@ class Web extends CI_Controller {
                         redirect("manageuser");
                     }
                 }
-                 redirect("manageuser");
             }else{
                  $this->gen_contents['edit_return'] = 1;
                  $this->gen_contents['form_validation_error'] = validation_errors();

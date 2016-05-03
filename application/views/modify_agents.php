@@ -73,6 +73,7 @@
                                     <input type="text" name="pincode" class="form-control" placeholder="Pin code" value = "<?php echo set_value('pincode',$details['pincode']); ?>">
                                 </div>
                                 <div class="form-group">
+                                    <button type="reset" id="agtbtnCancel" class="btn btn-default">Cancel</button>
                                     <input type="submit" class="btn btn-primary" value="Modify Agents">
                                 </div>
                                 <input type = "hidden" name = "id" value = "<?php echo $details['agent_id'];?>">
