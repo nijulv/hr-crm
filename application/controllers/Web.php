@@ -333,6 +333,9 @@ class Web extends CI_Controller {
                 //$this->form_validation->set_rules('useraddress','Address', 'required|trim');
                 //$this->form_validation->set_rules('pincode','Pincode', 'required|numeric');
                 $this->form_validation->set_rules('userstatus','Status', 'required');
+                if(($this->input->post("pincode"))){
+                   $this->form_validation->set_rules('pincode','Pincode', 'required|numeric'); 
+                }
                 $error = '';
                 if ($this->form_validation->run() == TRUE) {
                 

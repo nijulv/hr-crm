@@ -1,9 +1,8 @@
 var Manageuser = function(){    
     $(document).ready(function() {
-      
-        $('#frmUserdetails').validate({
+          $('#frmUserdetails').validate({
             rules: {
-             firstname: {
+              firstname: {
               minlength: 2,
               required: true,
              },
@@ -13,6 +12,7 @@ var Manageuser = function(){
              },
              phonenumber: {
               minlength: 10,
+              maxlength: 10,
               required: true,
               number:true
              },
