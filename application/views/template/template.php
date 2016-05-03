@@ -80,7 +80,6 @@
         <script src="<?php echo assets_url();?>js/managepayments.js"></script>
         <script src="<?php echo assets_url();?>js/manageagent.js"></script>
         <script src="<?php echo assets_url();?>js/bootstrap-table.js"></script>
-        <script src="<?php echo assets_url();?>js/bootbox.min.js"></script>
         <script>
             
             $('#calendar').datepicker({});

@@ -96,11 +96,11 @@ class Web extends CI_Controller {
             redirect("web");
         }
         else {
-            
+            $this->load->helper('date');
             $this->gen_contents['users_count']  = $this->web_model->get_total_users_count($status = '1');
             $this->gen_contents['guest_count']  = $this->web_model->get_total_users_count($status = '0');
             $this->gen_contents['payment_count']  = $this->web_model->get_total_payment_count();
-            
+            $this->gen_contents['todo']  = $this->web_model->get_todo();
             $this->gen_contents['link_dashboard']  = 'active';
             $this->template->write_view('content', 'dashboard', $this->gen_contents);
             $this->template->render();
@@ -108,10 +108,64 @@ class Web extends CI_Controller {
     }
     
     function logout() {
+        
         $this->authentication->admin_logout();
         redirect('web');
     }
-    
+    function todo() { 
+        $result=array('succes' => 0,'msg'=> '','html'=> '');
+        $data=$this->input->post('todo');
+        $date= $this->input->post('calendar');
+        $currentdate=date('Y-m-d');
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('todo','Schedule', 'required');
+        $this->form_validation->set_rules('calendar','Date', 'required');
+        if ($this->form_validation->run() == TRUE) {
+
+            if(s('ADMIN_TYPE') == 0){
+                $admin_id='admin';
+            }
+            else{
+                $admin_id=$this->session->userdata("ADMIN_USERID");
+            }
+            $update_data = array(
+                    'admin_id'              => $admin_id,
+                    'todo'                  => $data,
+                    'date'                  => $date
+            );
+            $save = $this->db->insert('todo', $update_data);
+            $id   = $this->db->query('SELECT MAX(id) AS maxid FROM todo')->row()->maxid;
+            if($save){
+                if($currentdate==$date)
+                    {
+                $result['success']=1;
+                $result['msg']='<font color="green">Saved!!!!</font>';
+                $result['html'] ='<li class="todo-list-item">
+                                        <div class="checkbox">
+                                            <input type="checkbox" id="checkbox">
+                                            <label for="checkbox">'.$data.'</label>
+                                        </div>
+                                        <div class="pull-right action-buttons">
+                                            <a href="#"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil" xmlns:xlink="http://www.w3.org/1999/xlink"/></svg></a>
+                                            <a class="flag" href="#"><svg class="glyph stroked flag"><use xlink:href="#stroked-flag" xmlns:xlink="http://www.w3.org/1999/xlink"/></svg></a>
+                                            <a  id="deletetodo" data-url="deletetodo" class="trash deletetodo" data-id='.$id.'><svg class="glyph stroked trash"><use xlink:href="#stroked-trash" xmlns:xlink="http://www.w3.org/1999/xlink"/></svg></a>
+                                        </div>
+                                    </li>';
+
+            
+        }
+        else{
+            $result['msg']='<font color="green">Saved!!!!</font>';
+        }
+        }
+        }
+        else{
+             $result['msg']='<font color="red">Error!!!!</font>';
+        }
+        $this->load->view('show_message',array('message'=>  json_encode($result)));
+   
+    }
+
     function manage_agents () {  
         
        if (!($this->session->userdata("ADMIN_USERID"))) {

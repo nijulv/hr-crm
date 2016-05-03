@@ -61,7 +61,20 @@ class Web_model extends CI_Model {
         $query = $this->db->query('SELECT FOUND_ROWS() AS `Count`');
         return $query->row()->Count;
     }
-    
+     public function get_todo(){
+        $date= date('Y-m-d');
+        $type=admin;
+        if(s('ADMIN_TYPE') == 0){
+             $this->db->where('admin_id',$type);
+        }else{
+            $type=$this->session->userdata("ADMIN_USERID");
+            $this->db->where('admin_id',$type);
+        }
+        $this->db->select('id,todo');
+        $this->db->where('date',$date);
+        $query = $this->db->get('todo');
+        return $query->result_array();
+    }
     public function get_agents ($limit, $start,$search_user = '') {
         $this->db->select("SQL_CALC_FOUND_ROWS *",FALSE); 
         $this->db->from('crm_agents');
