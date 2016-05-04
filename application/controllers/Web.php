@@ -30,6 +30,49 @@ class Web extends CI_Controller {
         $this->template->render();
     }
     
+    public function forgotpassword () {
+        
+        
+        $this->form_validation->set_rules('username', 'Username', 'required');
+       
+        if($this->form_validation->run() == TRUE){
+            $username = $this->input->post("username",true);  
+            $type = $this->input->post("type",true);
+            if(!empty($username)){ 
+                
+                $details = $this->web_model->get_details_byusername($username,$type); 
+                if($details) {         
+                    
+                    $this->load->helper('email_helper');
+                    $this->gen_contents["mail_template"]  =  $this->web_model->get_mail_template(1);
+                    $to = $details['email'];   
+                    $firstname = $details['first_name'];
+                    $subject = 'Forgot Password';
+                    $message= "Hi ".$firstname."<br/>Please find your login details.<br/><br/><br/>"
+                    ."<b>Username</b>  ".$details['username']."<br/>"
+                    ."<b>Password</b>  ".$details['password'];
+
+                    $mail_body  = sprintf($this->gen_contents["mail_template"]["mail_body"],$firstname,$message);
+                    
+                    $from_name  = $this->gen_contents["mail_template"]["mail_from_name"];
+                    $from_email = $this->gen_contents["mail_template"]["mail_from"];
+                    send_mail($to, $from_name,$subject,$mail_body,$from_email);
+
+                    sf( 'success_message', "Your login details sended successfully,Please check your email." );
+                    redirect("web"); 
+                }
+                else {
+                    sf( 'error_message', "Please check your username" );
+                     redirect("web");
+                }
+            } 
+        }
+        
+        $this->template->set_template('adminlogin');
+        $this->template->write_view('content', 'login', $this->gen_contents);
+        $this->template->render();
+    }
+
     public function logincheck() {
        if (s('ADMIN_USERID')) {
             redirect('dashboard');
@@ -118,7 +161,7 @@ class Web extends CI_Controller {
             redirect("web");
         }
         else {
-            $this->gen_contents['agents'] = $this->web_model->get_agents_names();
+            //$this->gen_contents['agents'] = $this->web_model->get_agents_names();
             $config['per_page']   = 25;
             $pagin = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;  
 
@@ -185,7 +228,7 @@ class Web extends CI_Controller {
             redirect("web");
         }
         else {
-            $this->gen_contents['users'] = $this->web_model->get_users();
+            //$this->gen_contents['users'] = $this->web_model->get_users();
             $config['per_page']   = 25;
             $pagin = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;  
 
@@ -265,14 +308,10 @@ class Web extends CI_Controller {
         }
         else {
             $this->load->library('form_validation');
-            
             if(!empty($_POST)){
                 $this->form_validation->set_rules('firstname','First Name', 'required|trim');
-                //$this->form_validation->set_rules('lastname','Last Name', 'required|trim');
-                $this->form_validation->set_rules('useremail','Email', 'required|trim');
+                $this->form_validation->set_rules('useremail','Email', 'required|trim|is_unique[crm_users.email]');
                 $this->form_validation->set_rules('phonenumber','Phone Number', 'required|numeric');
-                //$this->form_validation->set_rules('useraddress','Address', 'required|trim');
-                //$this->form_validation->set_rules('pincode','Pincode', 'required|numeric');
                 $this->form_validation->set_rules('userstatus','Status', 'required');
                 $error = '';
                 if ($this->form_validation->run() == TRUE) {
@@ -590,10 +629,11 @@ class Web extends CI_Controller {
             redirect("web");
         }
         else {
-            $this->form_validation->set_rules('username', 'Username', 'required');
+            $this->form_validation->set_rules('agent_code', 'agent code', 'required|is_unique[crm_agents.agent_code]');
+            $this->form_validation->set_rules('username', 'Username', 'required|is_unique[crm_agents.username]');
             $this->form_validation->set_rules('password', 'Password', 'required');
             $this->form_validation->set_rules('first_name', 'First name', 'required');
-            $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+            $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[crm_agents.email]');
             $this->form_validation->set_rules('phone', 'Phone', 'numeric');
 
                 if($this->form_validation->run() == TRUE){
@@ -635,7 +675,8 @@ class Web extends CI_Controller {
         }
         else {
             if($id != 0 && is_numeric($id)){
-
+                
+                $this->form_validation->set_rules('agent_code', 'agent code', 'required');
                 $this->form_validation->set_rules('username', 'Username', 'required');
                 $this->form_validation->set_rules('password', 'Password', 'required');
                 $this->form_validation->set_rules('first_name', 'First name', 'required');
@@ -889,6 +930,8 @@ class Web extends CI_Controller {
                     $result = $this->web_model->update_profile($userdata,$id,$tbl_name);
                     if($result){
                         sf( 'success_message', "Profile details updated successfully" );
+                        us('ADMIN_NAME','');
+                        ss('ADMIN_NAME',$this->input->post("first_name",true));
                         redirect("edit_profile");
                     }
                     else {

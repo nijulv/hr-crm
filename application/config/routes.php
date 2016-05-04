@@ -97,4 +97,5 @@ $route['manage_agents/(:num)']   = "web/manage_agents/$1";
 
 $route['edit_profile']   = "web/edit_profile";
 $route['change_password']   = "web/change_password";
+$route['forgotpassword']   = "web/forgotpassword";
  

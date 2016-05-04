@@ -1,17 +1,20 @@
 var Payments = function(){    
     $(document).ready(function() {
-        $('#payments').validate({
+        $('#bankpayments').validate({
             rules: {
-             title: {
+             user: {
               required: true,
              },
-             user: {
-              required: true
+             total_payment: {
+              required: true,
+               number:true,
+               minlength: 2
              },
-             amount: {
+             bank_payment: {
               required: true,
               number:true,
               minlength: 2
+
              },
             },
 

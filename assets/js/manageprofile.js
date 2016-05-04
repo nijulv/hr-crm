@@ -1,17 +1,22 @@
 var Payments = function(){    
     $(document).ready(function() {
-        $('#payments').validate({
+        $('#profile').validate({
             rules: {
-             title: {
+             username: {
               required: true,
              },
-             user: {
+             first_name: {
               required: true
              },
-             amount: {
+             email: {
+              email: true,
+              required: true
+
+             },
+             phone: {
+              minlength: 10,
               required: true,
-              number:true,
-              minlength: 2
+              number:true
              },
             },
 

@@ -1,7 +1,7 @@
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+                    <li><a href="<?php echo base_url()?>dashboard"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
                     <li class="active">Modify Bank Payment</li>
                 </ol>
             </div><!--/.row-->
@@ -28,7 +28,7 @@
                         </div>                                        
                     </div>
                 <?php endif;?>
-              <?php echo form_open("",array("id" => "bankpayment"));?>
+              <?php echo form_open("",array("id" => "bankpayments"));?>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
@@ -47,15 +47,16 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Total payment <span class="required">*</span></label>
-                                    <input type="text" name="total_payment" id="total_payment" class="form-control" placeholder="Total Payment" value = "<?php echo set_value('total_payment',$details['total_payment']); ?>" required>
+                                    <input type="text" name="total_payment" id="total_payment" class="form-control" placeholder="Total Payment" maxlength="9" value = "<?php echo set_value('total_payment',$details['total_payment']); ?>" required onkeypress="return numberValidate(event);">
                                 </div>
                                 <div class="form-group">
                                     <label>Bank payment <span class="required">*</span></label>
-                                    <input type="text" name="bank_payment" id="bank_payment" class="form-control" placeholder="Bank Payment" value = "<?php echo set_value('bank_payment',$details['bank_payment']); ?>" required>
+                                    <input type="text" name="bank_payment" id="bank_payment" class="form-control" placeholder="Bank Payment" maxlength="9" value = "<?php echo set_value('bank_payment',$details['bank_payment']); ?>" required onkeypress="return numberValidate(event);">
                                 </div>
+                                <span id = "warning_msg" style = "color:red;display:none;"></span>
                                 <div class="form-group">
                                     <label>Reason <small class="text-muted"></small></label>
-                                    <textarea class="form-control" name="reason" id="user" style="height: 150px !important;"><?php echo set_value('reason',$details['reason']);?></textarea>
+                                    <textarea class="form-control" name="reason" id="user" maxlength="550" style="height: 150px !important;"><?php echo set_value('reason',$details['reason']);?></textarea>
                                 </div>
                                 <div class="form-group">
                                     <input type="submit" class="btn btn-primary" value="Submit">
@@ -68,3 +69,4 @@
                 </div>
             </div><!--/.row-->	
         </div><!--/.main-->
+      

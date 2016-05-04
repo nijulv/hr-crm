@@ -187,7 +187,7 @@ footer {
 }
 
 #login-modal .modal-dialog {
-    width: 450px;
+    /*width: 450px; */
 }
 
 #login-modal input[type=text], input[type=password] {
@@ -195,7 +195,7 @@ footer {
     height: 50px;
 }
 #login-modal2 .modal-dialog {
-    width: 450px;
+    /*width: 450px; */
 }
 
 #login-modal2 input[type=text], input[type=password] {

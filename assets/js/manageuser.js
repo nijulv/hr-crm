@@ -4,7 +4,7 @@ var Manageuser = function(){
         $('#frmUserdetails').validate({
             rules: {
              firstname: {
-              minlength: 2,
+              minlength: 3,
               required: true,
              },
              useremail: {
@@ -39,6 +39,12 @@ var Manageuser = function(){
                window.location=base_url+'manageuser';
                return false;
             }); 
+            
+            $('#btnCancelagent').on('click', function(){   
+               window.location=base_url+'manage_agents';
+               return false;
+            }); 
+            
            $('.delete').on('click', function(e){    
                       var u_id = $(this).data('id'); 
                       var url = $(this).data('url'); 

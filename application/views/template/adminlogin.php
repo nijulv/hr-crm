@@ -31,6 +31,7 @@
         <script src="<?php echo assets_url();?>js/jquery.js"></script>
 
         <!-- Bootstrap Core JavaScript -->
+        <script src="<?php echo assets_url();?>js/forgot.js"></script>
         <script src="<?php echo assets_url();?>js/bootstrap.min.js"></script>
         <script type="text/javascript">
             var base_url = "<?php echo base_url(); ?>";
@@ -68,7 +69,7 @@
                             <button type="submit" class="btn btn-primary btn-login btn-lg btn-block">Login</button>
                         </div>
                         <div>
-                            <button id="login_lost_btn" type="button" class="btn btn-link">Forgot Password?</button>
+                            <button id="admin_fotgot_password" type="button" class="btn btn-link" data-toggle="modal" data-target="#admin_forgotpassword">Forgot Password?</button>
                         </div>
                     </div>
                     <input type = "hidden" name = "type" value = "admin">
@@ -108,8 +109,8 @@
                             <button type="submit" class="btn btn-primary btn-lg btn-block btn-login">Login</button>
                         </div>
                         <div>
-                            <button id="login_lost_btn" type="button" class="btn btn-link">Forgot Password?</button>
-                        </div>
+                            <button id="agent_fotgot_password" type="button" class="btn btn-link" data-toggle="modal" data-target="#agent_forgotpassword">Forgot Password?</button>
+                          </div>
                     </div>
                      <input type = "hidden" name = "type" value = "agent">
                 <?php echo form_close(); ?>
@@ -120,3 +121,73 @@
     </div>
 </div>
 <!-- END # MODAL LOGIN -->
+
+
+
+<!-- Admin Forgot password -->
+<div class="modal fade" id="admin_forgotpassword" tabindex="-1" role="dialog" aria-labelledby="admin_forgotpasswordLAbel">
+  <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" align="center">
+                <h1 style="color: #666">HR-CRM</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -72px;">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </button>
+            </div>
+            <!-- Begin # DIV Form -->
+            <div id="div-forms">
+                <!-- Begin # Login Form -->
+                <?php echo form_open(base_url()."forgotpassword");?>
+                    <div class="modal-body">
+                        <div id="div-login-msg">
+                            <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
+                            <span id="text-login-msg">Admin Forgot Password.</span>
+                        </div>
+                        <br>
+                        <input id="username" class="form-control" name = "username" type="text" placeholder="Username" required>
+                    </div>
+                    <div class="modal-footer">
+                        <div>
+                            <button type="submit" class="btn btn-primary btn-login btn-lg btn-block">Submit</button>
+                        </div>
+                    </div>
+                    <input type = "hidden" name = "type" value = "admin">
+                <?php echo form_close(); ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Agent Forgot password -->
+<div class="modal fade" id="agent_forgotpassword" tabindex="-1" role="dialog" aria-labelledby="agent_forgotpasswordLAbel">
+  <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" align="center">
+                <h1 style="color: #666">HR-CRM</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -72px;">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </button>
+            </div>
+            <!-- Begin # DIV Form -->
+            <div id="div-forms">
+                <!-- Begin # Login Form -->
+                <?php echo form_open(base_url()."forgotpassword");?>
+                    <div class="modal-body">
+                        <div id="div-login-msg">
+                            <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
+                            <span id="text-login-msg">Agent Forgot Password.</span>
+                        </div>
+                        <br>
+                        <input id="username" class="form-control" name = "username" type="text" placeholder="Username" required>
+                    </div>
+                    <div class="modal-footer">
+                        <div>
+                            <button type="submit" class="btn btn-primary btn-login btn-lg btn-block">Submit</button>
+                        </div>
+                    </div>
+                    <input type = "hidden" name = "type" value = "agent">
+                <?php echo form_close(); ?>
+            </div>
+        </div>
+    </div>
+</div>

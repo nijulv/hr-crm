@@ -1,7 +1,7 @@
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+                    <li><a href="<?php echo base_url()?>dashboard"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
                     <li class="active">Modify Profile</li>
                 </ol>
             </div><!--/.row-->
@@ -40,11 +40,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label>First name </label>
-                                    <input type="text" name="first_name" class="form-control" placeholder="First Name" value = "<?php echo set_value('first_name',$details['first_name']); ?>" required>
+                                    <input type="text" name="first_name" class="form-control" placeholder="First Name" value = "<?php echo set_value('first_name',$details['first_name']); ?>" required maxlength="25" onkeypress="return blockSpecialChar(event)">
                                 </div>
                                 <div class="form-group">
                                     <label>Last name </label>
-                                    <input type="text" name="last_name" class="form-control" placeholder="Last Name" value = "<?php echo set_value('last_name',$details['last_name']); ?>">
+                                    <input type="text" name="last_name" class="form-control" placeholder="Last Name" value = "<?php echo set_value('last_name',$details['last_name']); ?>" maxlength="25" onkeypress="return blockSpecialChar(event)">
                                 </div>
                                 <div class="form-group">
                                     <label>Email </label>
@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Phone </label>
-                                    <input type="text" name="phone" class="form-control" placeholder="Phone" value = "<?php echo set_value('phone',$details['phone']); ?>" required>
+                                    <input type="text" name="phone" class="form-control" placeholder="Phone" value = "<?php echo set_value('phone',$details['phone']); ?>" required maxlength="10" onkeypress="return numberValidate(event);">
                                 </div>
                                 <?php
                                 if(s('ADMIN_TYPE') == 1){
@@ -65,15 +65,15 @@
                                 <div style = "<?php echo $style?>">
                                     <div class="form-group">
                                         <label>Agent code </label>
-                                        <input type="text" name="agent_code" class="form-control" placeholder="Agent Code" value = "<?php echo set_value('agent_code',$details['agent_code']); ?>" >
+                                        <input type="text" name="agent_code" class="form-control" placeholder="Agent Code" value = "<?php echo set_value('agent_code',$details['agent_code']); ?>" maxlength="15">
                                     </div>
                                     <div class="form-group">
                                         <label>Address <small class="text-muted"></small></label>
-                                        <textarea class="form-control" name="address" style="height: 150px !important;"><?php echo set_value('address',$details['address']);?></textarea>
+                                        <textarea class="form-control" name="address" style="height: 150px !important;" maxlength="500"><?php echo set_value('address',$details['address']);?></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label>Pincode </label>
-                                        <input type="text" name="pincode" class="form-control" placeholder="Pincode" value = "<?php echo set_value('pincode',$details['pincode']); ?>" >
+                                        <input type="text" name="pincode" class="form-control" placeholder="Pincode" value = "<?php echo set_value('pincode',$details['pincode']); ?>" maxlength="10" onkeypress="return numberValidate(event);">
                                     </div>
                                 </div>
                                 <div class="form-group">

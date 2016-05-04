@@ -1,7 +1,7 @@
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
         <div class="row">
             <ol class="breadcrumb">
-                <li><a href="index.html"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+                <li><a href="<?php echo base_url()?>dashboard"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
                 <li class="active">Manage Payments</li>
             </ol>
         </div><!--/.row-->
@@ -45,14 +45,9 @@
                     <div class="panel-body">
                         <?php echo form_open("",array("id" => "payment"));?>
                             <div class="form-group">
-                                <label for="exampleInputName2">Select Client &nbsp;&nbsp;&nbsp;</label>
-                                <select name="search_user" class="form-control" style="width: 280px;">
-                                    <option value = "">Select Client</option>
-                                    <?php if($users){
-                                        foreach ($users as $user) { ?>
-                                    <option value = "<?php echo $user['user_id']?>" ><?php echo $user['first_name'].' '.$user['last_name']?></option>
-                                        <?php }}?>
-                                </select>
+                                <label for="exampleInputName2">Enter Title &nbsp;&nbsp;&nbsp;</label>
+                                <input type = "text" name = "search_user" class = "form-control" style="width: 280px;" placeholder="Title or Amount" value = "<?php echo set_value('search_user'); ?>">
+                                
                             </div>
                             &nbsp;&nbsp;&nbsp;
                             <button type="submit" class="btn btn-info">Search</button><br>
