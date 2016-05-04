@@ -78,80 +78,58 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="panel panel-red">
+                    <div class="panel panel-red" id="todo-panel">
                         <div class="panel-heading dark-overlay"><svg class="glyph stroked clipboard-with-paper">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-clipboard-with-paper"></use></svg>To-do List (Today's Appointments)
                         </div>
+                        <?php if($todo){?>
                         <div class="panel-body">
                             <ul class="todo-list">
-                                <li class="todo-list-item">
+                                <?php foreach($todo as $res){?>
+                                <li class="todo-list-item" id='<?php echo $res['id']; ?>'>
                                     <div class="checkbox">
                                         <input type="checkbox" id="checkbox">
-                                        <label for="checkbox">Meeting with John (12.30 PM to 1.30 PM)</label>
+                                        <label for="checkbox"><?php echo $res['todo']; ?></label>
                                     </div>
                                     <div class="pull-right action-buttons">
                                         <a href="#"><svg class="glyph stroked pencil"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-pencil"></use></svg></a>
                                         <a href="#" class="flag"><svg class="glyph stroked flag"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-flag"></use></svg></a>
-                                        <a href="#" class="trash"><svg class="glyph stroked trash"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-trash"></use></svg></a>
+                                        <a data-id="<?php echo $res['id']; ?>" data-url='deletetodo' class="trash deletetodo"><svg class="glyph stroked trash"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-trash"></use></svg></a>
                                     </div>
                                 </li>
-                                <li class="todo-list-item">
-                                    <div class="checkbox">
-                                        <input type="checkbox" id="checkbox">
-                                        <label for="checkbox">Consultation for Allen John (2 PM to 3 PM)</label>
-                                    </div>
-                                    <div class="pull-right action-buttons">
-                                        <a href="#"><svg class="glyph stroked pencil"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-pencil"></use></svg></a>
-                                        <a href="#" class="flag"><svg class="glyph stroked flag"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-flag"></use></svg></a>
-                                        <a href="#" class="trash"><svg class="glyph stroked trash"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-trash"></use></svg></a>
-                                    </div>
-                                </li>
-                                <li class="todo-list-item">
-                                    <div class="checkbox">
-                                        <input type="checkbox" id="checkbox">
-                                        <label for="checkbox">Send email to Jane</label>
-                                    </div>
-                                    <div class="pull-right action-buttons">
-                                        <a href="#"><svg class="glyph stroked pencil"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-pencil"></use></svg></a>
-                                        <a href="#" class="flag"><svg class="glyph stroked flag"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-flag"></use></svg></a>
-                                        <a href="#" class="trash"><svg class="glyph stroked trash"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-trash"></use></svg></a>
-                                    </div>
-                                </li>
-                                <li class="todo-list-item">
-                                    <div class="checkbox">
-                                        <input type="checkbox" id="checkbox">
-                                        <label for="checkbox">Tidy up workspace</label>
-                                    </div>
-                                    <div class="pull-right action-buttons">
-                                        <a href="#"><svg class="glyph stroked pencil"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-pencil"></use></svg></a>
-                                        <a href="#" class="flag"><svg class="glyph stroked flag"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-flag"></use></svg></a>
-                                        <a href="#" class="trash"><svg class="glyph stroked trash"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-trash"></use></svg></a>
-                                    </div>
-                                </li>
-                                <li class="todo-list-item">
-                                    <div class="checkbox">
-                                        <input type="checkbox" id="checkbox">
-                                        <label for="checkbox">Dinner with Mark Miller (8 PM)</label>
-                                    </div>
-                                    <div class="pull-right action-buttons">
-                                        <a href="#"><svg class="glyph stroked pencil"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-pencil"></use></svg></a>
-                                        <a href="#" class="flag"><svg class="glyph stroked flag"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-flag"></use></svg></a>
-                                        <a href="#" class="trash"><svg class="glyph stroked trash"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-trash"></use></svg></a>
-                                    </div>
-                                </li>
+                                <?php } ?>
                             </ul>
                         </div>
+                        <?php } ?>
                         <div class="panel-footer">
                             <div class="input-group">
-                                <input id="btn-input" type="text" class="form-control input-md" placeholder="Add new schedule">
+                                <input id="todo" name="todo" type="text" class="form-control input-md" placeholder="Add new schedule">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-primary btn-md" id="btn-todo" style="height: 44px;">Add</button>
+                                   <button  class="btn btn-primary btn-md" id="btn-todo"  style="height: 44px;">Add</button>
                                 </span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div><!--/.row-->
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                             <h4 class="modal-title">To do</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <input id="calendar" name="calendar" type="date" name="calendar" class="form-control input-md" data-date-format="yyyy-mm-dd" placeholder="Date" >
+                           
+                         </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" id ="save" data-dismiss="modal">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-xs-6 col-md-3">
                     <div class="panel panel-default">
@@ -193,3 +171,4 @@
 
 
         </div>	<!--/.main-->
+ 

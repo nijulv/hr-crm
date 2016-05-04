@@ -59,6 +59,7 @@
                                             <label  for="txtAttachment">Attachment</label><small><i>(Allowed types are pdf|doc|docx)</i></small>
                                             <input type="file" class="form-control" name="attachment" id="attachment" style="height:500px;padding-bottom: 48px;" value="<?php echo $user_details['attachment']?>">
                                             <?php if($user_details['attachments']){echo $user_details['attachments']; } ?>
+                                            
                                         </div>
                                         <div class="form-group">
                                             <label  for="txtUserstatus">Status<span class="required">*</span></label>

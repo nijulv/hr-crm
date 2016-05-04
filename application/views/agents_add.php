@@ -77,9 +77,7 @@
                                         <button type="reset" id="btnCancelagent" class="btn btn-default">Cancel</button>
                                         <input type="submit" class="btn btn-primary" value="Add Agents">
                                     </div>
-                                 
                             </div>
-                       
                         </div>
                     </div>
                 </div>
