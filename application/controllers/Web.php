@@ -213,7 +213,56 @@ class Web extends CI_Controller {
        redirect('dashboard');
       
     }
+    
+    function agent_reports () {     
+        
+       if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            
+            $config['per_page']   = 25;
+            
+            $this->gen_contents['per_page'] = $config['per_page'];
+            $pagin = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;   
+            
+            if($this->input->post("search_user") != '')
+                $search_user = trim($this->input->post("search_user",true));
+            else 
+                $search_user = '';
+            
+            if($this->input->post("status_search") != '')
+                $status_search = $this->input->post("status_search",true);
+            else 
+                $status_search = '';
+            if($this->input->post("fromdate_search") != '')
+                $fromdate_search = $this->input->post("fromdate_search",true);
+            else 
+                $fromdate_search = '';
+            if($this->input->post("todate_search") != '')
+                $todate_search = $this->input->post("todate_search",true);
+            else 
+                $todate_search = '';
 
+            $this->gen_contents['details'] = $this->web_model->get_agent_reportlist($config['per_page'], $pagin,$search_user,$status_search,$fromdate_search,$todate_search);
+            $total_records = $this->web_model->get_total_rows(); 
+            //--pagination
+            $this->load->library('pagination');
+            $this->load->library('bspagination');   
+            $config['base_url']     = base_url().'agent_reports';
+            $config['total_rows']   = $total_records;
+            $bs_init = $this->bspagination->config();
+            $config = array_merge($config, $bs_init);        
+            $this->pagination->initialize($config);
+            $this->gen_contents['links'] =  $this->pagination->create_links();   
+            
+            $this->gen_contents['reports'] = '1';
+            $this->gen_contents['agent_report']  = 'active';
+            $this->template->write_view('content', 'report_agent', $this->gen_contents);
+            $this->template->render();
+        }
+    }
+    
     function manage_agents () {  
         
        if (!($this->session->userdata("ADMIN_USERID"))) {
@@ -222,7 +271,7 @@ class Web extends CI_Controller {
         else {
             //$this->gen_contents['agents'] = $this->web_model->get_agents_names();
             $config['per_page']   = 25;
-            $pagin = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;  
+            $pagin = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;  
 
             if($this->input->post("search_user") != '')
                 $search_user = trim($this->input->post("search_user",true));
@@ -256,7 +305,7 @@ class Web extends CI_Controller {
         else {
             $this->gen_contents['users'] = $this->web_model->get_users();
             $config['per_page']   = 25;
-            $pagin = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;  
+            $pagin = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;  
 
             if($this->input->post("search_user") != '')
                 $search_user = trim($this->input->post("search_user",true));
@@ -289,7 +338,7 @@ class Web extends CI_Controller {
         else {
             //$this->gen_contents['users'] = $this->web_model->get_users();
             $config['per_page']   = 25;
-            $pagin = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;  
+            $pagin = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0; 
 
             if($this->input->post("search_user") != '')
                 $search_user = trim($this->input->post("search_user",true));
@@ -745,10 +794,11 @@ class Web extends CI_Controller {
                         "phone"                 => $this->input->post("phone",true),
                         "address"               => $this->input->post("address",true),
                         "pincode"               => $this->input->post("pincode",true),
-                        "address"               => $this->input->post("address",true),
                         'state_id'              => $this->input->post("state", true),
                         'district_id'           => $this->input->post("district", true),
                         'city'                  => $this->input->post("city", true),
+                        'date'     => date('Y-m-d')
+
                     );
 
                     $tbl_name = 'crm_agents';

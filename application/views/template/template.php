@@ -57,8 +57,25 @@
                 <li class="<?php echo $link_payment;?>"><a href="<?php echo base_url()?>manage_payment"><svg class="glyph stroked tag"><use xlink:href="#stroked-tag"/></svg> Manage Payments</a></li>
                 <li class = "<?php echo $link_bank;?>"><a href="<?php echo base_url()?>manage_cash"><svg class="glyph stroked clipboard with paper"><use xlink:href="#stroked-clipboard-with-paper"/></svg> Manage Bank Payment </a></li>
 
+                
+                <li>
+                    <a href="javascript:;" id = "report">
+                        <i class="fa fa-bar-chart-o fa-fw"><div class="icon-bg bg-yellow"></div></i>
+                        <span class="menu-title">Reports</span><span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level collapse" id = "reportlist"> 
+                         <?php if(s('ADMIN_TYPE') == 0) {?>
+                            <li class = "<?php echo $agent_report;?>"><a href="<?php echo base_url(); ?>agent_reports">Agent</a></li>
+                         <?php }?>
+                    </ul>
+                </li>
+                
                 <li role="presentation" class="divider"></li>
                 <li><a href="<?php echo base_url()?>logout"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
+            
+                
+            
+            
             </ul>
 
         </div><!--/.sidebar-->
@@ -86,6 +103,16 @@
         <script src="<?php echo assets_url();?>js/bootbox.min.js"></script>
         
         <script>
+             $("#report").click(function () {
+                $("#reportlist").fadeToggle();
+            });
+            <?php if($reports == 1){?>
+            
+                $( "#report" ).trigger( "click" );
+            <?php }?>
+        </script>   
+        
+        <script>
             
             $('#calendar').datepicker({});
 
@@ -108,4 +135,25 @@
     </body>
 </html>       
           
+<!-- Pop up common model -->
+<div id="moreDetails" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">
+                    &times;</button>
+                <h4 class="modal-title" id="data-title"> </h4>
+            </div>
 
+            <div class="modal-body" id="data-output">
+                <div align="center">
+                    <i class="fa fa-refresh fa-spin" style="font-size: 48px;"></i>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Pop up common model -->
