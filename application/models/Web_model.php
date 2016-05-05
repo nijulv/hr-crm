@@ -450,12 +450,58 @@ class Web_model extends CI_Model {
             return false;
     }
     
+    public function get_payment_reportlist($limit, $start , $search_term = '',$status_search = '' ,$fromdate_search = '' ,$todate_search = '') {
+        $this->db->select("SQL_CALC_FOUND_ROWS p.*,u.first_name,u.last_name,u.phone",FALSE); 
+        $this->db->from('payments p');
+        $this->db->join('crm_users u', 'u.user_id = p.user_id', 'left');
+         
+        if($search_term != '') {
+            $this->db->like('first_name',$search_term);
+            $this->db->or_like('last_name',$search_term);
+            $this->db->or_like('email',$search_term);
+            $this->db->or_like('phone',$search_term);
+        }
+        if($status_search != '') 
+            $this->db->where('status',$status_search);
+        if($fromdate_search != '') 
+            $this->db->where('p.date >=', $fromdate_search);
+        if($todate_search != '') 
+        $this->db->where('p.date <=', $todate_search);
+        
+        $this->db->where('p.status','1');
+        if(s('ADMIN_TYPE') == 1){
+             $this->db->where('p.agent_id',s('ADMIN_USERID'));
+        }
+        $this->db->order_by("p.payment_id","desc");
+        $this->db->limit($limit, $start);
+        $query = $this->db->get();     //echo $this->db->last_query();
+        if($query->num_rows () >0)
+            return $query->result_array();
+        else
+            return false;
+    }
+    
     function get_more_details($id = 0,$tbl_name = ''){
-        $this->db->select("*");
-        $this->db->from($tbl_name);
-        $where = array(
+        
+        if($tbl_name == 'payments') {
+            $this->db->select("p.*,u.first_name,u.last_name,u.phone,u.email,s.name as state,d.name as districts,u.city");
+            $where = array(
+                'payment_id' => $id
+            );
+            $this->db->from('payments p');
+            $this->db->join('crm_users u', 'u.user_id = p.user_id', 'left');
+            $this->db->join('states s', 's.id = u.state_id', 'left');
+            $this->db->join('districts d', 'd.id = u.district_id', 'left');
+        }
+        else {
+            $this->db->select("*");
+            $where = array(
                 'agent_id' => $id
             );
+            $this->db->from($tbl_name);
+        }
+       
+        
         $this->db->where($where);
         $query = $this->db->get();   
         if($query->num_rows() > 0){

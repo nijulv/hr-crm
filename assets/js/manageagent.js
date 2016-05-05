@@ -131,6 +131,8 @@ var Manageagent = function(){
         var from  = $(this).attr("data-from");        
         if(from == 'agent')
             $('#data-title').html("Agent: More details");
+        else if(from == 'payment')
+            $('#data-title').html("Payment: More details");
 
         var id              = $(this).attr("data-id");
 

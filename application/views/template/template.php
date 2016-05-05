@@ -67,6 +67,7 @@
                          <?php if(s('ADMIN_TYPE') == 0) {?>
                             <li class = "<?php echo $agent_report;?>"><a href="<?php echo base_url(); ?>agent_reports">Agent</a></li>
                          <?php }?>
+                        <li class = "<?php echo $payment_report;?>"><a href="<?php echo base_url(); ?>payment_reports">Payment</a></li>
                     </ul>
                 </li>
                 

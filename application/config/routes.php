@@ -107,4 +107,7 @@ $route['forgotpassword']   = "web/forgotpassword";
 $route['agent_reports']           = "web/agent_reports";
 $route['agent_reports/(:num)']    = "web/agent_reports/$1";
 
+$route['payment_reports']           = "web/payment_reports";
+$route['payment_reports/(:num)']    = "web/payment_reports/$1";
+
 $route['viewmore/(:any)/(:any)']      = "ajax/viewmore/$1/$2";
