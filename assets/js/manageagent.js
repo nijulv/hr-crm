@@ -4,16 +4,20 @@ var Manageagent = function(){
             rules: {
              agent_code: {
               required: true,
+              minlength: 3,
              },
              username: {
-              required: true
+              required: true,
+              minlength: 5
              },
              password: {
               required: true,
+              minlength: 5
 
              },
              first_name: {
               required: true,
+              minlength: 3
              },
              email: {
               email: true,
@@ -53,8 +57,62 @@ var Manageagent = function(){
                       }
                       })
             });
-            $('#agtbtnCancel').on('click', function(){   
-               window.location=base_url+'manage_agents';
-               return false;
-            });
 }();
+    
+    // can only type number function    // add [onkeypress='numberValidate(event)] in text box
+    function numberValidate(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+    
+    // not allowed speal characters
+    function blockSpecialChar(e){
+        var k;
+        document.all ? k = e.keyCode : k = e.which;
+        return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || k == 34 || k == 39 || (k >= 48 && k <= 57));
+    }
+    
+    // Hide display msgs after few seconds later
+    setTimeout(function() {
+            $(".alert").fadeOut();
+    }, 3000);
+    
+    
+    
+    $('#bank_payment').on('blur', function(e){  
+        
+        var bank_amount = parseInt($(this).val());   
+        var total_amount = parseInt($('#total_payment').val());      
+        
+        if(total_amount < bank_amount) {        
+            
+            $("#warning_msg").html("Bank amount must be less than total amount");
+            $("#warning_msg").show(500);
+            $('#bank_payment').val('');
+        }
+        else {
+            $("#warning_msg").hide();  
+        }
+       
+    });
+    
+    $('#total_payment').on('blur', function(e){  
+        
+        var total_amount  = parseInt($(this).val());   
+        var bank_amount = parseInt($('#bank_payment').val());      
+        
+        if(total_amount < bank_amount) {        
+            
+            $("#warning_msg").html("Bank amount must be less than total amount");
+            $("#warning_msg").show(500);
+            $('#bank_payment').val('');
+        }
+        else {
+            $("#warning_msg").hide();  
+        }
+       
+    });

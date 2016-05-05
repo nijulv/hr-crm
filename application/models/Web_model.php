@@ -79,7 +79,10 @@ class Web_model extends CI_Model {
         $this->db->select("SQL_CALC_FOUND_ROWS *",FALSE); 
         $this->db->from('crm_agents');
         if($search_user != ''){
-            $this->db->where('agent_id',$search_user);
+            //$this->db->where('agent_id',$search_user);
+            $this->db->like('first_name',$search_user);
+            $this->db->or_like('last_name',$search_user);
+            $this->db->or_like('email',$search_user);
         }
         //$this->db->where_in('status',['1','2']);
         $this->db->where('status !=','0');
@@ -98,9 +101,15 @@ class Web_model extends CI_Model {
         $this->db->from('payments p');
         $this->db->join('crm_users u', 'u.user_id = p.user_id', 'left');
         if($search_user != ''){
-            $this->db->where('p.user_id',$search_user);
+           if(is_numeric($search_user)) {
+               $this->db->where('p.amount',$search_user);
+           } 
+           else {
+               $this->db->like('p.title',$search_user); 
+           }
         }
         $this->db->where('p.status','1');
+       
         
         if(s('ADMIN_TYPE') == 1){
              $this->db->where('p.agent_id',s('ADMIN_USERID'));
@@ -351,5 +360,31 @@ class Web_model extends CI_Model {
             return $query->row_array();
         else
             return false;
+    }
+    
+    public function get_details_byusername($username = '', $type = ''){
+        $this->db->select('*');
+        $this->db->where("username",$username);
+        if($type == 'admin') 
+            $this->db->from('crm_admin');
+        else 
+            $this->db->from('crm_agents');  
+        $query = $this->db->get();  
+        if($query->num_rows () >0)
+            return $query->row_array();
+        else
+            return false;
+    }
+    
+    //get email template
+    function get_mail_template($mail_template_id = FALSE) {
+        if ($mail_template_id) {
+            $this->db->where('mail_template_id', $mail_template_id);
+        }
+
+        $this->db->order_by('mail_template_id', 'DESC');
+        $this->db->where(array('status' => 1));
+        $query = $this->db->get('mail_template');
+        return($query->row_array());
     }
 }

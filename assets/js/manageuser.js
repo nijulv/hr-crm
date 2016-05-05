@@ -1,9 +1,11 @@
+
 var Manageuser = function(){    
     $(document).ready(function() {
-          $('#frmUserdetails').validate({
+      
+        $('#frmUserdetails').validate({
             rules: {
-              firstname: {
-              minlength: 2,
+             firstname: {
+              minlength: 3,
               required: true,
              },
              useremail: {
@@ -12,7 +14,6 @@ var Manageuser = function(){
              },
              phonenumber: {
               minlength: 10,
-              maxlength: 10,
               required: true,
               number:true
              },
@@ -35,13 +36,20 @@ var Manageuser = function(){
            })
            })
                        
-           $('#btnCancel').on('click', function(){   
+            $('#btnCancel').on('click', function(){   
                window.location=base_url+'manageuser';
                return false;
             }); 
+            
+            $('#btnCancelagent').on('click', function(){   
+               window.location=base_url+'manage_agents';
+               return false;
+            }); 
+            
            $('.delete').on('click', function(e){    
                       var u_id = $(this).data('id'); 
                       var url = $(this).data('url'); 
+                      console.log(url);
                       var ppup_content = "<b>Are you sure?</b><br><br>Do you want to delete this details?";
                       bootbox.confirm(ppup_content, function(result) {
                       if(result){
@@ -49,6 +57,8 @@ var Manageuser = function(){
                       }
                       })
             });
+
+
             $('#btn-todo').on('click', function(){   
                 if(''!= $('#todo').val()){
                     $('#myModal').modal();

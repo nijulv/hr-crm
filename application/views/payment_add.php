@@ -1,7 +1,7 @@
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+                    <li><a href="<?php echo base_url()?>dashboard"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
                     <li class="active">Add Payment</li>
                 </ol>
             </div><!--/.row-->
@@ -46,15 +46,15 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Payment Title <span class="required">*</span><small class="text-muted"><i>(It should be easy to identify later)</i></small></label>
-                                        <input type="text" name="title" id="title" class="form-control" placeholder="Payment Title" required>
+                                        <input type="text" name="title" id="title" class="form-control" placeholder="Payment Title" maxlength="60" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Amount <span class="required">*</span></label>
-                                        <input type="text" name="amount" id="amount" class="form-control" placeholder="Amount" required>
+                                        <input type="text" name="amount" id="amount" class="form-control" placeholder="Amount" maxlength="9" required onkeypress="return numberValidate(event);">
                                     </div>
                                     <div class="form-group">
                                         <label>Comments <small class="text-muted"></small></label>
-                                        <textarea class="form-control" name="comments" style="height: 150px !important;"></textarea>
+                                        <textarea class="form-control" name="comments" maxlength="550" style="height: 150px !important;"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <input type="submit" class="btn btn-primary" value="Add Payment">
