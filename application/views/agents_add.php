@@ -84,7 +84,7 @@
                                     </div> 
                                     <div class="form-group">
                                             <label for="txtCity">City</label>
-                                            <input type="text" class="form-control" name="city" id="city" value="<?php echo set_value('city') ?>" maxlength="15" onkeypress="return blockSpecialChar(event)"
+                                            <input type="text" class="form-control" name="city" id="city" value="<?php echo set_value('city') ?>" maxlength="15" onkeypress="return blockSpecialChar(event);">
                                     </div>
                                     
                                     <div class="form-group">
