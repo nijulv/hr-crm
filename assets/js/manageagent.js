@@ -25,8 +25,18 @@ var Manageagent = function(){
              },
              phone: {
               minlength: 10,
+              maxlength: 10,
               required: true,
               number:true
+             },
+             state: {
+              required: true,
+             },
+             district: {
+               required: true,
+             },
+             city: {
+              required: true,
              },
             },
 

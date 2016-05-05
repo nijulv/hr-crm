@@ -73,6 +73,7 @@ $route['todo']                    = "web/todo";
 $route['savetodo']                = "web/savetodo";
 $route['deletetodo']              = "web/deletetodo";
 $route['deletetodo/(:any)']       = "web/deletetodo/$1";
+$route['district']                = "web/district";
 
 $route['add_payments']   = "web/add_payments";
 $route['add_bankpayments']   = "web/add_bankpayments";

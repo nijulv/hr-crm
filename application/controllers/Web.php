@@ -370,6 +370,9 @@ class Web extends CI_Controller {
             if(!empty($_POST)){
 
                 $this->form_validation->set_rules('firstname','First Name', 'required|trim|alpha_numeric');
+                $this->form_validation->set_rules('city','City', 'required|trim|alpha_numeric');
+                $this->form_validation->set_rules('state','State', 'required|trim');
+                $this->form_validation->set_rules('district','District', 'required|trim');
                 $this->form_validation->set_rules('useremail','Email', 'required|trim|is_unique[crm_users.email]');
                 $this->form_validation->set_rules('phonenumber','Phone Number', 'required|numeric');
                 $this->form_validation->set_rules('userstatus','Status', 'required');
@@ -391,6 +394,9 @@ class Web extends CI_Controller {
                     'first_name'            => $this->input->post("firstname", true),
                     'last_name'             => $this->input->post("lastname", true),
                     'email'                 => $this->input->post("useremail", true),
+                    'state_id'              => $this->input->post("state", true),
+                    'district_id'           => $this->input->post("district", true),
+                    'city'                  => $this->input->post("city", true),
                     'phone'                 => $this->input->post("phonenumber", true),
                     'address'               => $this->input->post("useraddress", true),
                     'pincode'               => $this->input->post("pincode", true),
@@ -426,25 +432,37 @@ class Web extends CI_Controller {
                  $this->gen_contents['form_validation_error'] = validation_errors();
             }
             }
-            
+            $this->gen_contents['state_details']  = $this->web_model->get_state_details();
             $this->gen_contents['link_user']  = 'active';
             $this->template->write_view('content', 'adduser', $this->gen_contents);
             $this->template->render();
         }
            
     }
-    function edituser($user_id){
+    function  district(){
+
+        
+        $state_id =  $this->input->post("state_id");
+        $district_details= $this->web_model->get_district_details($state_id);
+        foreach($district_details as $res){
+            echo '<option value="'.$res['id'].'">'.$res['name'].'</option>';
+            
+        }
+        
+        
+    }
+   function edituser($user_id){
         if(!$user_id){
             redirect('manageuser');
         }
         $this->load->library('form_validation');
         if(!empty($_POST)){
             $this->form_validation->set_rules('firstname','First Name', 'required|trim|alpha_numeric');
-            //$this->form_validation->set_rules('lastname','Last Name', 'required|trim');
+            $this->form_validation->set_rules('city','City', 'required|trim|alpha_numeric');
+            $this->form_validation->set_rules('state','State', 'required|trim');
+            $this->form_validation->set_rules('district','District', 'required|trim');
             $this->form_validation->set_rules('useremail','Email', 'required|trim');
             $this->form_validation->set_rules('phonenumber','Phone Number', 'required|numeric');
-            //$this->form_validation->set_rules('useraddress','Address', 'required|trim');
-            //$this->form_validation->set_rules('pincode','Pincode', 'required|numeric');
             $this->form_validation->set_rules('userstatus','Status', 'required');
             if(($this->input->post("pincode"))){
                    $this->form_validation->set_rules('pincode','Pincode', 'required|numeric|min_length[6]|max_length[6]'); 
@@ -455,6 +473,9 @@ class Web extends CI_Controller {
                     'last_name'             => $this->input->post("lastname", true),
                     'email'                 => $this->input->post("useremail", true),
                     'phone'                 => $this->input->post("phonenumber", true),
+                    'state_id'              => $this->input->post("state", true),
+                    'district_id'           => $this->input->post("district", true),
+                    'city'                  => $this->input->post("city", true),
                     'address'               => $this->input->post("useraddress", true),
                     'pincode'               => $this->input->post("pincode", true),
                     'status'                => $this->input->post("userstatus", true)
@@ -465,13 +486,14 @@ class Web extends CI_Controller {
                     $this->upload->initialize(upload_config_image($image_path));
                     $file_name = '';
                     $where = array('user_id' => $user_id);
-//                    $get_image_details = $this->common_model->get_data('crm_users','attachments',$where);		
-//                    $get_image_details = @$get_image_details[0];
+                    $get_image_details = $this->web_model->get_imagedetails($where);		
+                    $get_image_details = @$get_image_details[0]['attachments'];
                     if($this->upload->do_upload('attachment')){
+                        unlink('attachment/'.$get_image_details);
                         $img = $this->upload->data();
                         $file_name = $img['file_name'];
                         $update_data['attachments'] = $file_name;
-                    }else{
+                   }else{
                         $this->gen_contents['form_validation_error'] = $this->upload->display_errors();
                         $error = "error";
                     }
@@ -497,6 +519,9 @@ class Web extends CI_Controller {
         if(empty($get_user_details)){ 
             redirect('manageuser');
         }
+        $this->gen_contents['state_details']  = $this->web_model->get_state_details();
+        $state_id=($get_user_details[0]['state_id']);
+        $this->gen_contents['district_details']= $this->web_model->get_district_details($state_id);
         $this->gen_contents['link_user']  = 'active';
         $this->template->write_view('content', 'edituser', $this->gen_contents);
         $this->template->render();
@@ -514,6 +539,12 @@ class Web extends CI_Controller {
                 redirect('manageuser');
             }
             $this->gen_contents['user_details']=$get_user_details[0];
+            $state_id=$get_user_details[0]['state_id'];
+            $district_id=$get_user_details[0]['district_id'];
+            $get_state=$this->web_model->get_state($state_id);
+            $this->gen_contents['get_state']=$get_state[0];
+            $get_district=$this->web_model->get_district($district_id);
+            $this->gen_contents['get_district']=$get_district[0];
             $this->gen_contents['link_user']  = 'active';
             $this->template->write_view('content', 'viewuser', $this->gen_contents);
             $this->template->render();
@@ -699,20 +730,25 @@ class Web extends CI_Controller {
             $this->form_validation->set_rules('first_name', 'First name', 'required');
             $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[crm_agents.email]');
             $this->form_validation->set_rules('phone', 'Phone', 'numeric');
-
+            $this->form_validation->set_rules('city','City', 'required|trim|alpha_numeric');
+            $this->form_validation->set_rules('state','State', 'required|trim');
+            $this->form_validation->set_rules('district','District', 'required|trim');
                 if($this->form_validation->run() == TRUE){
 
                     $userdata = array(
-                        "agent_code"   => $this->input->post("agent_code",true),
-                        "username"  => $this->input->post("username",true),
-                        "password"  => $this->input->post("password",true),
-                        "first_name"  => $this->input->post("first_name",true),
-                        "last_name"  => $this->input->post("last_name",true),
-                        "email"  => $this->input->post("email",true),
-                        "phone"  => $this->input->post("phone",true),
-                        "address"  => $this->input->post("address",true),
-                        "pincode"  => $this->input->post("pincode",true),
-                        "address"  => $this->input->post("address",true)
+                        "agent_code"            => $this->input->post("agent_code",true),
+                        "username"              => $this->input->post("username",true),
+                        "password"              => $this->input->post("password",true),
+                        "first_name"            => $this->input->post("first_name",true),
+                        "last_name"             => $this->input->post("last_name",true),
+                        "email"                 => $this->input->post("email",true),
+                        "phone"                 => $this->input->post("phone",true),
+                        "address"               => $this->input->post("address",true),
+                        "pincode"               => $this->input->post("pincode",true),
+                        "address"               => $this->input->post("address",true),
+                        'state_id'              => $this->input->post("state", true),
+                        'district_id'           => $this->input->post("district", true),
+                        'city'                  => $this->input->post("city", true),
                     );
 
                     $tbl_name = 'crm_agents';
@@ -726,7 +762,7 @@ class Web extends CI_Controller {
                         redirect("manage_agents");
                     }
                 }
-
+                $this->gen_contents['state_details']  = $this->web_model->get_state_details();
                 $this->gen_contents['link_agent']  = 'active';
                 $this->template->write_view('content', 'agents_add', $this->gen_contents);
                 $this->template->render();
@@ -746,20 +782,26 @@ class Web extends CI_Controller {
                 $this->form_validation->set_rules('first_name', 'First name', 'required');
                 $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
                 $this->form_validation->set_rules('phone', 'Phone', 'numeric');
+                $this->form_validation->set_rules('city','City', 'required|trim|alpha_numeric');
+                $this->form_validation->set_rules('state','State', 'required|trim');
+                $this->form_validation->set_rules('district','District', 'required|trim');
 
                 if($this->form_validation->run() == TRUE){ 
 
                     $userdata = array(
-                        "agent_code"   => $this->input->post("agent_code",true),
-                        "username"  => $this->input->post("username",true),
-                        "password"  => $this->input->post("password",true),
-                        "first_name"  => $this->input->post("first_name",true),
-                        "last_name"  => $this->input->post("last_name",true),
-                        "email"  => $this->input->post("email",true),
-                        "phone"  => $this->input->post("phone",true),
-                        "address"  => $this->input->post("address",true),
-                        "pincode"  => $this->input->post("pincode",true),
-                        "address"  => $this->input->post("address",true)
+                        "agent_code"            => $this->input->post("agent_code",true),
+                        "username"              => $this->input->post("username",true),
+                        "password"              => $this->input->post("password",true),
+                        "first_name"            => $this->input->post("first_name",true),
+                        "last_name"             => $this->input->post("last_name",true),
+                        "email"                 => $this->input->post("email",true),
+                        "phone"                 => $this->input->post("phone",true),
+                        "address"               => $this->input->post("address",true),
+                        "pincode"               => $this->input->post("pincode",true),
+                        "address"               => $this->input->post("address",true),
+                        'state_id'              => $this->input->post("state", true),
+                        'district_id'           => $this->input->post("district", true),
+                        'city'                  => $this->input->post("city", true),
                     );
 
                     $agent_id  = $this->input->post("id",true);  
@@ -774,9 +816,12 @@ class Web extends CI_Controller {
                         redirect("manage_agents");
                     }
                 }
-
+    
                 $this->gen_contents['link_agent']  = 'active';
                 $this->gen_contents['details'] = $this->web_model->get_agent_details($id);
+                $this->gen_contents['state_details']  = $this->web_model->get_state_details();
+                $state_id=($this->gen_contents['details']['state_id']);
+                $this->gen_contents['district_details']= $this->web_model->get_district_details($state_id);
                 $this->template->write_view('content', 'modify_agents', $this->gen_contents);
                 $this->template->render();   
 

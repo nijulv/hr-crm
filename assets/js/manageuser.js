@@ -17,8 +17,18 @@ var Manageuser = function(){
               required: true,
               number:true
              },
+             state: {
+              required: true,
+             },
+             district: {
+               required: true,
+             },
+             city: {
+              required: true,
+             },
+           
             },
-
+           
             highlight: function(element) {
               $(element)
               .closest('.form-group').addClass('has-error'); // set error class to the control group
@@ -102,5 +112,19 @@ var Manageuser = function(){
                         }
                     });
             }); 
+            $('#state').on('change', function(){  
+                
+                 $.ajax({
+                        type    : "POST",
+                        url     : base_url+'district',
+                        data    : {'state_id':$('#state').val()},
+                        success : function(data){
+                                  $('#district option').remove();
+                                  $('#district').append(data);
+                     
+                        }
+                    });
+              
+            })
             
 }();

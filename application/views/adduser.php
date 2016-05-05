@@ -47,13 +47,36 @@
                                         <label  for="txtPhonenumber">Phone<span class="required">*</span></label>
                                         <input type="text" class="form-control" name="phonenumber" id="phonenumber" value="<?php echo set_value('phonenumber') ?>" maxlength="10" required onkeypress="return numberValidate(event);">
                                     </div>
+                                <?php if(!empty($state_details)){?>
+                                <div class="form-group">
+                                        <label for="txtUserstate">State<span class="required">*</span></label>
+                                        <select name="state" id="state" class="form-control" required>
+                                            <option value="">Select</option>
+                                          <?php foreach($state_details as $res){?> 
+                                            <option value="<?php echo $res['id']; ?>"><?php echo $res['name']; ?></option>
+                                          <?php } ?>
+                                        </select>
+                                    </div> 
+                                <?php } ?>
+                                <div class="form-group">
+                                        <label for="txtUserdistrict">District<span class="required">*</span></label>
+                                        <select name="district" id="district" class="form-control" required>
+                                            <option value="">Select</option>
+                                        </select>
+                                    </div> 
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
+                                            <label for="txtCity">City</label>
+                                            <input type="text" class="form-control" name="city" id="city" value="<?php echo set_value('city') ?>" maxlength="15" onkeypress="return blockSpecialChar(event)">
+                                        </div>
+                                     <div class="form-group">
                                         <label for="txtUseraddress">Address</label>
                                         <textarea class="form-control" name="useraddress" id="useraddress" style="height:150px ! important;" maxlength="500" value="<?php echo set_value('address') ?>" ></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label  for="txtPincode">Pincode</label>
-                                        <input type="text" class="form-control" name="pincode" id="pincode" value="<?php echo set_value('pincode') ?>" maxlength="15" onkeypress="return numberValidate(event);">
+                                        <input type="text" class="form-control" name="pincode" id="pincode" value="<?php echo set_value('pincode') ?>" maxlength="6" onkeypress="return numberValidate(event);">
                                      </div>
                                     <div class="form-group">
                                         <label  for="txtAttachment">Attachment</label><small><i>(Allowed types are pdf|doc|docx)</i></small>

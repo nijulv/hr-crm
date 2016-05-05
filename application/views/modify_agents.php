@@ -54,8 +54,6 @@
                                     <label>Last name</label>
                                     <input type="text" name="last_name" class="form-control" placeholder="Last Name" maxlength="15" value = "<?php echo set_value('last_name',$details['last_name']); ?>" onkeypress="return blockSpecialChar(event)">
                                 </div>
-                            </div>
-                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Email <span class="required">*</span></label>
                                     <input type="text" name="email" class="form-control" placeholder="Email" required value = "<?php echo set_value('email',$details['email']); ?>">
@@ -63,6 +61,33 @@
                                 <div class="form-group">
                                     <label>Phone <span class="required">*</span></label>
                                     <input type="text" name="phone" class="form-control" placeholder="Phone" required value = "<?php echo set_value('phone',$details['phone']); ?>" maxlength="10" onkeypress="return numberValidate(event);">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <?php if(!empty($state_details)){?>
+                                      <div class="form-group">
+                                        <label for="txtUserstate">State<span class="required">*</span></label>
+                                        <select name="state" id="state" class="form-control" required>
+                                            <option value="">Select</option>
+                                          <?php foreach($state_details as $res){?> 
+                                            <option value="<?php echo $res['id']; ?>"  <?php if($res['id'] == $details['state_id']) {echo 'selected=""';} ?>><?php echo $res['name']; ?></option>
+                                          <?php } ?>
+                                        </select>
+                                     </div> 
+                                    <?php } ?>
+                                    <?php if(!empty($district_details)){?>
+                                    <div class="form-group">
+                                        <label for="txtUserdistrict">District<span class="required">*</span></label>
+                                        <select name="district" id="district" class="form-control" required>
+                                            <?php foreach($district_details as $res){?> 
+                                             <option value="<?php echo $res['id']; ?>"  <?php if($res['id'] == $details['district_id']) {echo 'selected=""';} ?>><?php echo $res['name']; ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div> 
+                                <?php } ?>
+                                <div class="form-group">
+                                            <label for="txtCity">City</label>
+                                            <input type="text" class="form-control" name="city" id="city" value="<?php echo set_value('city',$details['city']);?>" maxlength="15" onkeypress="return blockSpecialChar(event)">
                                 </div>
                                 <div class="form-group">
                                     <label>Address <small class="text-muted"></small></label>

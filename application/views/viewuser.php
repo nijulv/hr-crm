@@ -58,6 +58,30 @@
                                 </div>
                                 <div class="row" style="padding-bottom: 15px;">
                                     <div class="col-lg-3 col-sm-3 col-md-3">
+                                        <b>State : </b>
+                                    </div>
+                                    <div class="col-lg-8 col-sm-8 col-md-8">
+                                        <?php echo $get_state['name']; ?>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-bottom: 15px;">
+                                    <div class="col-lg-3 col-sm-3 col-md-3">
+                                        <b>District : </b>
+                                    </div>
+                                    <div class="col-lg-8 col-sm-8 col-md-8">
+                                        <?php echo $get_district['name']; ?>
+                                    </div>
+                                </div>
+                                 <div class="row" style="padding-bottom: 15px;">
+                                    <div class="col-lg-3 col-sm-3 col-md-3">
+                                        <b>City : </b>
+                                    </div>
+                                    <div class="col-lg-8 col-sm-8 col-md-8">
+                                        <?php echo $user_details['city']; ?>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-bottom: 15px;">
+                                    <div class="col-lg-3 col-sm-3 col-md-3">
                                         <b>Address : </b>
                                     </div>
                                     <div class="col-lg-8 col-sm-8 col-md-8">

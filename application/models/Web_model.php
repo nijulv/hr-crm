@@ -150,7 +150,7 @@ class Web_model extends CI_Model {
         
         $this->db->select("COUNT(user_id) AS cnt");
         $this->db->where($where);
-        
+        $this->db->where("status !=",'2');
         $query = $this->db->get('crm_users');
         $row = $query->row();
         return intval($row->cnt);
@@ -174,6 +174,41 @@ class Web_model extends CI_Model {
             $query = $this->db->get(); 
             return $query->result_array();
         }
+    }
+    public function get_state_details(){
+          $this->db->from('states');
+          $query = $this->db->get(); 
+          return $query->result_array();
+     }
+    public function get_district_details($state_id){
+         $this->db->from('districts');
+         $this->db->where('state_id',$state_id);
+         $query = $this->db->get(); 
+         return $query->result_array();
+
+    }
+    public function get_state($state_id){
+          $this->db->select('name');
+          $this->db->from('states');
+          $this->db->where('id',$state_id);
+          $query = $this->db->get(); 
+          return $query->result_array();
+         
+    }
+    public function get_district($district_id){
+          $this->db->select('name');
+          $this->db->from('districts');
+          $this->db->where('id',$district_id);
+          $query = $this->db->get(); 
+          return $query->result_array();
+         
+    }
+    public function get_imagedetails($where){
+            $this->db->select('attachments');
+            $this->db->from('crm_users');
+            $this->db->where($where);
+            $query = $this->db->get(); 
+            return $query->result_array();
     }
     public function insert_datas ($data = array(),$tbl_name = '') {
         $this->db->insert($tbl_name,$data);
