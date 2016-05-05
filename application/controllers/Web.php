@@ -326,7 +326,7 @@ class Web extends CI_Controller {
             $this->load->library('form_validation');
             
             if(!empty($_POST)){
-                $this->form_validation->set_rules('firstname','First Name', 'required|trim');
+                $this->form_validation->set_rules('firstname','First Name', 'required|trim|alpha_numeric');
                 //$this->form_validation->set_rules('lastname','Last Name', 'required|trim');
                 $this->form_validation->set_rules('useremail','Email', 'required|trim');
                 $this->form_validation->set_rules('phonenumber','Phone Number', 'required|numeric');
@@ -334,7 +334,7 @@ class Web extends CI_Controller {
                 //$this->form_validation->set_rules('pincode','Pincode', 'required|numeric');
                 $this->form_validation->set_rules('userstatus','Status', 'required');
                 if(($this->input->post("pincode"))){
-                   $this->form_validation->set_rules('pincode','Pincode', 'required|numeric'); 
+                   $this->form_validation->set_rules('pincode','Pincode', 'required|numeric|min_length[6]|max_length[6]'); 
                 }
                 $error = '';
                 if ($this->form_validation->run() == TRUE) {
@@ -399,13 +399,16 @@ class Web extends CI_Controller {
         }
         $this->load->library('form_validation');
         if(!empty($_POST)){
-            $this->form_validation->set_rules('firstname','First Name', 'required|trim');
+            $this->form_validation->set_rules('firstname','First Name', 'required|trim|alpha_numeric');
             //$this->form_validation->set_rules('lastname','Last Name', 'required|trim');
             $this->form_validation->set_rules('useremail','Email', 'required|trim');
             $this->form_validation->set_rules('phonenumber','Phone Number', 'required|numeric');
             //$this->form_validation->set_rules('useraddress','Address', 'required|trim');
             //$this->form_validation->set_rules('pincode','Pincode', 'required|numeric');
             $this->form_validation->set_rules('userstatus','Status', 'required');
+            if(($this->input->post("pincode"))){
+                   $this->form_validation->set_rules('pincode','Pincode', 'required|numeric|min_length[6]|max_length[6]'); 
+                }
             if ($this->form_validation->run() == TRUE) {// form validation                
                 $update_data = array(
                     'first_name'            => $this->input->post("firstname", true),
