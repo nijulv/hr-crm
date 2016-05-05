@@ -102,4 +102,8 @@ $route['manage_agents/(:num)']   = "web/manage_agents/$1";
 $route['edit_profile']   = "web/edit_profile";
 $route['change_password']   = "web/change_password";
 $route['forgotpassword']   = "web/forgotpassword";
- 
+
+$route['agent_reports']           = "web/agent_reports";
+$route['agent_reports/(:num)']    = "web/agent_reports/$1";
+
+$route['viewmore/(:any)/(:any)']      = "ajax/viewmore/$1/$2";

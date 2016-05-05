@@ -73,7 +73,7 @@ var Manageagent = function(){
     function blockSpecialChar(e){
         var k;
         document.all ? k = e.keyCode : k = e.which;
-        return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || k == 34 || k == 39 || (k >= 48 && k <= 57));
+        return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 9 || k == 8 || k == 32 || k == 34 || k == 39 || k == 9 || (k >= 48 && k <= 57));
     }
     
     // Hide display msgs after few seconds later
@@ -81,8 +81,7 @@ var Manageagent = function(){
             $(".alert").fadeOut();
     }, 3000);
     
-    
-    
+
     $('#bank_payment').on('blur', function(e){  
         
         var bank_amount = parseInt($(this).val());   
@@ -115,4 +114,34 @@ var Manageagent = function(){
             $("#warning_msg").hide();  
         }
        
+    });
+    
+    $(".more").click(function(){   
+        $('#moreDetails').modal('show');
+        var from  = $(this).attr("data-from");        
+        if(from == 'agent')
+            $('#data-title').html("Agent: More details");
+
+        var id              = $(this).attr("data-id");
+
+        var request_path    = base_url+"viewmore/"+from+"/"+id;
+        console.log(request_path);
+        $.post(request_path,function(data){
+            $("#data-output").html(data);
+        });
+    });
+    
+    
+    $("#todate_search").mouseover(function(){  
+        $('#todate_search').datepicker({
+            format: "yyyy-mm-dd"
+        });  
+
+    });
+
+    $("#fromdate_search").mouseover(function(){  
+        $('#fromdate_search').datepicker({
+            format: "yyyy-mm-dd"
+        });  
+
     });

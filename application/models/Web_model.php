@@ -36,7 +36,7 @@ class Web_model extends CI_Model {
         $this->db->select('*');
         $this->db->from("crm_users");
         $this->db->where("user_id", $user_id);
-        $this->db->where("status", '1');
+        $this->db->where("status !=", '2');
         $query = $this->db->get();  
         if($query->num_rows () >0)
             return $query->row_array();
@@ -386,5 +386,47 @@ class Web_model extends CI_Model {
         $this->db->where(array('status' => 1));
         $query = $this->db->get('mail_template');
         return($query->row_array());
+    }
+    
+    public function get_agent_reportlist($limit, $start , $search_term = '',$status_search = '' ,$fromdate_search = '' ,$todate_search = '') {
+        $this->db->select("SQL_CALC_FOUND_ROWS *",FALSE); 
+        $this->db->from('crm_agents');
+        $this->db->where('status !=','0');
+         
+        if($search_term != '') {
+            $this->db->like('first_name',$search_term);
+            $this->db->or_like('last_name',$search_term);
+            $this->db->or_like('email',$search_term);
+            $this->db->or_like('phone',$search_term);
+        }
+        if($status_search != '') 
+            $this->db->where('status',$status_search);
+        if($fromdate_search != '') 
+            $this->db->where('date >=', $fromdate_search);
+        if($todate_search != '') 
+        $this->db->where('date <=', $todate_search);
+        
+        $this->db->order_by("agent_id","desc");
+        $this->db->limit($limit, $start);
+        $query = $this->db->get();     //echo $this->db->last_query();
+        if($query->num_rows () >0)
+            return $query->result_array();
+        else
+            return false;
+    }
+    
+    function get_more_details($id = 0,$tbl_name = ''){
+        $this->db->select("*");
+        $this->db->from($tbl_name);
+        $where = array(
+                'agent_id' => $id
+            );
+        $this->db->where($where);
+        $query = $this->db->get();   
+        if($query->num_rows() > 0){
+            return $query->row_array();
+        } else {
+            return FALSE;
+        }
     }
 }
