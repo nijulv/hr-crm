@@ -138,13 +138,11 @@
                              <h4 class="modal-title">To do</h4>
                         </div>
                         <div class="modal-body" id="todocontent">
-
                             
-                           
                          </div>
                         
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success" id ="save" data-dismiss="modal">Save</button>
+                            <button type="button" class="btn btn-success" id ="updatetodo" data-dismiss="modal">Save</button>
                         </div>
                     </div>
                 </div>

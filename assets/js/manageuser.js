@@ -103,14 +103,14 @@ var Manageuser = function(){
                  
             })
             $('#todo-panel').on('click','.edittodo', function(){ 
-       
                  var todo_id = $(this).data('id'); 
                  var todourl = $(this).data('url'); 
                   $.ajax({
                         type    : "POST",
                         url     : base_url+todourl+'/'+todo_id,
-                        //dataType: "json",
                         success : function(data){  
+                                  $('#todocontent .row').remove();
+                                  $('#todocontent b').remove();
                                   $('#todocontent input').remove();
                                   $('#todocontent').append(data);
                                   $('#editModal').modal();
@@ -120,6 +120,35 @@ var Manageuser = function(){
                  
  
              });
+            $('#updatetodo').on('click', function(){ 
+                $('.panel-footer font').remove();
+                var u_id=$('#todoid').val();
+               $.ajax({
+                        type    : "POST",
+                        url     : base_url+'updatetodo',
+                        dataType: "json",
+                        data    : {'todoid':$('#todoid').val(),
+                                   'todo':$('#todotext').val(),
+                                   'calendar':$('#popup_calender').val()},
+                        success : function(data){
+                                  if(data.success==1){
+                                     $('.panel-footer font').remove();
+                                     $('#'+u_id +' .checkbox label').text(data.title);
+                                     $('.panel-footer').append(data.msg);
+                                    }
+                                 else if(data.success==2){
+                                        $('.panel-footer').append(data.msg);
+                                    }
+                                else{
+                                    $('#'+u_id).remove();
+                                    $('.panel-footer').append(data.msg);
+                            }
+                           $('#todo').val('');
+                        }
+
+                    })
+                
+            })
             $('#save').on('click', function(){ 
                  $('.panel-footer font').remove();
                     $.ajax({

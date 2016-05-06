@@ -974,4 +974,8 @@ added for marshall
     height: auto;
     overflow-y: auto;
 }
+.space{
+    padding-bottom: 10px;
+    
+}
 

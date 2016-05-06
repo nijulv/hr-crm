@@ -184,7 +184,7 @@ class Web extends CI_Controller {
                     {
                 $result['success']=1;
                 $result['msg']='<font color="green">Saved!!!!</font>';
-                $result['html'] ='<li class="todo-list-item">
+                $result['html'] ='<li class="todo-list-item" id='.$id.'>
                                         <div class="checkbox">
                                             <input type="checkbox" id="checkbox">
                                             <label for="checkbox">'.$data.'</label>
@@ -205,7 +205,7 @@ class Web extends CI_Controller {
         }
         else{
              $result['msg']='<font color="red">Error!!!!</font>';
-        }
+            }
         $this->load->view('show_message',array('message'=>  json_encode($result)));
    
     }
@@ -231,15 +231,66 @@ class Web extends CI_Controller {
         $edit_todo = $this->web_model->edit_todo($todoid);
         $edit_todo= $edit_todo[0];
         if($edit_todo){
-           echo '<input id="todo" name="todo" type="text" class="form-control input-md" placeholder="Add new schedule" value="'.$edit_todo['todo'].'">'.
-                '<input id="popup_calender" name="calendar" type="text"   class="form-control input-md"  placeholder="Date" value='.$edit_todo['date'].'>';
+           echo '<div class="row" style="padding-bottom: 15px;">
+                                    <div class="col-lg-3 col-sm-3 col-md-3">
+                                        <b>Schedule : </b>
+                                    </div>
+                                    <div class="col-lg-8 col-sm-8 col-md-8">
+                                        <input id="todoid" name="todoid" type="hidden" class="form-control input-md space" value="'.$edit_todo['id'].'">
+                                        <input id="todotext" name="todotext" type="text" class="form-control input-md space" placeholder="Add new schedule" value="'.$edit_todo['todo'].'">
+                                    </div>
+                                </div>
+                            <div class="row" style="padding-bottom: 15px;">
+                                    <div class="col-lg-3 col-sm-3 col-md-3">
+                                        <b>Date : </b>
+                                    </div>
+                                    <div class="col-lg-8 col-sm-8 col-md-8">
+                                        <input id="popup_calender" name="popup_calender" type="text"   class="form-control input-md"  placeholder="Date" value='.$edit_todo['date'].'>
+                                    </div>
+                                </div>';
         }
         else{
             $result['html']='<font color="red">Error!!!!</font>'; 
         }
-       // $this->load->view('show_message',array('message'=>  json_encode($result)));
-
    
+    }
+    function updatetodo() { 
+        $result=array('succes' => 0,'msg'=> '','html'=> '');
+        $todoid=$this->input->post('todoid');
+        $data=$this->input->post('todo');
+        $date= $this->input->post('calendar');
+        $currentdate=date('Y-m-d');
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('todo','Schedule', 'required');
+        $this->form_validation->set_rules('calendar','Date', 'required');
+        if ($this->form_validation->run() == TRUE) {
+
+            $update_data = array(
+                    'todo'                  => $data,
+                    'date'                  => $date
+            );
+            $where = array('id' => $todoid);
+            $save = $this->db->update('todo', $update_data,$where);
+            if($save){
+                if($currentdate==$date)
+                    {
+                $result['success']=1;
+                $result['msg']='<font color="green">Saved!!!!</font>';
+                $result['title'] = $data;
+
+            
+        }
+        else{
+            $result['msg']='<font color="green">Saved!!!!</font>';
+        }
+        }
+        }
+        else{
+             $result['success']= 2;
+             $result['msg']='<font color="red">Error!!!!</font>';
+        }
+        $this->load->view('show_message',array('message'=>  json_encode($result)));
+        
     }
     function agent_reports () {     
         
