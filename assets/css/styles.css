@@ -933,7 +933,42 @@ h1.page-header {
 }
 
 
+#postcode-list-3qotes {
+    list-style-type: none;
+    height: 100px; 
+    overflow: auto;
+    border:1px solid #E6E6E6;position: absolute;z-index: 100;width:89%;background:#F1F4F7;
 
+}
+ul#postcode-list-3qotes li {
+    padding-right: 1%;
+    margin-left: -40px;
+    text-align:center;
+    cursor:pointer;
+}
+
+ul#postcode-list-3qotes li:hover {
+    background-color: #FFF;
+}
+
+
+#postcode-list-3qoteshome {
+    list-style-type: none;
+    height: 100px; 
+    overflow: auto;
+    border:1px solid #E6E6E6;position: absolute;z-index: 100;width:96%;background:#E6E6E6;
+
+}
+ul#postcode-list-3qoteshome li {
+    padding-right: 1%;
+    margin-left: -40px;
+    text-align:center;
+    cursor:pointer;
+}
+
+ul#postcode-list-3qoteshome li:hover {
+    background-color: #FFF;
+}
 
 
 

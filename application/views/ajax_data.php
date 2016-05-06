@@ -105,4 +105,57 @@ if ($from == "agent") { ?>
                 </tr>
             </table>
         </div>
+    <?php } else if ($from == "user") {?>
+            <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <td>Name: </td>
+                    <td><?php echo $result['first_name'] . ' ' . $result['last_name']; ?></td>
+                </tr>
+                <tr>
+                    <td>Phone Number: </td>
+                    <td><?php echo $result['phone']; ?></td>
+                </tr>
+                <tr>
+                    <td>Email: </td>
+                    <td><?php echo $result['email']; ?></td>
+                </tr>
+                <tr>
+                    <td>State: </td>
+                    <td><?php echo $result['state']; ?></td>
+                </tr>
+                <tr>
+                    <td>District: </td>
+                    <td><?php echo $result['districts']; ?></td>
+                </tr>
+                <tr>
+                    <td>City: </td>
+                    <td><?php echo $result['city']; ?></td>
+                </tr>
+                <tr>
+                    <td>Address: </td>
+                    <td><?php echo $result['address']; ?></td>
+                </tr>
+                <tr>
+                    <td>Pincode: </td>
+                    <td><?php echo $result['pincode']; ?></td>
+                </tr>
+                <tr>
+                    <td>Status: </td> <?php if($result['status'] == '1') { $status = 'User';} else { $status = 'Client';}?>
+                    <td><?php echo $status; ?></td>
+                </tr>
+                <tr>
+                    <td>Created Date: </td>
+                    <?php if($result['date'] == '0000-00-00'){
+                        $date = '0000-00-00';
+                    }
+                    else {
+                        $date = date('d-M-Y', strtotime($result['date']));
+                    }
+                    ?>
+                    <td><?php echo $date;?></td>
+                </tr>
+            </table>
+        </div>
     <?php } ?>
+

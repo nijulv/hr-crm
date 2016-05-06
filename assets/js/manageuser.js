@@ -80,6 +80,9 @@ var Manageuser = function(){
                     $('#myModal').modal();
                     return false;
                 }
+                else {
+                     $("#todo").css("border", "2px solid red");
+                }
             });
             $('#todo-panel').on('click','.deletetodo', function(){ 
        
@@ -183,6 +186,7 @@ var Manageuser = function(){
                         data    : {'state_id':$('#state').val()},
                         success : function(data){
                                   $('#district option').remove();
+                                  $('#district').append('<option value="">Select</option>');
                                   $('#district').append(data);
                      
                         }
@@ -204,4 +208,38 @@ var Manageuser = function(){
                 
             })
             
-}();
+            $("#search_district").keyup(function () {  
+                var id = $(this).attr("id");    
+                if (this.value.length > 1) {
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "district_autocomplete",
+                        data: {'keyword': $(this).val(), 'selector': id},
+                        beforeSend: function () {  
+                            $("#search_district").css("background", "#FFF url(" + assets_url + "images/LoaderIcon.gif) no-repeat 165px");
+                        },
+                        success: function (data) {
+                            $(".suggesstion-box").show();
+                            $(".suggesstion-box").html(data);
+                            $("#search_district").css("background", "#FFF");
+                        }
+                    });
+                }
+                else {
+                    $(".suggesstion-box-suburb").hide();
+                }
+            });
+            
+            
+            /*function selectdistrictvalue(val, selector) {  
+        
+                $("#" + selector).val(val);
+                $(".suggesstion-box").hide();
+            } */
+            
+            $('.panel-body').on('click','.districtautolist', function(){   alert("nnn");  
+                
+                $("#search_district").val(val);
+                $(".suggesstion-box").hide();
+            });
+}();    

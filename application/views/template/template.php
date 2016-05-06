@@ -9,6 +9,7 @@
         <!--<link href="css/styles.css" rel="stylesheet">-->
         <link href="<?php echo assets_url();?>css/marshall.css" rel="stylesheet">
         <link href="<?php echo assets_url();?>css/bootstrap-table.css" rel="stylesheet">
+        <link href="<?php echo assets_url();?>css/styles.css" rel="stylesheet">
         <link rel="stylesheet" href="<?php echo assets_url();?>fonts/font-awesome/css/font-awesome.min.css">
         <!--Icons-->
         <script src="<?php echo assets_url();?>js/lumino.glyphs.js"></script>
@@ -67,6 +68,7 @@
                          <?php if(s('ADMIN_TYPE') == 0) {?>
                             <li class = "<?php echo $agent_report;?>"><a href="<?php echo base_url(); ?>agent_reports">Agent</a></li>
                          <?php }?>
+                        <li class = "<?php echo $user_report;?>"><a href="<?php echo base_url(); ?>user_reports">Users/Clients</a></li>
                         <li class = "<?php echo $payment_report;?>"><a href="<?php echo base_url(); ?>payment_reports">Payment</a></li>
                     </ul>
                 </li>
@@ -93,6 +95,7 @@
         <script src="<?php echo assets_url();?>js/easypiechart-data.js"></script>
         <script src="<?php echo assets_url();?>js/bootstrap-datepicker.js"></script>
         <script> var base_url = '<?php echo base_url(); ?>'; </script>
+        <script> var assets_url = '<?php echo assets_url(); ?>'; </script>
         <script src="<?php echo assets_url();?>jquery-validation/js/jquery.validate.min.js"></script>
         <script src="<?php echo assets_url();?>js/manageuser.js"></script>
         <script src="<?php echo assets_url();?>js/managepayments.js"></script>

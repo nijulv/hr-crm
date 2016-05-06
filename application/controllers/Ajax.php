@@ -19,6 +19,11 @@ class Ajax extends CI_Controller {
             $data['from']   = "payment";
             $data['result']     = $this->web_model->get_more_details($data_id,$tbl_name); 
         }
+        else if($from == 'user'){
+            $tbl_name       = 'crm_users';
+            $data['from']   = "user";
+            $data['result']     = $this->web_model->get_more_details($data_id,$tbl_name); 
+        }
         
         $this->load->view("ajax_data",$data); 
     }
