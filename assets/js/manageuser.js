@@ -82,16 +82,44 @@ var Manageuser = function(){
                 }
             });
             $('#todo-panel').on('click','.deletetodo', function(){ 
+       
                  var todo_id = $(this).data('id'); 
                  var todourl = $(this).data('url'); 
                  var ppup_content = "<b>Are you sure?</b><br><br>Do you want to delete this details?";
                  bootbox.confirm(ppup_content, function(result) {
                       if(result){
-                              window.location = base_url+todourl+'/'+todo_id
+                                $.ajax({
+                                    type    : "POST",
+                                    url     : base_url+todourl+'/'+todo_id,
+                                    dataType: "json",
+                                    success : function(data){
+                                                $('.panel-footer font').remove();
+                                                $('#'+todo_id).remove();
+                                                $('.panel-footer').append(data.msg);
+                                    }
+                                });
                         }
                       })
                  
             })
+            $('#todo-panel').on('click','.edittodo', function(){ 
+       
+                 var todo_id = $(this).data('id'); 
+                 var todourl = $(this).data('url'); 
+                  $.ajax({
+                        type    : "POST",
+                        url     : base_url+todourl+'/'+todo_id,
+                        //dataType: "json",
+                        success : function(data){  
+                                  $('#todocontent input').remove();
+                                  $('#todocontent').append(data);
+                                  $('#editModal').modal();
+                            
+                        }
+                    });
+                 
+ 
+             });
             $('#save').on('click', function(){ 
                  $('.panel-footer font').remove();
                     $.ajax({

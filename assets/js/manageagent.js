@@ -163,3 +163,12 @@ var Manageagent = function(){
         });  
 
     });
+    
+    
+    $("#todocontent").on("click","#popup_calender",function(){  
+         $('#popup_calender').datepicker({
+            format: "yyyy-mm-dd"
+        });  
+        
+    });
+    

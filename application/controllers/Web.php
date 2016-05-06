@@ -190,7 +190,7 @@ class Web extends CI_Controller {
                                             <label for="checkbox">'.$data.'</label>
                                         </div>
                                         <div class="pull-right action-buttons">
-                                            <a href="#"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil" xmlns:xlink="http://www.w3.org/1999/xlink"/></svg></a>
+                                            <a data-id='.$id.' data-url="edittodo" class="edittodo"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil" xmlns:xlink="http://www.w3.org/1999/xlink"/></svg></a>
                                             <a class="flag" href="#"><svg class="glyph stroked flag"><use xlink:href="#stroked-flag" xmlns:xlink="http://www.w3.org/1999/xlink"/></svg></a>
                                             <a  id="deletetodo" data-url="deletetodo" class="trash deletetodo" data-id='.$id.'><svg class="glyph stroked trash"><use xlink:href="#stroked-trash" xmlns:xlink="http://www.w3.org/1999/xlink"/></svg></a>
                                         </div>
@@ -210,11 +210,37 @@ class Web extends CI_Controller {
    
     }
     function deletetodo($todoid) { 
+        if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+       $result=array('succes' => 0,'msg'=> '','html'=> '');
        $id   = $this->db->query('DELETE FROM todo where id='.$todoid);
-       redirect('dashboard');
-      
+       if(!empty($id)){
+         $result['msg']='<font color="red">Deleted!!!!</font>';
+       }else{
+         $result['msg']='<font color="red">Error!!!!</font>';  
+       }
+       $this->load->view('show_message',array('message'=>  json_encode($result)));
+     
     }
-    
+    function edittodo($todoid) { 
+        $result=array('succes' => 0,'msg'=> '','html'=> '');
+        if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        $edit_todo = $this->web_model->edit_todo($todoid);
+        $edit_todo= $edit_todo[0];
+        if($edit_todo){
+           echo '<input id="todo" name="todo" type="text" class="form-control input-md" placeholder="Add new schedule" value="'.$edit_todo['todo'].'">'.
+                '<input id="popup_calender" name="calendar" type="text"   class="form-control input-md"  placeholder="Date" value='.$edit_todo['date'].'>';
+        }
+        else{
+            $result['html']='<font color="red">Error!!!!</font>'; 
+        }
+       // $this->load->view('show_message',array('message'=>  json_encode($result)));
+
+   
+    }
     function agent_reports () {     
         
         if (!($this->session->userdata("ADMIN_USERID"))) {

@@ -92,7 +92,7 @@
                                         <label for="checkbox"><?php echo $res['todo']; ?></label>
                                     </div>
                                     <div class="pull-right action-buttons">
-                                        <a href="#"><svg class="glyph stroked pencil"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-pencil"></use></svg></a>
+                                        <a data-id="<?php echo $res['id']; ?>" data-url='edittodo' class="edittodo"><svg class="glyph stroked pencil"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-pencil"></use></svg></a>
                                         <a href="#" class="flag"><svg class="glyph stroked flag"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-flag"></use></svg></a>
                                         <a data-id="<?php echo $res['id']; ?>" data-url='deletetodo' class="trash deletetodo"><svg class="glyph stroked trash"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-trash"></use></svg></a>
                                     </div>
@@ -124,6 +124,25 @@
                             <input id="calendar" name="calendar" type="date" name="calendar" class="form-control input-md" data-date-format="yyyy-mm-dd" placeholder="Date" >
                            
                          </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" id ="save" data-dismiss="modal">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="editModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                             <h4 class="modal-title">To do</h4>
+                        </div>
+                        <div class="modal-body" id="todocontent">
+
+                            
+                           
+                         </div>
+                        
                         <div class="modal-footer">
                             <button type="button" class="btn btn-success" id ="save" data-dismiss="modal">Save</button>
                         </div>
