@@ -42,4 +42,49 @@ if ($from == "agent") { ?>
         </table>
     </div>
 
+    <?php } else if ($from == "payment") {?>
+        <div class="table-responsive">
+        <table class="table">
+            <tr>
+                <td>Name: </td>
+                <td><?php echo $result['first_name'] . ' ' . $result['last_name']; ?></td>
+            </tr>
+            <tr>
+                <td>Contact Number: </td>
+                <td><?php echo $result['phone']; ?></td>
+            </tr>
+            <tr>
+                <td>Email: </td>
+                <td><?php echo $result['email']; ?></td>
+            </tr>
+            <tr>
+                <td>State: </td>
+                <td><?php echo $result['state']; ?></td>
+            </tr>
+            <tr>
+                <td>District: </td>
+                <td><?php echo $result['districts']; ?></td>
+            </tr>
+            <tr>
+                <td>City: </td>
+                <td><?php echo $result['city']; ?></td>
+            </tr>
+            <tr>
+                <td>Payment Title: </td>
+                <td><?php echo $result['title']; ?></td>
+            </tr>
+            <tr>
+                <td>Payment Amount: </td>
+                <td><?php echo $result['amount']; ?></td>
+            </tr>
+            <tr>
+                <td>Payment Description: </td>
+                <td><?php echo $result['comments']; ?></td>
+            </tr>
+            <tr>
+                <td>Payment Date: </td>
+                <td><?php echo date('d-M-Y', strtotime($result['date']));?></td>
+            </tr>
+        </table>
+    </div>
     <?php } ?>

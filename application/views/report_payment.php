@@ -2,18 +2,18 @@
         <div class="row">
             <ol class="breadcrumb">
                 <li><a href="<?php echo base_url()?>dashboard"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-                <li class="active">Agent Report</li>
+                <li class="active">Payment Report</li>
             </ol>
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Agent Report</h1>
+                <h1 class="page-header">Payment Report</h1>
             </div>
         </div>
         <div class="row">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <?php echo form_open("",array("id" => "agent_report"));?>
+                        <?php echo form_open("",array("id" => "payment_report"));?>
                         
                         <div class="col-md-12">
                             <div class="col-md-3">
@@ -46,35 +46,24 @@
                                     <tr>
                                         <th style = "text-align:center;">#</th>
                                         <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Agent Code</th>
-                                        <th style = "text-align:center;">Status</th>
+                                        <th>Title</th>
+                                        <th>Amount</th>
+                                        <th>Contact Number</th>
                                         <th style = "text-align:center;">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php 
                                     $i++;  
-                                    foreach ($details as $data) { 
-                                        if($data['status'] == 1){
-                                            $status = 'Active';
-                                            $color = 'green';
-                                        }
-                                        else {
-                                            $status = 'Deactive';
-                                            $color = 'red';
-                                        }
-                                        ?>
+                                    foreach ($details as $data) { ?>
                                         <tr>
                                             <td style = "text-align:center;"><?php echo $i++; ?></td>
                                             <td><?php echo $data['first_name'].' '.$data['last_name'];?></td> 
-                                            <td><?php echo $data['email'];?></td>
+                                            <td><?php echo $data['title'];?></td>
+                                            <td><?php echo $data['amount'];?></td>
                                             <td><?php echo $data['phone'];?></td>
-                                            <td><?php echo $data['agent_code'];?></td>
-                                            <td style = "text-align:center;color:<?php echo  $color;?>"><?php echo $status;?></td>
                                             <td style = "text-align:center;">
-                                                <a href="javascript: void(0)" class="label label-primary more" data-from="agent" data-id="<?php echo $data['agent_id']; ?>" ><i class="fa fa-list"></i>View More</a>
+                                                <a href="javascript: void(0)" class="label label-primary more" data-from="payment" data-id="<?php echo $data['payment_id']; ?>" ><i class="fa fa-list"></i>View More</a>
                                             </td>
                                         </tr>
                                     <?php }?>
