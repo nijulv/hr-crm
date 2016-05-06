@@ -43,8 +43,8 @@ class Web_model extends CI_Model {
         else
             return false;
     }
-
-        public function get_agents_names () {
+    
+    public function get_agents_names () {
         $this->db->select('*');
         $this->db->from("crm_agents");
         //$this->db->where("status", '1');
@@ -236,6 +236,15 @@ class Web_model extends CI_Model {
             return false;
     }
     
+    public function user_status_update ($data = array(),$id = 0,$tbl_name = 'crm_users') {
+        $this->db->where('user_id',$id);
+        $this->db->update($tbl_name,$data);
+        if($this->db->affected_rows() >0)
+            return true;
+        else
+            return false;
+    }
+    
     public function update_profile ($data = array(),$id = 0,$tbl_name = '') {
         if($tbl_name == 'crm_admin'){
             $this->db->where('admin_id',$id);
@@ -317,6 +326,13 @@ class Web_model extends CI_Model {
         if(s('ADMIN_TYPE') == 1){
              $this->db->where('agent_id',s('ADMIN_USERID'));
         }
+        
+        return $this->db->count_all_results();
+    }
+    
+    public function get_total_agent_count () {
+        $this->db->where('status', '1');
+        $this->db->from('crm_agents');
         
         return $this->db->count_all_results();
     }
@@ -450,19 +466,24 @@ class Web_model extends CI_Model {
             return false;
     }
     
-    public function get_payment_reportlist($limit, $start , $search_term = '',$status_search = '' ,$fromdate_search = '' ,$todate_search = '') {
+    public function get_payment_reportlist($limit, $start , $search_term = '',$search_title = '' ,$fromdate_search = '' ,$todate_search = '') {
         $this->db->select("SQL_CALC_FOUND_ROWS p.*,u.first_name,u.last_name,u.phone",FALSE); 
         $this->db->from('payments p');
         $this->db->join('crm_users u', 'u.user_id = p.user_id', 'left');
          
         if($search_term != '') {
-            $this->db->like('first_name',$search_term);
-            $this->db->or_like('last_name',$search_term);
-            $this->db->or_like('email',$search_term);
+            $this->db->like('u.first_name',$search_term);
+            $this->db->or_like('u.last_name',$search_term);
             $this->db->or_like('phone',$search_term);
         }
-        if($status_search != '') 
-            $this->db->where('status',$status_search);
+        if($search_title != ''){
+           if(is_numeric($search_title)) {
+               $this->db->where('p.amount',$search_title);
+           } 
+           else {
+               $this->db->like('p.title',$search_title); 
+           }
+        }
         if($fromdate_search != '') 
             $this->db->where('p.date >=', $fromdate_search);
         if($todate_search != '') 

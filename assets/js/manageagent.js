@@ -30,13 +30,14 @@ var Manageagent = function(){
               number:true
              },
              state: {
-              required: true,
+              required: true
              },
              district: {
-               required: true,
+               required: true
              },
              city: {
               required: true,
+              minlength: 3
              },
              pincode: {
               minlength: 6,

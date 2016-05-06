@@ -143,6 +143,7 @@ class Web extends CI_Controller {
             $this->gen_contents['users_count']  = $this->web_model->get_total_users_count($status = '1');
             $this->gen_contents['guest_count']  = $this->web_model->get_total_users_count($status = '0');
             $this->gen_contents['payment_count']  = $this->web_model->get_total_payment_count();
+            $this->gen_contents['agent_count']  = $this->web_model->get_total_agent_count();
             $this->gen_contents['todo']  = $this->web_model->get_todo();
             $this->gen_contents['link_dashboard']  = 'active';
             $this->template->write_view('content', 'dashboard', $this->gen_contents);
@@ -279,10 +280,10 @@ class Web extends CI_Controller {
             else 
                 $search_user = '';
             
-            if($this->input->post("status_search") != '')
-                $status_search = $this->input->post("status_search",true);
+            if($this->input->post("search_title") != '')
+                $search_title = trim($this->input->post("search_title",true));
             else 
-                $status_search = '';
+                $search_title = '';
             if($this->input->post("fromdate_search") != '')
                 $fromdate_search = $this->input->post("fromdate_search",true);
             else 
@@ -292,7 +293,7 @@ class Web extends CI_Controller {
             else 
                 $todate_search = '';
 
-            $this->gen_contents['details'] = $this->web_model->get_payment_reportlist($config['per_page'], $pagin,$search_user,$status_search,$fromdate_search,$todate_search);
+            $this->gen_contents['details'] = $this->web_model->get_payment_reportlist($config['per_page'], $pagin,$search_user,$search_title,$fromdate_search,$todate_search);
             $total_records = $this->web_model->get_total_rows(); 
             //--pagination
             $this->load->library('pagination');
@@ -739,7 +740,12 @@ class Web extends CI_Controller {
                 if($result){
                     sf( 'success_message', "Payment details inserted successfully" );
                     //redirect("manage_payment");
-
+                    
+                    $datas = array(
+                        'status'     => '1'
+                    );
+                    $change_user_status = $this->web_model->user_status_update($datas,$this->input->post("user",true));
+                    
                     $get_user_data = $this->web_model->get_user_details($this->input->post("user",true));
                     if($get_user_data){
                         $this->gen_contents['name'] = $get_user_data['first_name'].' '.$get_user_data['last_name'];

@@ -17,14 +17,10 @@
                         
                         <div class="col-md-12">
                             <div class="col-md-3">
-                                <input type = "text" name = "search_user" class = "form-control" placeholder="Name,Email,Phone" value = "<?php echo set_value('search_user'); ?>">
+                                <input type = "text" name = "search_user" class = "form-control" placeholder="Name,Phone" value = "<?php echo set_value('search_user'); ?>">
                             </div>
                             <div class="col-md-3">
-                                <select name = "status_search" class = "form-control">
-                                    <option value = "" <?php echo  set_select('status_search', ''); ?>>Status</option>
-                                    <option value = "1" <?php echo  set_select('status_search', '1'); ?>>Active</option>
-                                    <option value = "2" <?php echo  set_select('status_search', '2'); ?>>Deactive</option>
-                                </select> 
+                                <input type = "text" name = "search_title" class = "form-control" placeholder="Title,amount" value = "<?php echo set_value('search_title'); ?>">
                             </div>
                             <div class="col-md-3">
                                  <input type = "text" class = "form-control" value = "<?php echo set_value('fromdate_search');?>" id = "fromdate_search" name = "fromdate_search" class = "form-control" placeholder = "From date">

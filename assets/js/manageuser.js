@@ -17,14 +17,15 @@ var Manageuser = function(){
               required: true,
               number:true
              },
-            state: {
-              required: true,
+             state: {
+              required: true
              },
-            district: {
-               required: true,
+             district: {
+               required: true
              },
             city: {
               required: true,
+              minlength: 3
              },
             pincode: {
               minlength: 6,
