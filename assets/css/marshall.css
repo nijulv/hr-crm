@@ -970,3 +970,8 @@ added for marshall
     background: none repeat scroll 0% 0% #F6F6F6;
     padding: 15px;
 }
+.scroll{
+    height: 200px;
+    overflow-y: scroll;
+}
+

@@ -83,7 +83,7 @@
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-clipboard-with-paper"></use></svg>To-do List (Today's Appointments)
                         </div>
                         <?php if($todo){?>
-                        <div class="panel-body">
+                        <div class="panel-body scroll">
                             <ul class="todo-list">
                                 <?php foreach($todo as $res){?>
                                 <li class="todo-list-item" id='<?php echo $res['id']; ?>'>

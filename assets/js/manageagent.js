@@ -38,6 +38,11 @@ var Manageagent = function(){
              city: {
               required: true,
              },
+             pincode: {
+              minlength: 6,
+              maxlength:6,
+              number:true
+             },
             },
 
             highlight: function(element) {

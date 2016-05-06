@@ -93,7 +93,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Pincode</label>
-                                        <input type="text" name="pincode" id="pincode" class="form-control" maxlength="15" placeholder="Pin code" onkeypress="return numberValidate(event);" value="<?php echo set_value('pincode') ?>">
+                                        <input type="text" name="pincode" id="pincode" class="form-control" maxlength="6" placeholder="Pin code" onkeypress="return numberValidate(event);" value="<?php echo set_value('pincode') ?>">
                                     </div>
                                     <div class="form-group">
                                         <button type="reset" id="btnCancelagent" class="btn btn-default">Cancel</button>
