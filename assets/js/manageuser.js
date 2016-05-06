@@ -17,13 +17,13 @@ var Manageuser = function(){
               required: true,
               number:true
              },
-             state: {
+            state: {
               required: true,
              },
-             district: {
+            district: {
                required: true,
              },
-             city: {
+            city: {
               required: true,
              },
            
@@ -113,7 +113,7 @@ var Manageuser = function(){
                     });
             }); 
             $('#state').on('change', function(){  
-                
+           
                  $.ajax({
                         type    : "POST",
                         url     : base_url+'district',
@@ -125,6 +125,20 @@ var Manageuser = function(){
                         }
                     });
               
+            })
+            $('.view').on('click', function(){ 
+                var u_id = $(this).data('id'); 
+                $.ajax({
+                        type    : "POST",
+                        url     : base_url+'viewuser/'+u_id,
+                        data    : {'u_id':u_id},
+                        success : function(data){
+                                   $('#content').html('');
+                                   $('#content').append(data);
+                                   $('#viewmyModal').modal();
+                                  }
+                    });
+                
             })
             
 }();

@@ -94,7 +94,7 @@
                                     <textarea class="form-control" name="address" style="height: 150px !important;" maxlength="500"><?php echo set_value('address',$details['address']);?></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label>Pincode</label>
+                                    <label>Pin code</label>
                                     <input type="text" name="pincode" class="form-control" placeholder="Pin code" maxlength="15" value = "<?php echo set_value('pincode',$details['pincode']); ?>" onkeypress="return numberValidate(event);">
                                 </div>
                                 <div class="form-group">

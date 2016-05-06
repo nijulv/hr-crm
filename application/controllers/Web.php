@@ -595,8 +595,11 @@ class Web extends CI_Controller {
             $get_district=$this->web_model->get_district($district_id);
             $this->gen_contents['get_district']=$get_district[0];
             $this->gen_contents['link_user']  = 'active';
-            $this->template->write_view('content', 'viewuser', $this->gen_contents);
-            $this->template->render();
+            $show=$this->load->view('user/view', $this->gen_contents,true);
+        
+            $this->load->view('show_message', array('message'=>$show));
+           
+
         }
     }
     function changestatus($agent_id){

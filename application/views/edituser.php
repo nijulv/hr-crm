@@ -58,7 +58,6 @@
                                         </select>
                                      </div> 
                                     <?php } ?>
-                                    <?php if(!empty($district_details)){?>
                                     <div class="form-group">
                                         <label for="txtUserdistrict">District<span class="required">*</span></label>
                                         <select name="district" id="district" class="form-control" required>
@@ -67,7 +66,6 @@
                                             <?php } ?>
                                         </select>
                                     </div> 
-                                <?php } ?>
                                 </div>
                                 <div class="col-md-6">   
                                         <div class="form-group">

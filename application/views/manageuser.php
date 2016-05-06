@@ -59,7 +59,7 @@
                                             <td><?php echo $res['email']?></td>
                                             <td style = "text-align:center;color:<?php echo  $color;?>"><?php echo $status;?></td>
                                             <td style = "text-align:center;">
-                                                <a href="<?php echo base_url() ?>viewuser/<?php echo $res['user_id']?>" class="label label-primary"><i class="fa fa-list"></i>View</a>
+                                                <a  data-id="<?php echo $res['user_id']?>" id="view" class="label label-primary view"><i class="fa fa-list"></i>View</a>
                                                 <a href="<?php echo base_url() ?>edituser/<?php echo $res['user_id']?>" class="label label-default" id="edit"><span class="fa fa-pencil"></span> Edit</a>
                                                 <a id="delete" class="label label-danger delete" data-id="<?php echo $res['user_id']?>" data-url="deleteuser"><span class="fa fa-trash"></span> Delete</a>
                                             </td>
@@ -75,7 +75,23 @@
                         echo '<div class="alert alert-warning">Sorry! There is no details available now.</div>';
                      } ?>
             </div>
-            </div>      
+            </div>   
+              <div id="viewmyModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                             <h4 class="modal-title">View User</h4>
+                        </div>
+                        <div class="modal-body" id="content">
+  
+                         </div>
+                        <div class="modal-footer ">
+                            <button type="button" class="btn btn-default" id ="ok" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
                                     
 
         </div>	<!--/.main-->
