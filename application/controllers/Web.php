@@ -388,6 +388,78 @@ class Web extends CI_Controller {
             $this->template->render();
         }
     }
+    
+    function user_reports () {
+        if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            
+            $config['per_page']   = 25;
+            
+            $this->gen_contents['per_page'] = $config['per_page'];
+            $pagin = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;   
+            
+            if($this->input->post("search_user") != '')
+                $search_user = trim($this->input->post("search_user",true));
+            else 
+                $search_user = '';
+            
+             if($this->input->post("status_search") != '')
+                $status_search = $this->input->post("status_search",true);
+            else 
+                $status_search = '';
+            
+            if($this->input->post("fromdate_search") != '')
+                $fromdate_search = $this->input->post("fromdate_search",true);
+            else 
+                $fromdate_search = '';
+            if($this->input->post("todate_search") != '')
+                $todate_search = $this->input->post("todate_search",true);
+            else 
+                $todate_search = '';
+
+            $this->gen_contents['details'] = $this->web_model->get_user_reportlist($config['per_page'], $pagin,$search_user,$status_search,$fromdate_search,$todate_search);
+            $total_records = $this->web_model->get_total_rows(); 
+            //--pagination
+            $this->load->library('pagination');
+            $this->load->library('bspagination');   
+            $config['base_url']     = base_url().'user_reports';
+            $config['total_rows']   = $total_records;
+            $bs_init = $this->bspagination->config();
+            $config = array_merge($config, $bs_init);        
+            $this->pagination->initialize($config);
+            $this->gen_contents['links'] =  $this->pagination->create_links();   
+            
+            if($this->input->post("district",true)) {
+                $district = $this->input->post("district",true);
+            }
+            
+            $this->gen_contents['district'] = $district;
+            $this->gen_contents['state_details']  = $this->web_model->get_state_details();
+            $this->gen_contents['reports'] = '1';
+            $this->gen_contents['user_report']  = 'active';
+            $this->template->write_view('content', 'report_user', $this->gen_contents);
+            $this->template->render();
+        }
+    }
+    
+    public function district_autocomplete () {
+        $keyword = $this->input->post("keyword");
+        $selector = $this->input->post("selector");
+        if($keyword != '') { 
+            $this->load->model('web_model');  
+            $result = $this->web_model->district_autocomplete($keyword); 
+            if($result){ ?>
+                <ul id="postcode-list-3qotes">
+                    <?php
+                    foreach($result as $data) { ?>
+                        <li  class = "districtautolist" style ="border:1px solid red;"><?php echo $data["name"]; ?></li>
+                    <?php } ?>
+                </ul>
+            <?php }
+        }
+    }
             
     function manage_agents () {  
         

@@ -114,4 +114,8 @@ $route['agent_reports/(:num)']    = "web/agent_reports/$1";
 $route['payment_reports']           = "web/payment_reports";
 $route['payment_reports/(:num)']    = "web/payment_reports/$1";
 
+$route['user_reports']           = "web/user_reports";
+$route['user_reports/(:num)']    = "web/user_reports/$1";
+
 $route['viewmore/(:any)/(:any)']      = "ajax/viewmore/$1/$2";
+$route['district_autocomplete']      = "web/district_autocomplete";

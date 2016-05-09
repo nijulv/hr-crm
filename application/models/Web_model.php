@@ -510,6 +510,40 @@ class Web_model extends CI_Model {
             return false;
     }
     
+    public function get_user_reportlist($limit, $start , $search_term = '',$status_search = '' ,$fromdate_search = '' ,$todate_search = '') {
+        $this->db->select("SQL_CALC_FOUND_ROWS u.*,s.name as state,d.name as districts",FALSE); 
+        $this->db->from('crm_users u');
+        $this->db->join('states s', 's.id = u.state_id', 'left');
+        $this->db->join('districts d', 'd.id = u.district_id', 'left');
+            
+        $this->db->where('status !=','2');
+         
+        if($search_term != '') {
+            $this->db->like('u.first_name',$search_term);
+            $this->db->or_like('u.last_name',$search_term);
+            $this->db->or_like('u.email',$search_term);
+            $this->db->or_like('u.phone',$search_term);
+        }
+        if($status_search != '') 
+            $this->db->where('u.status',$status_search);
+        if($fromdate_search != '') 
+            $this->db->where('u.date >=', $fromdate_search);
+        if($todate_search != '') 
+        $this->db->where('u.date <=', $todate_search);
+        
+        if(s('ADMIN_TYPE') == 1){
+             $this->db->where('p.agent_id',s('ADMIN_USERID'));
+        }
+        
+        $this->db->order_by("u.agent_id","desc");
+        $this->db->limit($limit, $start);
+        $query = $this->db->get();     //echo $this->db->last_query();
+        if($query->num_rows () >0)
+            return $query->result_array();
+        else
+            return false;
+    }
+    
     function get_more_details($id = 0,$tbl_name = ''){
         
         if($tbl_name == 'payments') {
@@ -519,6 +553,15 @@ class Web_model extends CI_Model {
             );
             $this->db->from('payments p');
             $this->db->join('crm_users u', 'u.user_id = p.user_id', 'left');
+            $this->db->join('states s', 's.id = u.state_id', 'left');
+            $this->db->join('districts d', 'd.id = u.district_id', 'left');
+        }
+        else if($tbl_name == 'crm_users') {
+            $this->db->select("u.*,s.name as state,d.name as districts");
+            $where = array(
+                'user_id' => $id
+            );
+            $this->db->from('crm_users u');
             $this->db->join('states s', 's.id = u.state_id', 'left');
             $this->db->join('districts d', 'd.id = u.district_id', 'left');
         }
@@ -538,5 +581,14 @@ class Web_model extends CI_Model {
         } else {
             return FALSE;
         }
+    }
+    
+     public function district_autocomplete($keyword = '') {
+         
+        $query = $this->db->query("SELECT name FROM districts WHERE name LIKE '$keyword%'");
+        if ($query->num_rows() > 0)
+            return $query->result_array();
+        else
+            return false;
     }
 }

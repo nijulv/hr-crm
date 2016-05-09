@@ -139,6 +139,8 @@ var Manageagent = function(){
             $('#data-title').html("Agent: More details");
         else if(from == 'payment')
             $('#data-title').html("Payment: More details");
+        else if(from == 'user')
+            $('#data-title').html("User: More details");
 
         var id              = $(this).attr("data-id");
 
@@ -150,18 +152,40 @@ var Manageagent = function(){
     });
     
     
+    /*
     $("#todate_search").mouseover(function(){  
         $('#todate_search').datepicker({
-            format: "yyyy-mm-dd"
+            format: "yyyy-mm-dd",
+            autoclose: true
+            
         });  
 
     });
 
     $("#fromdate_search").mouseover(function(){  
         $('#fromdate_search').datepicker({
-            format: "yyyy-mm-dd"
+            format: "yyyy-mm-dd",
+            autoclose: true
         });  
 
+    }); */
+    
+    
+    $(function () {
+        $("#fromdate_search").datepicker({ 
+             format: "yyyy-mm-dd",
+             autoclose: true,
+            onSelect: function(selected) { 
+                $("#todate_search").datepicker("option","minDate", selected) 
+            }
+        });
+        $("#todate_search").datepicker({
+            format: "yyyy-mm-dd",
+            autoclose: true,
+            onSelect: function(selected) {   
+                $("#fromdate_search").datepicker("option","maxDate", selected)
+            }
+        });
     });
     
     

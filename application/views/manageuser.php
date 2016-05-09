@@ -42,7 +42,7 @@
                             <tbody>
                                     <?php foreach($results as $res){?>
                                         <?php if($res['status']==0){
-                                            $status="Guest";
+                                            $status="Client";
                                             $color = 'blue';
                                         }
                                         if($res['status']==1){
