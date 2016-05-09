@@ -80,9 +80,9 @@ var Manageuser = function(){
                     $('#myModal').modal();
                     return false;
                 }
-                else {
+                /*else {
                      $("#todo").css("border", "2px solid red");
-                }
+                } */
             });
             $('#todo-panel').on('click','.deletetodo', function(){ 
        
@@ -237,7 +237,7 @@ var Manageuser = function(){
                 $(".suggesstion-box").hide();
             } */
             
-            $('.panel-body').on('click','.districtautolist', function(){   alert("nnn");  
+            $('.panel-body').on('click','.districtautolist', function(){   //alert("nnn");  
                 
                 $("#search_district").val(val);
                 $(".suggesstion-box").hide();

@@ -182,7 +182,7 @@ var Manageagent = function(){
         $("#todate_search").datepicker({
             format: "yyyy-mm-dd",
             autoclose: true,
-            onSelect: function(selected) {   alert("nnn");
+            onSelect: function(selected) {   
                 $("#fromdate_search").datepicker("option","maxDate", selected)
             }
         });

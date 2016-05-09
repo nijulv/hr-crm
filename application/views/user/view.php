@@ -1,5 +1,5 @@
                 <?php if($user_details['status']==0){
-                $status="Guest";
+                $status="Client";
                 }
                 if($user_details['status']==1){
                 $status="User";

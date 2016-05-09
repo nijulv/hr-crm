@@ -72,7 +72,7 @@
                                             <td><?php echo $data['email'];?></td>
                                             <td><?php echo $data['phone'];?></td>
                                             <td><?php echo $data['agent_code'];?></td>
-                                            <td style = "text-align:center;color:<?php echo  $color;?>"><?php echo $status;?></td>
+                                            <td style = "text-align:center;"><?php echo $status;?></td>
                                             <td style = "text-align:center;">
                                                 <a href="javascript: void(0)" class="label label-primary more" data-from="agent" data-id="<?php echo $data['agent_id']; ?>" ><i class="fa fa-list"></i>View More</a>
                                             </td>

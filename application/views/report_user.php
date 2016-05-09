@@ -22,7 +22,7 @@
                             <div class="col-md-3">
                                 <select name = "status_search" class = "form-control">
                                     <option value = "" <?php echo  set_select('status_search', ''); ?>>All</option>
-                                    <option value = "1" <?php echo  set_select('status_search', '1'); ?>>Users</option>
+                                    <option value = "1" <?php echo  set_select('status_search', '1'); ?>>User</option>
                                     <option value = "0" <?php echo  set_select('status_search', '0'); ?>>Client</option>
                                 </select> 
                             </div>
@@ -33,10 +33,10 @@
                                 <input type = "text" class = "form-control" value = "<?php echo set_value('todate_search');?>" id = "todate_search" name = "todate_search" class = "form-control" placeholder = "To date">
                             </div>  
                         </div>    &nbsp;
-                        <div class="col-md-12">
+                        <div class="col-md-12"  style = "display:none;">
                             <div class="col-md-3">
                                <?php if(!empty($state_details)){?>
-                                <select name="state" id="state" class="form-control" required>
+                                <select name="state" id="state" class="form-control" >
                                     <option value="">Select</option>
                                   <?php foreach($state_details as $res){?> 
                                     <option <?php echo  set_select('state',$res['id'], False); ?> value="<?php echo $res['id']; ?>"><?php echo $res['name']; ?></option>
@@ -98,7 +98,7 @@
                                             <td><?php echo $data['state'];?></td>
                                             <td><?php echo $data['districts'];?></td>
                                             <td><?php echo $data['city'];?></td>
-                                            <td style = "text-align:center;color:<?php echo  $color;?>"><?php echo $status;?></td>
+                                            <td style = "text-align:center;"><?php echo $status;?></td>
                                             <td style = "text-align:center;">
                                                 <a href="javascript: void(0)" class="label label-primary more" data-from="user" data-id="<?php echo $data['user_id']; ?>" ><i class="fa fa-list"></i>View More</a>
                                             </td>
