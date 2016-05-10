@@ -566,6 +566,13 @@ class Web extends CI_Controller {
             redirect("web");
         }
         else {
+            if($this->input->post("user_search") != '')
+                $user_search = trim($this->input->post("user_search",true));
+            elseif("" != $this->uri->segment(2)){
+                 $user_search =$this->uri->segment(2);
+            }
+            else 
+                $user_search = '0';
             $this->load->library('pagination');
             $agent_id=$this->session->get_userdata('session_data'); 
             $agent_id=$agent_id['ADMIN_USERID'];
@@ -573,9 +580,9 @@ class Web extends CI_Controller {
             if(s('ADMIN_TYPE') == 1){
                   $where = array('agent_id' => $agent_id);
             }
-
-            $total_count = $this->web_model->get_userdetails_count($where);
-            $config['base_url'] = base_url().'manageuser';
+            $total_count = $this->web_model->get_userdetails_count($where,$user_search);
+            $config['base_url'] = base_url().'manageuser/'.$user_search;
+            $config['uri_segment'] = 3;
             $config['total_rows'] = $total_count;
             $config['per_page'] = 25;
             $config['display_pages'] = true; 
@@ -594,13 +601,13 @@ class Web extends CI_Controller {
             $config['last_tag_open'] = "<li>";
             $config['last_tagl_close'] = "</li>";
             $config['page_query_string'] = FALSE;
-            if($this->uri->segment(2)){
-                $page = $this->uri->segment(2);
+            if($this->uri->segment(3)){
+                $page = $this->uri->segment(3);
             }else{
                 $page = 0;
             }
             $this->pagination->initialize($config);
-            $this->gen_contents['results'] = $this->web_model->get_userdetails($where,$page,$config['per_page']);
+            $this->gen_contents['results'] = $this->web_model->get_userdetails($where,$page,$config['per_page'],$user_search);
             $this->gen_contents['js_files'] = array(); 
             $this->gen_contents['link_user']  = 'active';
             $this->template->write_view('content', 'manageuser', $this->gen_contents);

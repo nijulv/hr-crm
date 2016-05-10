@@ -62,6 +62,7 @@ $route['logout']           = "web/logout";
 
 $route['manageuser']              = "web/manageuser";
 $route['manageuser/(:any)']       = "web/manageuser/$1";
+$route['manageuser/(:any)/(:any)']       = "web/manageuser/$1/$1";
 $route['adduser']                 = "web/adduser";
 $route['edituser/(:any)']         = "web/edituser/$1";
 $route['edituser']                = "web/edituser";

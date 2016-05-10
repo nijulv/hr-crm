@@ -154,21 +154,26 @@ class Web_model extends CI_Model {
         
     }
     
-    function get_userdetails_count($where){
+    function get_userdetails_count($where,$user_search=''){
         
         $this->db->select("COUNT(user_id) AS cnt");
         $this->db->where($where);
         $this->db->where("status !=",'2');
+        if($user_search){
+            $this->db->where("(`first_name` LIKE '%$user_search%' OR  `last_name` LIKE '%$user_search%' OR `email` LIKE '%$user_search%')");
+        }
         $query = $this->db->get('crm_users');
         $row = $query->row();
         return intval($row->cnt);
         
     }
-    function get_userdetails($where, $start=0, $limit=25){
+    function get_userdetails($where, $start=0, $limit=25,$user_search=''){
         $this->db->select('user_id,agent_id,first_name,last_name,email,phone,status');
         $this->db->where($where);
-        //$this->db->where_in("status", ['0','1']);
-        $this->db->where("status !=",'2');
+        $this->db->where("status <>",'2');
+        if('0' != trim($user_search)){
+            $this->db->where("(`first_name` LIKE '%$user_search%' OR  `last_name` LIKE '%$user_search%' OR `email` LIKE '%$user_search%')");
+        }
         $this->db->order_by('user_id', 'DESC');
         $this->db->limit($limit, $start);
         $query = $this->db->get('crm_users');

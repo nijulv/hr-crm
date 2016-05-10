@@ -4,7 +4,7 @@
                     <li><a href="<?php echo base_url()?>dashboard"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
                     <li class="active">Manage User</li>
                 </ol>
-            </div><!--/.row-->
+            </div><!--/row-->
 
             <div class="row">
                 <div class="col-lg-12">
@@ -18,17 +18,36 @@
                 </div>                                        
             </div>
             <?php endif;?>
+            <?php if("0" != $this->uri->segment(2)){
+                 $user_search =$this->uri->segment(2);
+            }?>
             <div class="panel panel-default">
-            <div class="row" style="padding:10px;">
-                <div class="col-lg-12" a style="padding-top: 10px;">
+            <div class="row panel-body" style="padding-top:20px;">
+                     <div class="col-md-9 col-sm-9 col-xs-12">
+                         <div class="form-group">
+                            <form class="" enctype="multipart/form-data" method ="POST" action="<?php echo base_url() ?>manageuser" name="frmUserdetails" id="frmUserdetails">  
+                                <div class="row">
+                                    <div class="col-xs-8">
+                                            <input type = "text" name = "user_search" class = "form-control"  placeholder="User Name or Email" value = "<?php echo set_value('user_search',$user_search); ?>">
+                                          
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <button type="submit" class="btn btn-info">Search</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                     </div>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
                     <div class="pull-right text-center"><a style="text-decoration: none;padding-top: 10px;" class="btn btn-primary" href="<?php echo base_url()?>adduser"><i class="fa fa-plus"></i> Add New User</a></div>
                 </div>
-           </div>
+            
+            </div>
             <div class="portlet-body">
                 <?php if(!empty($results)){
-                    $i=1;?>
+                   if($this->uri->segment(3)=='') $i=1; else $i=$this->uri->segment(3)+1; ;?>
                 <div class="panel-body">
-                <div class="table-container table-responsive">
+                     <div class="table-container table-responsive">
                     <table class="table table-bordered table-striped table-hover table-responsive">
                             <thead><tr role="row" class="heading">
                                 <th class="no-sort" width="5%" style = "text-align:center;">Sl.No</th>
@@ -64,12 +83,12 @@
                                                 <a id="delete" class="label label-danger delete" data-id="<?php echo $res['user_id']?>" data-url="deleteuser"><span class="fa fa-trash"></span> Delete</a>
                                             </td>
                                         </tr>
-                                <?php $i++; } ?>
+                                <?php  $i++; } ?>
                             </tbody>
                     </table>
                 </div>
                 </div>
-                <?php echo $this->pagination->create_links(); ?>
+                <?php  echo $this->pagination->create_links(); ?>
                 <?php }
                 else {
                         echo '<div class="alert alert-warning">Sorry! There is no details available now.</div>';
@@ -94,7 +113,7 @@
             </div>
                                     
 
-        </div>	<!--/.main-->
+        </div>	<!--/main-->
 
         
  
