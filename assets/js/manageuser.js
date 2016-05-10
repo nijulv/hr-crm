@@ -101,6 +101,7 @@ var Manageuser = function(){
                                                 $('.panel-footer font').remove();
                                                 $('#'+todo_id).remove();
                                                 $('.panel-footer').append(data.msg);
+                                                $('.panel-footer font').delay(2000).fadeOut();
                                     }
                                 });
                         }
@@ -140,13 +141,16 @@ var Manageuser = function(){
                                      $('.panel-footer font').remove();
                                      $('#'+u_id +' .checkbox label').text(data.title);
                                      $('.panel-footer').append(data.msg);
+                                     $('.panel-footer font').delay(2000).fadeOut();
                                     }
                                  else if(data.success==2){
                                         $('.panel-footer').append(data.msg);
+                                        $('.panel-footer font').delay(2000).fadeOut();
                                     }
                                 else{
                                     $('#'+u_id).remove();
                                     $('.panel-footer').append(data.msg);
+                                    $('.panel-footer font').delay(2000).fadeOut();
                             }
                            $('#todo').val('');
                         }
@@ -168,13 +172,16 @@ var Manageuser = function(){
                                     var html = '<div class="panel-body"><ul class="todo-list">'+data.html+'</div></div>';
                                     $('#todo-panel .panel-heading').after(html);
                                     $('.panel-footer').append(data.msg);
+                                    $('.panel-footer font').delay(2000).fadeOut();
                                 }else{
                                      $('.todo-list').append(data.html);
                                      $('.panel-footer').append(data.msg);
+                                     $('.panel-footer font').delay(2000).fadeOut();
                                 }
                                 
                             }else{
                                  $('.panel-footer').append(data.msg);
+                                 $('.panel-footer font').delay(2000).fadeOut();
                             }
                            $('#todo').val('');
                         }
