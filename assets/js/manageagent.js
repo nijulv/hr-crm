@@ -196,3 +196,12 @@ var Manageagent = function(){
         
     });
     
+    
+    $(".pagination li a").on("click", function(e) { 
+            
+        e.preventDefault();
+        var nxt_page_link = $(this).attr("href");  
+        var url = nxt_page_link;
+        $("form").attr("action", url);
+        $("form").submit();   
+    });

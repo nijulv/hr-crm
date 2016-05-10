@@ -17,7 +17,7 @@
                         
                         <div class="col-md-12">
                             <div class="col-md-3">
-                                <input type = "text" name = "search_user" class = "form-control" placeholder="Name,Email,Phone" value = "<?php echo set_value('search_user'); ?>">
+                                <input type = "text" name = "search_user" class = "form-control" placeholder="Name,Email" value = "<?php echo set_value('search_user'); ?>">
                             </div>
                             <div class="col-md-3">
                                 <select name = "status_search" class = "form-control">
@@ -27,17 +27,20 @@
                                 </select> 
                             </div>
                             <div class="col-md-3">
-                                 <input type = "text" class = "form-control" value = "<?php echo set_value('fromdate_search');?>" id = "fromdate_search" name = "fromdate_search" class = "form-control" placeholder = "From date">
+                                 <input type = "text" class = "form-control" value = "<?php echo set_value('fromdate_search');?>" id = "fromdate_search" name = "fromdate_search"  placeholder = "From date">
                             </div>
                             <div class="col-md-3">
-                                <input type = "text" class = "form-control" value = "<?php echo set_value('todate_search');?>" id = "todate_search" name = "todate_search" class = "form-control" placeholder = "To date">
+                                <input type = "text" class = "form-control" value = "<?php echo set_value('todate_search');?>" id = "todate_search" name = "todate_search"  placeholder = "To date">
                             </div>  
                         </div>    &nbsp;
-                        <div class="col-md-12"  style = "display:none;">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <input type = "text" name = "search_phone" class = "form-control" placeholder="Phone Number" value = "<?php echo set_value('search_phone'); ?>" onkeypress="return numberValidate(event);">
+                            </div>
                             <div class="col-md-3">
                                <?php if(!empty($state_details)){?>
                                 <select name="state" id="state" class="form-control" >
-                                    <option value="">Select</option>
+                                    <option value="">Select State</option>
                                   <?php foreach($state_details as $res){?> 
                                     <option <?php echo  set_select('state',$res['id'], False); ?> value="<?php echo $res['id']; ?>"><?php echo $res['name']; ?></option>
                                   <?php } ?>
@@ -45,16 +48,12 @@
                                <?php }?>
                             </div>
                             <div class="col-md-3">
-                                 <input type = "text" class = "form-control" value = "<?php echo set_value('search_district');?>" id = "search_district" name = "search_district" class = "form-control" placeholder = "District">
+                                 <input type = "text" class = "form-control" value = "<?php echo set_value('search_district');?>" id = "search_district" name = "search_district" placeholder = "District">
                                  <div class = "suggesstion-box"></div>
                             </div>
                             <div class="col-md-3">
-                                 <input type = "text" class = "form-control" value = "<?php echo set_value('search_district');?>" id = "fromdate_searcha" name = "search_district" class = "form-control" placeholder = "">
-                                 
-                            </div>
-                            <div class="col-md-3">
-                                <input type = "text" class = "form-control" value = "<?php echo set_value('todate_search');?>" id = "todate_search" name = "todate_search" class = "form-control" placeholder = "To date">
-                            </div>   &nbsp;
+                                 <input type = "text" class = "form-control" value = "<?php echo set_value('search_city');?>" id = "search_city" name = "search_city"  placeholder = "City">
+                            </div>  &nbsp;
                         </div> <br/>
                         <button type="submit" class="btn btn-info" style = " margin-left: 43%;" >Search</button><br>
                          <?php echo form_close(); ?>
@@ -110,7 +109,7 @@
                             </div>
                         </div>
                         <?php } else {
-                            echo '<div class="alert alert-warning">Sorry! There is no details available now.</div>';
+                            echo '<div class="nodata">Sorry! There is no details available now.</div>';
                         } ?>
                     </div>
                 </div>

@@ -109,6 +109,7 @@
                                 </span>
                             </div>
                         </div>
+                        <div class = "alert shedule" style = "display:none;"></div>
                     </div>
                 </div>
             </div><!--/.row-->

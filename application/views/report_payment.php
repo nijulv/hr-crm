@@ -69,7 +69,7 @@
                             </div>
                         </div>
                         <?php } else {
-                            echo '<div class="alert alert-warning">Sorry! There is no details available now.</div>';
+                            echo '<div class="nodata">Sorry! There is no details available now.</div>';
                         } ?>
                     </div>
                 </div>

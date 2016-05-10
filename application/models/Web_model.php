@@ -447,24 +447,36 @@ class Web_model extends CI_Model {
         return($query->row_array());
     }
     
-    public function get_agent_reportlist($limit, $start , $search_term = '',$status_search = '' ,$fromdate_search = '' ,$todate_search = '') {
-        $this->db->select("SQL_CALC_FOUND_ROWS *",FALSE); 
-        $this->db->from('crm_agents');
-        $this->db->where('status !=','0');
+    public function get_agent_reportlist($limit, $start , $search_term = '',$status_search = '' ,$fromdate_search = '' ,$todate_search = '',$search_phone = '',$state_search = '',$search_district = '',$search_city = '') {
+        $this->db->select("SQL_CALC_FOUND_ROWS a.*,s.name as state,d.name as districts",FALSE); 
+        $this->db->from('crm_agents a');
+        $this->db->join('states s', 's.id = a.state_id', 'left');
+        $this->db->join('districts d', 'd.id = a.district_id', 'left');
+        $this->db->where('a.status !=','0');
          
         if($search_term != '') {
-            $this->db->like('first_name',$search_term);
-            $this->db->or_like('last_name',$search_term);
-            $this->db->or_like('email',$search_term);
-            $this->db->or_like('phone',$search_term);
+            $this->db->like('a.first_name',$search_term);
+            $this->db->or_like('a.last_name',$search_term);
+            $this->db->or_like('a.email',$search_term);
+            //$this->db->or_like('phone',$search_term);
         }
         if($status_search != '') 
-            $this->db->where('status',$status_search);
+            $this->db->where('a.status',$status_search);
         if($fromdate_search != '') 
-            $this->db->where('date >=', $fromdate_search);
+            $this->db->where('a.date >=', $fromdate_search);
         if($todate_search != '') 
-        $this->db->where('date <=', $todate_search);
+        $this->db->where('a.date <=', $todate_search);
         
+        if($search_phone != '') 
+            $this->db->where('a.phone',$search_phone);
+        if($state_search != '')
+            $this->db->where('a.state_id',$state_search);
+        if($search_district != '')
+            $this->db->where('d.name',$search_district);
+        
+        if($search_city != '')
+            $this->db->like('a.city',$search_city);       
+            
         $this->db->order_by("agent_id","desc");
         $this->db->limit($limit, $start);
         $query = $this->db->get();     //echo $this->db->last_query();
@@ -510,7 +522,7 @@ class Web_model extends CI_Model {
             return false;
     }
     
-    public function get_user_reportlist($limit, $start , $search_term = '',$status_search = '' ,$fromdate_search = '' ,$todate_search = '') {
+    public function get_user_reportlist($limit, $start , $search_term = '',$status_search = '' ,$fromdate_search = '' ,$todate_search = '',$state_search = '',$search_district = '',$search_city = '',$search_phone = '') {
         $this->db->select("SQL_CALC_FOUND_ROWS u.*,s.name as state,d.name as districts",FALSE); 
         $this->db->from('crm_users u');
         $this->db->join('states s', 's.id = u.state_id', 'left');
@@ -522,7 +534,7 @@ class Web_model extends CI_Model {
             $this->db->like('u.first_name',$search_term);
             $this->db->or_like('u.last_name',$search_term);
             $this->db->or_like('u.email',$search_term);
-            $this->db->or_like('u.phone',$search_term);
+            //$this->db->or_like('u.phone',$search_term);
         }
         if($status_search != '') 
             $this->db->where('u.status',$status_search);
@@ -530,6 +542,19 @@ class Web_model extends CI_Model {
             $this->db->where('u.date >=', $fromdate_search);
         if($todate_search != '') 
         $this->db->where('u.date <=', $todate_search);
+        
+        if($state_search != '')
+            $this->db->where('u.state_id',$state_search);
+        
+        if($search_district != '')
+            $this->db->where('d.name',$search_district);
+        
+        if($search_city != '')
+            $this->db->like('u.city',$search_city);
+        
+        if($search_phone != '')
+            $this->db->where('u.phone',$search_phone);
+        
         
         if(s('ADMIN_TYPE') == 1){
              $this->db->where('p.agent_id',s('ADMIN_USERID'));
@@ -566,16 +591,18 @@ class Web_model extends CI_Model {
             $this->db->join('districts d', 'd.id = u.district_id', 'left');
         }
         else {
-            $this->db->select("*");
+            $this->db->select("a.*,s.name as state,d.name as districts"); 
             $where = array(
                 'agent_id' => $id
             );
-            $this->db->from($tbl_name);
+            $this->db->from('crm_agents a');
+            $this->db->join('states s', 's.id = a.state_id', 'left');
+            $this->db->join('districts d', 'd.id = a.district_id', 'left');
         }
        
         
         $this->db->where($where);
-        $query = $this->db->get();   
+        $query = $this->db->get();     
         if($query->num_rows() > 0){
             return $query->row_array();
         } else {

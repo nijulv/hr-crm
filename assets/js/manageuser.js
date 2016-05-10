@@ -80,9 +80,11 @@ var Manageuser = function(){
                     $('#myModal').modal();
                     return false;
                 }
-                /*else {
-                     $("#todo").css("border", "2px solid red");
-                } */
+                else {
+                     $(".shedule").html("Please enter description");
+                     $(".shedule").show();
+                     setTimeout(function() { $(".shedule").hide(); }, 3000);
+                } 
             });
             $('#todo-panel').on('click','.deletetodo', function(){ 
        
@@ -237,9 +239,11 @@ var Manageuser = function(){
                 $(".suggesstion-box").hide();
             } */
             
-            $('.panel-body').on('click','.districtautolist', function(){   //alert("nnn");  
+            $('.panel-body').on('click','.districtautolist', function(){  
                 
+                var val = $(this).attr("data-value");    
                 $("#search_district").val(val);
                 $(".suggesstion-box").hide();
             });
+            
 }();    
