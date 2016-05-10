@@ -17,7 +17,7 @@
                         
                         <div class="col-md-12">
                             <div class="col-md-3">
-                                <input type = "text" name = "search_user" class = "form-control" placeholder="Name,Email,Phone" value = "<?php echo set_value('search_user'); ?>">
+                                <input type = "text" name = "search_user" class = "form-control" placeholder="Name,Email" value = "<?php echo set_value('search_user'); ?>">
                             </div>
                             <div class="col-md-3">
                                 <select name = "status_search" class = "form-control">
