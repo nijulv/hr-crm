@@ -292,7 +292,16 @@ class Web_model extends CI_Model {
             return false;
     }
     
-    public function get_bankpayment_details($id = 0){
+    public function get_admin_details () {
+        $this->db->where("status","1");
+        $query = $this->db->get("crm_admin");      
+        if($query->num_rows () >0)
+            return $query->row_array();
+        else
+            return false;
+    }
+
+        public function get_bankpayment_details($id = 0){
         $this->db->select('*');
         $this->db->where("bank_payment_id",$id);
         $this->db->from('crm_bank_payment');  
@@ -577,7 +586,7 @@ class Web_model extends CI_Model {
     function get_more_details($id = 0,$tbl_name = ''){
         
         if($tbl_name == 'payments') {
-            $this->db->select("p.*,u.first_name,u.last_name,u.phone,u.email,s.name as state,d.name as districts,u.city");
+            $this->db->select("p.*,u.first_name,u.last_name,u.phone,u.email,s.name as state,d.name as districts,u.city,u.address,u.pincode");
             $where = array(
                 'payment_id' => $id
             );

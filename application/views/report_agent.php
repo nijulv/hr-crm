@@ -13,7 +13,7 @@
         <div class="row">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <?php echo form_open("",array("id" => "agent_report"));?>
+                        <?php echo form_open("",array("id" => "form_report"));?>
                         
                         <div class="col-md-12">
                             <div class="col-md-3">
@@ -27,10 +27,10 @@
                                 </select> 
                             </div>
                             <div class="col-md-3">
-                                 <input type = "text" class = "form-control" value = "<?php echo set_value('fromdate_search');?>" id = "fromdate_search" name = "fromdate_search" class = "form-control" placeholder = "From date">
+                                 <input type = "text" class = "form-control" value = "<?php echo set_value('fromdate_search');?>" id = "fromdate_search" readonly="readonly"  style="background:white;" name = "fromdate_search" class = "form-control" placeholder = "From date">
                             </div>
                             <div class="col-md-3">
-                                <input type = "text" class = "form-control" value = "<?php echo set_value('todate_search');?>" id = "todate_search" name = "todate_search" class = "form-control" placeholder = "To date">
+                                <input type = "text" class = "form-control" value = "<?php echo set_value('todate_search');?>" id = "todate_search" readonly="readonly" style="background:white;"  name = "todate_search" class = "form-control" placeholder = "To date">
                             </div>  
                         </div> &nbsp;
                         <div class="col-md-12">
@@ -55,7 +55,8 @@
                                  <input type = "text" class = "form-control" value = "<?php echo set_value('search_city');?>" id = "search_city" name = "search_city"  placeholder = "City">
                             </div>  &nbsp;
                         </div> <br/>
-                        <button type="submit" class="btn btn-info" style = " margin-left: 43%;" >Search</button><br>
+                        <button type="submit" class="btn btn-info" style = " margin-left: 43%;" >Search</button>
+                        <button type="button" class="btn btn-default reportclear" style = "" >Clear</button><br>
                          <?php echo form_close(); ?>
                         <br>
                         <?php if (!empty($details)) { ?>

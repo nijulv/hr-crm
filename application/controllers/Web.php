@@ -947,7 +947,15 @@ class Web extends CI_Controller {
                         'status'     => '1'
                     );
                     $change_user_status = $this->web_model->user_status_update($datas,$this->input->post("user",true));
-                    
+                    $admin_details = $this->web_model->get_admin_details();
+                    if($admin_details){
+                        $this->gen_contents['admin_email'] = $admin_details['email'];
+                        $this->gen_contents['admin_phone'] = $admin_details['phone'];
+                    }
+                    else {
+                        $this->gen_contents['admin_email'] = '';
+                        $this->gen_contents['admin_phone'] = '';
+                    }
                     $get_user_data = $this->web_model->get_user_details($this->input->post("user",true));
                     if($get_user_data){
                         $this->gen_contents['name'] = $get_user_data['first_name'].' '.$get_user_data['last_name'];
