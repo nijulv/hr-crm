@@ -969,6 +969,12 @@ ul#postcode-list-3qoteshome li {
 ul#postcode-list-3qoteshome li:hover {
     background-color: #FFF;
 }
+.text-danger p{
+  color: #a94442;
+}
+.text-success p{
+  color: #a94442;
+}
 
 
 

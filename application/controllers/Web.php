@@ -164,6 +164,10 @@ class Web extends CI_Controller {
         $this->load->library('form_validation');
         $this->form_validation->set_rules('todo','Schedule', 'required');
         $this->form_validation->set_rules('calendar','Date', 'required');
+        $date_regex ='#^(19|20)\d\d[\- /.](0[1-9]|1[012])[\- /.](0[1-9]|[12][0-9]|3[01])$#';
+        if(!preg_match($date_regex, $date)){
+        $this->form_validation->set_rules('calendar', 'Date', 'required|regex_match[(^\d{4}-\d{2}-\d{2})$]');
+        }
         if ($this->form_validation->run() == TRUE) {
 
             if(s('ADMIN_TYPE') == 0){
@@ -199,13 +203,14 @@ class Web extends CI_Controller {
             
         }
         else{
-            $result['msg']='<font color="green">Saved!!!!</font>';
+            $result['msg']='<font color="green" class="text-success">Saved!!!!</font>';
         }
         }
         }
         else{
-             $result['msg']='<font color="red">Error!!!!</font>';
+             $result['msg']='<font color="red" class="text-danger">'.validation_errors().'</font>';
             }
+            
         $this->load->view('show_message',array('message'=>  json_encode($result)));
    
     }
@@ -216,9 +221,9 @@ class Web extends CI_Controller {
        $result=array('succes' => 0,'msg'=> '','html'=> '');
        $id   = $this->db->query('DELETE FROM todo where id='.$todoid);
        if(!empty($id)){
-         $result['msg']='<font color="red">Deleted!!!!</font>';
+         $result['msg']='<font color="red" class="text-success">Deleted!!!!</font>';
        }else{
-         $result['msg']='<font color="red">Error!!!!</font>';  
+         $result['msg']='<font color="red" class="text-danger">Error!!!!</font>';  
        }
        $this->load->view('show_message',array('message'=>  json_encode($result)));
      
@@ -245,12 +250,12 @@ class Web extends CI_Controller {
                                         <b>Date : </b>
                                     </div>
                                     <div class="col-lg-8 col-sm-8 col-md-8">
-                                        <input id="popup_calender" name="popup_calender" type="text"   class="form-control input-md"  placeholder="Date" value='.$edit_todo['date'].'>
+                                        <input id="popup_calender" name="popup_calender" type="text"   class="form-control input-md"  placeholder="Date" value='.$edit_todo['date'].' readonly>
                                     </div>
                                 </div>';
         }
         else{
-            $result['html']='<font color="red">Error!!!!</font>'; 
+            $result['html']='<font color="red class="text-danger"">Error!!!!</font>'; 
         }
    
     }
@@ -263,6 +268,10 @@ class Web extends CI_Controller {
         $this->load->library('form_validation');
         $this->form_validation->set_rules('todo','Schedule', 'required');
         $this->form_validation->set_rules('calendar','Date', 'required');
+        $date_regex ='#^(19|20)\d\d[\- /.](0[1-9]|1[012])[\- /.](0[1-9]|[12][0-9]|3[01])$#';
+        if(!preg_match($date_regex, $date)){
+        $this->form_validation->set_rules('calendar', 'Date', 'required|regex_match[(^\d{4}-\d{2}-\d{2})$]');
+        }
         if ($this->form_validation->run() == TRUE) {
 
             $update_data = array(
@@ -275,19 +284,19 @@ class Web extends CI_Controller {
                 if($currentdate==$date)
                     {
                 $result['success']=1;
-                $result['msg']='<font color="green">Saved!!!!</font>';
+                $result['msg']='<font color="green" class="text-Success">Saved!!!!</font>';
                 $result['title'] = $data;
 
             
         }
         else{
-            $result['msg']='<font color="green">Saved!!!!</font>';
+            $result['msg']='<font color="green" class="text-success">Saved!!!!</font>';
         }
         }
         }
         else{
              $result['success']= 2;
-             $result['msg']='<font color="red">Error!!!!</font>';
+             $result['msg']='<font color="red" class="text-danger">'.validation_errors().'</font>';
         }
         $this->load->view('show_message',array('message'=>  json_encode($result)));
         
