@@ -330,9 +330,28 @@ class Web extends CI_Controller {
                 $todate_search = $this->input->post("todate_search",true);
             else 
                 $todate_search = '';
+            
+             if($this->input->post("search_phone") != '')
+                $search_phone = trim($this->input->post("search_phone",true));
+            else 
+                $search_phone = '';
+            
+            if($this->input->post("state") != '')
+                $state_search = $this->input->post("state",true);
+            else 
+                $state_search = '';
+            if($this->input->post("search_district") != '')
+                $search_district = $this->input->post("search_district",true);
+            else 
+                $search_district = '';
+            
+            if($this->input->post("search_city") != '')
+                $search_city = trim($this->input->post("search_city",true));
+            else 
+                $search_city = '';
 
-            $this->gen_contents['details'] = $this->web_model->get_agent_reportlist($config['per_page'], $pagin,$search_user,$status_search,$fromdate_search,$todate_search);
-            $total_records = $this->web_model->get_total_rows(); 
+            $this->gen_contents['details'] = $this->web_model->get_agent_reportlist($config['per_page'], $pagin,$search_user,$status_search,$fromdate_search,$todate_search,$search_phone,$state_search,$search_district,$search_city);
+            $total_records = $this->web_model->get_total_rows();  
             //--pagination
             $this->load->library('pagination');
             $this->load->library('bspagination');   
@@ -343,6 +362,7 @@ class Web extends CI_Controller {
             $this->pagination->initialize($config);
             $this->gen_contents['links'] =  $this->pagination->create_links();   
             
+            $this->gen_contents['state_details']  = $this->web_model->get_state_details();
             $this->gen_contents['reports'] = '1';
             $this->gen_contents['agent_report']  = 'active';
             $this->template->write_view('content', 'report_agent', $this->gen_contents);
@@ -427,8 +447,28 @@ class Web extends CI_Controller {
                 $todate_search = $this->input->post("todate_search",true);
             else 
                 $todate_search = '';
+            
+            if($this->input->post("state") != '')
+                $state_search = $this->input->post("state",true);
+            else 
+                $state_search = '';
+            
+            if($this->input->post("search_district") != '')
+                $search_district = $this->input->post("search_district",true);
+            else 
+                $search_district = '';
+            
+            if($this->input->post("search_city") != '')
+                $search_city = trim($this->input->post("search_city",true));
+            else 
+                $search_city = '';
+            
+            if($this->input->post("search_phone") != '')
+                $search_phone = trim($this->input->post("search_phone",true));
+            else 
+                $search_phone = '';
 
-            $this->gen_contents['details'] = $this->web_model->get_user_reportlist($config['per_page'], $pagin,$search_user,$status_search,$fromdate_search,$todate_search);
+            $this->gen_contents['details'] = $this->web_model->get_user_reportlist($config['per_page'], $pagin,$search_user,$status_search,$fromdate_search,$todate_search,$state_search,$search_district,$search_city,$search_phone);
             $total_records = $this->web_model->get_total_rows(); 
             //--pagination
             $this->load->library('pagination');
@@ -440,11 +480,7 @@ class Web extends CI_Controller {
             $this->pagination->initialize($config);
             $this->gen_contents['links'] =  $this->pagination->create_links();   
             
-            if($this->input->post("district",true)) {
-                $district = $this->input->post("district",true);
-            }
             
-            $this->gen_contents['district'] = $district;
             $this->gen_contents['state_details']  = $this->web_model->get_state_details();
             $this->gen_contents['reports'] = '1';
             $this->gen_contents['user_report']  = 'active';
@@ -460,10 +496,11 @@ class Web extends CI_Controller {
             $this->load->model('web_model');  
             $result = $this->web_model->district_autocomplete($keyword); 
             if($result){ ?>
-                <ul id="postcode-list-3qotes">
+                <ul id="district-auto-complete">
                     <?php
                     foreach($result as $data) { ?>
-                        <li  class = "districtautolist" style ="border:1px solid red;"><?php echo $data["name"]; ?></li>
+                        <li  class = "districtautolist" data-value = "<?php echo $data["name"];?>"><?php echo $data["name"]; ?></li>
+                   
                     <?php } ?>
                 </ul>
             <?php }

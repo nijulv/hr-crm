@@ -28,6 +28,18 @@ if ($from == "agent") { ?>
                 <td><?php echo $result['password']; ?></td>
             </tr>
             <tr>
+                <td>State: </td>
+                <td><?php echo $result['state']; ?></td>
+            </tr>
+            <tr>
+                <td>District: </td>
+                <td><?php echo $result['districts']; ?></td>
+            </tr>
+            <tr>
+                <td>City: </td>
+                <td><?php echo $result['city']; ?></td>
+            </tr>
+            <tr>
                 <td>Address: </td>
                 <td><?php echo $result['address']; ?></td>
             </tr>

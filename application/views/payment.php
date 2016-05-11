@@ -54,8 +54,8 @@
                         <?php form_close(); ?>
                         <br>
                         <?php if (!empty($details)) { ?>
-                            <?php echo $links; ?>
                         <div class="table-container table-responsive">
+                             <?php echo $links; ?>
                             <table class="table table-bordered table-striped table-hover table-responsive">
                                 <thead>
                                     <tr>
@@ -86,9 +86,10 @@
                                     <?php }?>
                                 </tbody>
                             </table>
+                             <?php echo $links; ?>
                         </div>
                         <?php } else {
-                            echo '<div class="alert alert-warning">Sorry! There is no details available now.</div>';
+                            echo '<div class="nodata">Sorry! There is no details available now.</div>';
                         } ?>
                     </div>
                 </div>
