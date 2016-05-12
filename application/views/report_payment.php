@@ -13,7 +13,7 @@
         <div class="row">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <?php echo form_open("",array("id" => "payment_report"));?>
+                        <?php echo form_open("",array("id" => "form_report"));?>
                         
                         <div class="col-md-12">
                             <div class="col-md-3">
@@ -23,14 +23,15 @@
                                 <input type = "text" name = "search_title" class = "form-control" placeholder="Title,amount" value = "<?php echo set_value('search_title'); ?>">
                             </div>
                             <div class="col-md-3">
-                                 <input type = "text" class = "form-control" value = "<?php echo set_value('fromdate_search');?>" id = "fromdate_search" name = "fromdate_search" class = "form-control" placeholder = "From date">
+                                 <input type = "text" class = "form-control" value = "<?php echo set_value('fromdate_search');?>" id = "fromdate_search" readonly="readonly" style="background:white;"  name = "fromdate_search" class = "form-control" placeholder = "From date">
                             </div>
                             <div class="col-md-3">
-                                <input type = "text" class = "form-control" value = "<?php echo set_value('todate_search');?>" id = "todate_search" name = "todate_search" class = "form-control" placeholder = "To date">
+                                <input type = "text" class = "form-control" value = "<?php echo set_value('todate_search');?>" id = "todate_search" readonly="readonly" style="background:white;"  name = "todate_search" class = "form-control" placeholder = "To date">
                             </div>  
                         </div> 
                         &nbsp;<br/>
-                        <button type="submit" class="btn btn-info" style = " margin-left: 43%;" >Search</button><br>
+                        <button type="submit" class="btn btn-info" style = " margin-left: 43%;" >Search</button>
+                        <button type="button" class="btn btn-default reportclear" style = "" >Clear</button><br>
                          <?php echo form_close(); ?>
                         <br>
                         <?php if (!empty($details)) { ?>
@@ -42,9 +43,9 @@
                                     <tr>
                                         <th style = "text-align:center;">#</th>
                                         <th>Name</th>
+                                         <th>Contact Number</th>
                                         <th>Title</th>
                                         <th>Amount</th>
-                                        <th>Contact Number</th>
                                         <th style = "text-align:center;">Actions</th>
                                     </tr>
                                 </thead>
@@ -55,9 +56,9 @@
                                         <tr>
                                             <td style = "text-align:center;"><?php echo $i++; ?></td>
                                             <td><?php echo $data['first_name'].' '.$data['last_name'];?></td> 
+                                             <td><?php echo $data['phone'];?></td>
                                             <td><?php echo $data['title'];?></td>
                                             <td><?php echo $data['amount'];?></td>
-                                            <td><?php echo $data['phone'];?></td>
                                             <td style = "text-align:center;">
                                                 <a href="javascript: void(0)" class="label label-primary more" data-from="payment" data-id="<?php echo $data['payment_id']; ?>" ><i class="fa fa-list"></i>View More</a>
                                             </td>

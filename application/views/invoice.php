@@ -30,7 +30,7 @@
                                 <div class="panel-heading" style="height: 180px;">
                                     <div class="col-md-6">
                                         <h4>HR-CRM</h4>
-                                        <h5>Email: Admin@HR-CRM.com<br>Phone: +91 0001 0001</h5>
+                                        <h5>Email: <?php echo $admin_email;?><br>Phone: <?php echo $admin_phone;?></h5>
                                     </div>
                                     <div class="col-md-6" style="text-align: right;">
                                         <h2 style="color: #8C1515;">INVOICE</h2>

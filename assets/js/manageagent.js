@@ -170,12 +170,12 @@ var Manageagent = function(){
 
     }); */
     
-    
+    /*
     $(function () {
-        $("#fromdate_search").datepicker({ 
-             format: "yyyy-mm-dd",
+        $("#fromdate_search").datepicker({        
+             format: "yyyy-mm-dd",          
              autoclose: true,
-            onSelect: function(selected) { 
+            onSelect: function(selected) {   
                 $("#todate_search").datepicker("option","minDate", selected) 
             }
         });
@@ -186,16 +186,38 @@ var Manageagent = function(){
                 $("#fromdate_search").datepicker("option","maxDate", selected)
             }
         });
-    });
-    
-    
+    }); */
+
     $("#todocontent").on("mouseover","#popup_calender",function(){  
          $('#popup_calender').datepicker({
             format: "yyyy-mm-dd",
             startDate: new Date() 
-        });  
-        
+        })
     });
+
+    
+    $(function () {
+        $("#fromdate_search").datepicker({
+            format: "yyyy-mm-dd",          
+            autoclose: true,
+            onSelect: function (selected) {
+                var dt = new Date(selected);   
+                dt.setDate(dt.getDate() + 1);
+                $("#todate_search").datepicker("option", "minDate", dt);
+            }
+        });
+        $("#todate_search").datepicker({
+            format: "yyyy-mm-dd",          
+            autoclose: true,
+            onSelect: function (selected) {
+                var dt = new Date(selected);
+                dt.setDate(dt.getDate() - 1);
+                $("#fromdate_search").datepicker("option", "maxDate", dt);
+            }
+        });
+    });
+   
+
     
     
     $(".pagination li a").on("click", function(e) { 
@@ -206,3 +228,8 @@ var Manageagent = function(){
         $("form").attr("action", url);
         $("form").submit();   
     });
+    
+    $(".reportclear").on("click",function() { 
+        $('#form_report').find('input:text, input:password, select, textarea').val('');
+        $('#form_report').find('input:radio, input:checkbox').prop('checked', false);
+    })
