@@ -165,7 +165,7 @@ var Manageuser = function(){
                         url     : base_url+'todo',
                         dataType: "json",
                         data    : {'todo':$('#todo').val(),
-                                   'calendar':$('#calendar').val()},
+                                   'calendar':$('#main_calendar').val()},
                         success : function(data){
                             if(data.success==1){
                                 if(0 == $('.todo-list').length){
@@ -252,5 +252,8 @@ var Manageuser = function(){
                 $("#search_district").val(val);
                 $(".suggesstion-box").hide();
             });
+            $("#main_calendar").datepicker({
+                 startDate: new Date() 
+                });
             
 }();    

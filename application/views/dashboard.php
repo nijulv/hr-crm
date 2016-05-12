@@ -122,7 +122,7 @@
                         </div>
                         <div class="modal-body">
 
-                            <input id="calendar" name="calendar" type="date" name="calendar" class="form-control input-md" data-date-format="yyyy-mm-dd" placeholder="Date" readonly>
+                            <input id="main_calendar" name="main_calendar" type="date" name="calendar" class="form-control input-md" data-date-format="yyyy-mm-dd" placeholder="Date" readonly>
                            
                          </div>
                         <div class="modal-footer">
