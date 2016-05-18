@@ -33,11 +33,11 @@
                     <a class="navbar-brand" href="#"></a>
                     <ul class="user-menu" >
                         <li class="dropdown pull-right">   
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg>Welcome <?php if(s('ADMIN_NAME')){echo s('ADMIN_NAME');} ?> <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user-plus" aria-hidden="true"></i> Welcome <?php if(s('ADMIN_NAME')){echo s('ADMIN_NAME');} ?> <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="<?php echo base_url()?>edit_profile"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
-                                <li><a href="<?php echo base_url()?>change_password"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Change Password</a></li>
-                                <li><a href="<?php echo base_url()?>logout"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
+                                <li><a href="<?php echo base_url()?>edit_profile"><i class="fa fa-user" aria-hidden="true"></i>  &nbsp;My Profile</a></li>
+                                <li><a href="<?php echo base_url()?>change_password"><i class="fa fa-key" aria-hidden="true"></i> &nbsp;Change Password</a></li>
+                                <li><a href="<?php echo base_url()?>logout"><i class="fa fa-sign-out" aria-hidden="true"></i> &nbsp;Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -50,19 +50,18 @@
             <div class="logo" align="center"></div>
           
             <ul class="nav menu"> 
-                <li class="<?php echo $link_dashboard;?>"><a href="<?php echo base_url()?>dashboard"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Dashboard</a></li>
+                <li class="<?php echo $link_dashboard;?>"><a href="<?php echo base_url()?>dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> &nbsp;&nbsp;Dashboard</a></li>
                 <?php if(s('ADMIN_TYPE') == 0) {?>
-                    <li class="<?php echo $link_agent;?>"><a href="<?php echo base_url()?>manage_agents"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Manage Agents</a></li>
+                <li class="<?php echo $link_agent;?>"><a href="<?php echo base_url()?>manage_agents"><i class="fa fa-user-secret" aria-hidden="true"></i> &nbsp;&nbsp;Manage Agents</a></li>
                 <?php }?>
-                <li class="<?php echo $link_user;?>"><a href="<?php echo base_url()?>manageuser"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"/></svg> Manage Users</a></li>
-                <li class="<?php echo $link_payment;?>"><a href="<?php echo base_url()?>manage_payment"><svg class="glyph stroked tag"><use xlink:href="#stroked-tag"/></svg> Manage Payments</a></li>
-                <li class = "<?php echo $link_bank;?>"><a href="<?php echo base_url()?>manage_cash"><svg class="glyph stroked clipboard with paper"><use xlink:href="#stroked-clipboard-with-paper"/></svg> Manage Bank Payment </a></li>
-
-                
+                    <li class="<?php echo $link_user;?>"><a href="<?php echo base_url()?>manageuser"><i class="fa fa-users" aria-hidden="true"></i> &nbsp;&nbsp;Manage Users</a></li>
+                    <li class="<?php echo $link_payment;?>"><a href="<?php echo base_url()?>manage_payment"><i class="fa fa-money" aria-hidden="true"></i> &nbsp;&nbsp;Manage Payments</a></li>
+                    <li class = "<?php echo $link_bank;?>"><a href="<?php echo base_url()?>manage_cash"><i class="fa fa-university" aria-hidden="true"></i> &nbsp;&nbsp;Manage Bank Payment </a></li>
+               
                 <li>
                     <a href="javascript:;" id = "report">
                         <i class="fa fa-bar-chart-o fa-fw"><div class="icon-bg bg-yellow"></div></i>
-                        <span class="menu-title">Reports</span><span class="fa arrow"></span>
+                        <span class="menu-title">&nbsp;&nbsp;Reports</span><span class="fa arrow"></span>
                     </a>
                     <ul class="nav nav-second-level collapse" id = "reportlist"> 
                          <?php if(s('ADMIN_TYPE') == 0) {?>
@@ -74,13 +73,8 @@
                 </li>
                 
                 <li role="presentation" class="divider"></li>
-                <li><a href="<?php echo base_url()?>logout"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
-            
-                
-            
-            
+                <li><a href="<?php echo base_url()?>logout"><i class="fa fa-sign-out" aria-hidden="true"></i> &nbsp;&nbsp;Logout</a></li>
             </ul>
-
         </div><!--/.sidebar-->
             <?php
                 //contents goes here

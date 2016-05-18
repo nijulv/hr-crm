@@ -1,7 +1,7 @@
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a href="<?php echo base_url()?>dashboard"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+                    <li><a href="<?php echo base_url()?>dashboard"><i class="fa fa-home" aria-hidden="true" style="font-size: 20px;"></i></a></li>
                     <li class="active">Dashboard</li>
                 </ol>
             </div><!--/.row-->
@@ -17,7 +17,7 @@
                     <div class="panel panel-blue panel-widget ">
                         <div class="row no-padding">
                             <div class="col-sm-3 col-lg-5 widget-left">
-                                <svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"/></svg>
+                                <i class="fa fa-calendar" aria-hidden="true" style="font-size: 55px;"></i>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
                                 <div class="large"><?php echo $users_count;?></div>
@@ -30,7 +30,7 @@
                     <div class="panel panel-orange panel-widget">
                         <div class="row no-padding">
                             <div class="col-sm-3 col-lg-5 widget-left">
-                                <svg class="glyph stroked empty-message"><use xlink:href="#stroked-empty-message"></use></svg>
+                                <i class="fa fa-comment-o" aria-hidden="true" style="font-size: 55px;"></i>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
                                 <div class="large"><?php echo $agent_count;?></div>  
@@ -43,7 +43,7 @@
                     <div class="panel panel-teal panel-widget">
                         <div class="row no-padding">
                             <div class="col-sm-3 col-lg-5 widget-left">
-                                <svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg>
+                                <i class="fa fa-user" aria-hidden="true" style="font-size: 55px;"></i>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
                                 <div class="large"><?php echo $guest_count;?></div>
@@ -56,7 +56,7 @@
                     <div class="panel panel-widget" style="background: #51B911 !important; color: #fff !important;">
                         <div class="row no-padding">
                             <div class="col-sm-3 col-lg-5 widget-left">
-                                <svg class="glyph stroked app-window-with-content"><use xlink:href="#stroked-app-window-with-content"></use></svg>
+                                <i class="fa fa-money" aria-hidden="true" style="font-size: 55px;"></i>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
                                 <div class="large"><?php if($payment_count){echo '$ '.number_format($payment_count); }else {echo '$ 0';}?></div>  
@@ -79,8 +79,8 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="panel panel-red" id="todo-panel">
-                        <div class="panel-heading dark-overlay"><svg class="glyph stroked clipboard-with-paper">
-                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-clipboard-with-paper"></use></svg>To-do List (Today's Appointments)
+                        <div class="panel-heading dark-overlay">
+                            <i class="fa fa-list-alt" aria-hidden="true" style="font-size: 25px"></i> To-do List (Today's Appointments)
                         </div>
                         <?php if($todo){?>
                         <div class="panel-body scroll">
@@ -92,9 +92,9 @@
                                         <label for="checkbox"><?php echo $res['todo']; ?></label>
                                     </div>
                                     <div class="pull-right action-buttons">
-                                        <a data-id="<?php echo $res['id']; ?>" data-url='edittodo' class="edittodo"><svg class="glyph stroked pencil"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-pencil"></use></svg></a>
-                                        <!-- <a href="#" class="flag"><svg class="glyph stroked flag"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-flag"></use></svg></a> -->
-                                        <a data-id="<?php echo $res['id']; ?>" data-url='deletetodo' class="trash deletetodo"><svg class="glyph stroked trash"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#stroked-trash"></use></svg></a>
+                                        <a data-id="<?php echo $res['id']; ?>" data-url='edittodo' title="Edit" class="edittodo"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                        <!-- <a href="#" class="flag"><i class="fa fa-flag-o" aria-hidden="true"></a> -->
+                                        <a data-id="<?php echo $res['id']; ?>" data-url='deletetodo' title="Delete" class="trash deletetodo"><i class="fa fa-trash" aria-hidden="true"></i></a>
                                     </div>
                                 </li>
                                 <?php } ?>

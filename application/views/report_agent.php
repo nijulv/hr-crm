@@ -1,7 +1,7 @@
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
         <div class="row">
             <ol class="breadcrumb">
-                <li><a href="<?php echo base_url()?>dashboard"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+                <li><a href="<?php echo base_url()?>dashboard"><i class="fa fa-home" aria-hidden="true" style="font-size: 20px;"></i></a></li>
                 <li class="active">Agent Report</li>
             </ol>
         </div>
@@ -23,7 +23,7 @@
                                 <select name = "status_search" class = "form-control">
                                     <option value = "" <?php echo  set_select('status_search', ''); ?>>Status</option>
                                     <option value = "1" <?php echo  set_select('status_search', '1'); ?>>Active</option>
-                                    <option value = "2" <?php echo  set_select('status_search', '2'); ?>>Deactive</option>
+                                    <option value = "2" <?php echo  set_select('status_search', '2'); ?>>Inactive</option>
                                 </select> 
                             </div>
                             <div class="col-md-3">

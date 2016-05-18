@@ -194,9 +194,8 @@ class Web extends CI_Controller {
                                             <label for="checkbox">'.$data.'</label>
                                         </div>
                                         <div class="pull-right action-buttons">
-                                            <a data-id='.$id.' data-url="edittodo" class="edittodo"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil" xmlns:xlink="http://www.w3.org/1999/xlink"/></svg></a>
-                                            <a class="flag" href="#"><svg class="glyph stroked flag"><use xlink:href="#stroked-flag" xmlns:xlink="http://www.w3.org/1999/xlink"/></svg></a>
-                                            <a  id="deletetodo" data-url="deletetodo" class="trash deletetodo" data-id='.$id.'><svg class="glyph stroked trash"><use xlink:href="#stroked-trash" xmlns:xlink="http://www.w3.org/1999/xlink"/></svg></a>
+                                            <a data-id='.$id.' data-url="edittodo" class="edittodo"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                            <a  id="deletetodo" data-url="deletetodo" class="trash deletetodo" data-id='.$id.'><i class="fa fa-trash" aria-hidden="true"></i></a>
                                         </div>
                                     </li>';
 

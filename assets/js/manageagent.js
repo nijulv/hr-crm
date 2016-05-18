@@ -191,7 +191,8 @@ var Manageagent = function(){
     $("#todocontent").on("mouseover","#popup_calender",function(){  
          $('#popup_calender').datepicker({
             format: "yyyy-mm-dd",
-            startDate: new Date() 
+            startDate: new Date(),
+            autoclose: true,
         })
     });
 

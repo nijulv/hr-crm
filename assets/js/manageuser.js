@@ -253,7 +253,8 @@ var Manageuser = function(){
                 $(".suggesstion-box").hide();
             });
             $("#main_calendar").datepicker({
-                 startDate: new Date() 
+                 startDate: new Date(),
+                 autoclose: true,
                 });
             
 }();    
