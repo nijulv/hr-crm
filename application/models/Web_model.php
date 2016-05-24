@@ -83,7 +83,7 @@ class Web_model extends CI_Model {
         
         
     }
-    public function get_agents ($limit, $start,$search_user = '') {
+    public function get_agents ($limit = '', $start = '',$search_user = '',$mobile = 0) {
         $this->db->select("SQL_CALC_FOUND_ROWS *",FALSE); 
         $this->db->from('crm_agents');
         if($search_user != ''){
@@ -95,8 +95,10 @@ class Web_model extends CI_Model {
         //$this->db->where_in('status',['1','2']);
         $this->db->where('status !=','0');
         $this->db->order_by("agent_id","desc");
-        $this->db->limit($limit, $start);
-        $query = $this->db->get();          
+        if($mobile == 0) {
+            $this->db->limit($limit, $start);
+        }
+        $query = $this->db->get();         
         if($query->num_rows() > 0){
             return $query->result_array();
         } else {
@@ -104,7 +106,7 @@ class Web_model extends CI_Model {
         }
     }
     
-    public function get_payments ($limit, $start,$search_user = '') {
+    public function get_payments ($limit = '', $start = '',$search_user = '',$mobile = 0) {
         $this->db->select("SQL_CALC_FOUND_ROWS *",FALSE); 
         $this->db->from('payments p');
         $this->db->join('crm_users u', 'u.user_id = p.user_id', 'left');
@@ -124,7 +126,9 @@ class Web_model extends CI_Model {
         }
         
         $this->db->order_by("p.payment_id","desc");
-        $this->db->limit($limit, $start);
+        if($mobile == 0) {
+            $this->db->limit($limit, $start);
+        } 
         $query = $this->db->get();          
         if($query->num_rows() > 0){
             return $query->result_array();
@@ -133,18 +137,17 @@ class Web_model extends CI_Model {
         }
         
     }
-    public function get_bank_payments ($limit, $start,$search_user = '') {
+    public function get_bank_payments ($limit = '', $start = '',$mobile = 0) {
         $this->db->select("SQL_CALC_FOUND_ROWS *",FALSE); 
         $this->db->from('crm_bank_payment');
-        
         $this->db->where('status','1');
-        
         if(s('ADMIN_TYPE') == 1){
              $this->db->where('agent_id',s('ADMIN_USERID'));
         }
-        
         $this->db->order_by("bank_payment_id","desc");
-        $this->db->limit($limit, $start);
+        if($mobile == 0) {
+            $this->db->limit($limit, $start);
+        } 
         $query = $this->db->get();          
         if($query->num_rows() > 0){
             return $query->result_array();
@@ -167,7 +170,7 @@ class Web_model extends CI_Model {
         return intval($row->cnt);
         
     }
-    function get_userdetails($where, $start=0, $limit=25,$user_search=''){
+    function get_userdetails($where, $start=0, $limit=25,$user_search='',$mobile = 0){
         $this->db->select('user_id,agent_id,first_name,last_name,email,phone,status');
         $this->db->where($where);
         $this->db->where("status <>",'2');
@@ -175,8 +178,10 @@ class Web_model extends CI_Model {
             $this->db->where("(`first_name` LIKE '%$user_search%' OR  `last_name` LIKE '%$user_search%' OR `email` LIKE '%$user_search%')");
         }
         $this->db->order_by('user_id', 'DESC');
-        $this->db->limit($limit, $start);
-        $query = $this->db->get('crm_users');
+        if($mobile == 0) {
+            $this->db->limit($limit, $start);
+        }
+        $query = $this->db->get('crm_users');      
         return $query->result_array();
     }
     public function get_user_detail($user_id){
@@ -249,7 +254,27 @@ class Web_model extends CI_Model {
             return false;
     }
     
-    public function user_status_update ($data = array(),$id = 0,$tbl_name = 'crm_users') {
+    public function update_contents_todo ($data = array(),$id = 0,$tbl_name = '') {
+        $this->db->where('id',$id);
+        $this->db->update($tbl_name,$data);
+        if($this->db->affected_rows() >0)
+            return true;
+        else
+            return false;
+    }
+    
+    public function delete_todo_details ($id = 0) {
+        $this->db->where("id", $id);
+        $query = $this->db->delete("todo");     
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+        public function user_status_update ($data = array(),$id = 0,$tbl_name = 'crm_users') {
         $this->db->where('user_id',$id);
         $this->db->update($tbl_name,$data);
         if($this->db->affected_rows() >0)
@@ -461,7 +486,7 @@ class Web_model extends CI_Model {
         return($query->row_array());
     }
     
-    public function get_agent_reportlist($limit, $start , $search_term = '',$status_search = '' ,$fromdate_search = '' ,$todate_search = '',$search_phone = '',$state_search = '',$search_district = '',$search_city = '') {
+    public function get_agent_reportlist($limit = '', $start = '' , $search_term = '',$status_search = '' ,$fromdate_search = '' ,$todate_search = '',$search_phone = '',$state_search = '',$search_district = '',$search_city = '',$mobile = 0) {
         $this->db->select("SQL_CALC_FOUND_ROWS a.*,s.name as state,d.name as districts",FALSE); 
         $this->db->from('crm_agents a');
         $this->db->join('states s', 's.id = a.state_id', 'left');
@@ -492,7 +517,9 @@ class Web_model extends CI_Model {
             $this->db->like('a.city',$search_city);       
             
         $this->db->order_by("agent_id","desc");
-        $this->db->limit($limit, $start);
+        if($mobile == 0) {
+            $this->db->limit($limit, $start);
+        }   
         $query = $this->db->get();     //echo $this->db->last_query();
         if($query->num_rows () >0)
             return $query->result_array();
@@ -500,7 +527,7 @@ class Web_model extends CI_Model {
             return false;
     }
     
-    public function get_payment_reportlist($limit, $start , $search_term = '',$search_title = '' ,$fromdate_search = '' ,$todate_search = '') {
+    public function get_payment_reportlist($limit = '', $start = '', $search_term = '',$search_title = '' ,$fromdate_search = '' ,$todate_search = '',$mobile = 0) {
         $this->db->select("SQL_CALC_FOUND_ROWS p.*,u.first_name,u.last_name,u.phone",FALSE); 
         $this->db->from('payments p');
         $this->db->join('crm_users u', 'u.user_id = p.user_id', 'left');
@@ -528,15 +555,17 @@ class Web_model extends CI_Model {
              $this->db->where('p.agent_id',s('ADMIN_USERID'));
         }
         $this->db->order_by("p.payment_id","desc");
-        $this->db->limit($limit, $start);
-        $query = $this->db->get();     //echo $this->db->last_query();
+        if($mobile == 0) {
+            $this->db->limit($limit, $start);
+        }
+        $query = $this->db->get();     
         if($query->num_rows () >0)
             return $query->result_array();
         else
             return false;
     }
     
-    public function get_user_reportlist($limit, $start , $search_term = '',$status_search = '' ,$fromdate_search = '' ,$todate_search = '',$state_search = '',$search_district = '',$search_city = '',$search_phone = '') {
+    public function get_user_reportlist($limit, $start , $search_term = '',$status_search = '' ,$fromdate_search = '' ,$todate_search = '',$state_search = '',$search_district = '',$search_city = '',$search_phone = '',$mobile = 0) {
         $this->db->select("SQL_CALC_FOUND_ROWS u.*,s.name as state,d.name as districts",FALSE); 
         $this->db->from('crm_users u');
         $this->db->join('states s', 's.id = u.state_id', 'left');
@@ -571,11 +600,13 @@ class Web_model extends CI_Model {
         
         
         if(s('ADMIN_TYPE') == 1){
-             $this->db->where('p.agent_id',s('ADMIN_USERID'));
+             $this->db->where('u.agent_id',s('ADMIN_USERID'));
         }
         
         $this->db->order_by("u.agent_id","desc");
-        $this->db->limit($limit, $start);
+        if($mobile == 0) {
+            $this->db->limit($limit, $start);
+        } 
         $query = $this->db->get();     //echo $this->db->last_query();
         if($query->num_rows () >0)
             return $query->result_array();

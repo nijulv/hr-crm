@@ -1008,11 +1008,12 @@ class Web extends CI_Controller {
                 }
                 $user_id = implode(",",$this->input->post("user",true)); 
                 $userdata = array(
-                    "total_payment"   => $this->input->post("total_payment",true),
+                    "total_payment" => $this->input->post("total_payment",true),
                     "bank_payment"  => $this->input->post("bank_payment",true),
-                    "reason"  => $this->input->post("reason",true),
-                    "agent_id"  => $agent_id,
-                    "user_id"  => $user_id
+                    "reason"        => $this->input->post("reason",true),
+                    "agent_id"      => $agent_id,
+                    "user_id"       => $user_id,
+                    "date"          => date('Y-m-d')
                 );
 
                 $tbl_name = 'crm_bank_payment';
