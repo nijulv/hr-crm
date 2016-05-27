@@ -130,6 +130,7 @@ class Authentication {
             $this->CI->db->select("username AS USERNAME, agent_id as USERID, first_name as NAME, status as STATUS,type as TYPE ");
             $this->CI->db->where('username', $emailid);
             $password = $this->CI->db->escape_like_str($password);
+            //$password = md5($password);
             $this->CI->db->where("password = '$password'", NULL, false);
             $select_query = $this->CI->db->get('crm_agents');
             if (0 < $select_query->num_rows()) {

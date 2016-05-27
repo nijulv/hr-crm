@@ -681,55 +681,64 @@ class Web extends CI_Controller {
                 $error = '';
                 if ($this->form_validation->run() == TRUE) {
                 
-                if(s('ADMIN_TYPE') == 1){
-                    $agent_id = s('ADMIN_USERID');
-                }
-                else {
-                    $agent_id = 0;
-                }
-                
-                $update_data = array(
-                    'agent_id'              => $agent_id,
-                    'first_name'            => $this->input->post("firstname", true),
-                    'last_name'             => $this->input->post("lastname", true),
-                    'email'                 => $this->input->post("useremail", true),
-                    'state_id'              => $this->input->post("state", true),
-                    'district_id'           => $this->input->post("district", true),
-                    'city'                  => $this->input->post("city", true),
-                    'phone'                 => $this->input->post("phonenumber", true),
-                    'address'               => $this->input->post("useraddress", true),
-                    'pincode'               => $this->input->post("pincode", true),
-                    'status'                => $this->input->post("userstatus", true)
-                
-                );
-            if(!empty($_FILES['attachment']['name'])){
-                    $this->load->library('upload');
-                    $image_path='./attachment/';
-                    $this->upload->initialize(upload_config_image($image_path));
-                    $file_name = '';
-                    if($this->upload->do_upload('attachment')){
-                        $img = $this->upload->data();
-                        $file_name = $img['file_name'];
-                        $update_data['attachments'] = $file_name;
-                    }else{
-                         $this->gen_contents['form_validation_error']=$this->upload->display_errors();
-                        $error = "error";
+                    if(s('ADMIN_TYPE') == 1){
+                        $agent_id = s('ADMIN_USERID');
                     }
-                }
-                if(!$error){
-                    $sts = $this->db->insert('crm_users', $update_data);
-                    if($sts){
-                        sf( 'success_message', "User Details Added Successfully." );
-                        redirect('manageuser');
-                    }else{
-                         $this->gen_contents['form_validation_error'] = 'Sorry. There is a problem to add details.';
+                    else {
+                        $agent_id = 0;
                     }
-                }
+
+                    $update_data = array(
+                        'agent_id'              => $agent_id,
+                        'first_name'            => $this->input->post("firstname", true),
+                        'last_name'             => $this->input->post("lastname", true),
+                        'email'                 => $this->input->post("useremail", true),
+                        'state_id'              => $this->input->post("state", true),
+                        'district_id'           => $this->input->post("district", true),
+                        'city'                  => $this->input->post("city", true),
+                        'phone'                 => $this->input->post("phonenumber", true),
+                        'address'               => $this->input->post("useraddress", true),
+                        'pincode'               => $this->input->post("pincode", true),
+                        'status'                => $this->input->post("userstatus", true),
+                        'date'                  => date('Y-m-d')
+
+                    );
+                    if(!empty($_FILES['attachment']['name'])){
+                        $this->load->library('upload');
+                        $image_path='./attachment/';
+                        $this->upload->initialize(upload_config_image($image_path));
+                        $file_name = '';
+                        if($this->upload->do_upload('attachment')){
+                            $img = $this->upload->data();
+                            $file_name = $img['file_name'];
+                            $update_data['attachments'] = $file_name;
+                        }else{
+                             $this->gen_contents['form_validation_error']=$this->upload->display_errors();
+                            $error = "error";
+                            
+                            $this->gen_contents['state'] = $this->input->post("state", true);
+                            $this->gen_contents['districts'] = $this->web_model->get_district_details($this->input->post("state", true));
+                            $this->gen_contents['district_selected'] = $this->input->post("district", true);
+                        }
+                    }
+                    if(!$error){
+                        $sts = $this->db->insert('crm_users', $update_data);
+                        if($sts){
+                            sf( 'success_message', "User Details Added Successfully." );
+                            redirect('manageuser');
+                        }else{
+                             $this->gen_contents['form_validation_error'] = 'Sorry. There is a problem to add details.';
+                        }
+                    }
             
-           }else{
-                 $this->gen_contents['edit_return'] = 1;
-                 $this->gen_contents['form_validation_error'] = validation_errors();
-            }
+                }else{
+                     $this->gen_contents['edit_return'] = 1;
+                     $this->gen_contents['form_validation_error'] = validation_errors();
+
+                    $this->gen_contents['state'] = $this->input->post("state", true);
+                    $this->gen_contents['districts'] = $this->web_model->get_district_details($this->input->post("state", true));
+                    $this->gen_contents['district_selected'] = $this->input->post("district", true);
+                }
             }
             $this->gen_contents['state_details']  = $this->web_model->get_state_details();
             $this->gen_contents['link_user']  = 'active';
@@ -760,12 +769,19 @@ class Web extends CI_Controller {
             $this->form_validation->set_rules('city','City', 'required|trim|alpha_numeric');
             $this->form_validation->set_rules('state','State', 'required|trim');
             $this->form_validation->set_rules('district','District', 'required|trim');
-            $this->form_validation->set_rules('useremail','Email', 'required|trim');
             $this->form_validation->set_rules('phonenumber','Phone Number', 'required|numeric');
             $this->form_validation->set_rules('userstatus','Status', 'required');
             if(($this->input->post("pincode"))){
-                   $this->form_validation->set_rules('pincode','Pincode', 'required|numeric|min_length[6]|max_length[6]'); 
-                }
+                $this->form_validation->set_rules('pincode','Pincode', 'required|numeric|min_length[6]|max_length[6]'); 
+            }
+            $get_current_value =  $this->web_model->get_username($user_id);
+            if($get_current_value){
+                $current_email      = $get_current_value['email'];
+                if ($this->input->post('useremail') != $current_email) {
+                    $this->form_validation->set_rules('useremail','Email', 'required|trim|is_unique[crm_users.email]');
+                }    
+            }
+            
             if ($this->form_validation->run() == TRUE) {// form validation                
                 $update_data = array(
                     'first_name'            => $this->input->post("firstname", true),
@@ -1080,6 +1096,13 @@ class Web extends CI_Controller {
                         redirect("manage_agents");
                     }
                 }
+                else {
+                    $this->gen_contents['form_validation_error'] = validation_errors();
+                 
+                    $this->gen_contents['state'] = $this->input->post("state", true);
+                    $this->gen_contents['districts'] = $this->web_model->get_district_details($this->input->post("state", true));
+                    $this->gen_contents['district_selected'] = $this->input->post("district", true);
+                }
                 $this->gen_contents['state_details']  = $this->web_model->get_state_details();
                 $this->gen_contents['link_agent']  = 'active';
                 $this->template->write_view('content', 'agents_add', $this->gen_contents);
@@ -1094,18 +1117,31 @@ class Web extends CI_Controller {
         else {
             if($id != 0 && is_numeric($id)){
                 
-                $this->form_validation->set_rules('agent_code', 'agent code', 'required');
-                $this->form_validation->set_rules('username', 'Username', 'required');
                 $this->form_validation->set_rules('password', 'Password', 'required');
                 $this->form_validation->set_rules('first_name', 'First name', 'required');
-                $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
                 $this->form_validation->set_rules('phone', 'Phone', 'numeric');
                 $this->form_validation->set_rules('city','City', 'required|trim|alpha_numeric');
                 $this->form_validation->set_rules('state','State', 'required|trim');
                 $this->form_validation->set_rules('district','District', 'required|trim');
 
+                $agent_id  = $this->input->post("id",true);
+                $get_current_value =  $this->web_model->get_agent_details($agent_id);
+                if($get_current_value){
+                    $current_username   = $get_current_value['username'];
+                    $current_agent_code = $get_current_value['agent_code'];
+                    $current_email      = $get_current_value['email'];
+                    if ($this->input->post('username') != $current_username) {
+                        $this->form_validation->set_rules('username', 'Username', 'required|is_unique[crm_agents.username]');
+                    }
+                    if ($this->input->post('agent_code') != $current_agent_code) {
+                        $this->form_validation->set_rules('agent_code', 'agent code', 'required|is_unique[crm_agents.agent_code]');
+                    }
+                    if ($this->input->post('email') != $current_email) {
+                        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[crm_agents.email]');
+                    }
+                }
                 if($this->form_validation->run() == TRUE){ 
-
+                    
                     $userdata = array(
                         "agent_code"            => $this->input->post("agent_code",true),
                         "username"              => $this->input->post("username",true),
@@ -1121,8 +1157,7 @@ class Web extends CI_Controller {
                         'district_id'           => $this->input->post("district", true),
                         'city'                  => $this->input->post("city", true),
                     );
-
-                    $agent_id  = $this->input->post("id",true);  
+  
                     $tbl_name = 'crm_agents';
                     $result = $this->web_model->update_contents_agents($userdata,$agent_id,$tbl_name);
                     if($result) {
@@ -1388,7 +1423,12 @@ class Web extends CI_Controller {
                 );
 
                 $id = s('ADMIN_USERID');
-                $old_password = $this->input->post("oldpassword",true);
+                if(s('ADMIN_TYPE') == 1){
+                    $old_password = $this->input->post("oldpassword",true);
+                }
+                else {
+                    $old_password = $this->input->post("oldpassword",true);
+                }
 
                 $check_oldpassword = $this->web_model->check_oldpassword($old_password,$id); 
                 if($check_oldpassword){
@@ -1410,6 +1450,23 @@ class Web extends CI_Controller {
 
             $this->template->write_view('content','changepassword', $this->gen_contents);
             $this->template->render();
+        }
+    }
+    
+    function check_username_available () {
+        if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            $username = $this->input->post("username");  
+            $result = $this->web_model->check_username_available($username);
+            if ($result) {
+                $output = array("status" => 1, "msg" => "Username available!!!");
+            }
+            else {
+                    $output = array("status" => 0, "msg" => "Username not available! Please choose another username.");
+            }
+            echo json_encode($output);exit;
         }
     }
     

@@ -2,7 +2,7 @@
         <div class="row">
             <ol class="breadcrumb">
                 <li><a href="<?php echo base_url()?>dashboard"><i class="fa fa-home" aria-hidden="true" style="font-size: 20px;"></i></a></li>
-                <li class="active">Manage Agents</li>
+                <li class="active">Agents</li>
             </ol>
         </div><!--/.row-->
 
@@ -63,6 +63,7 @@
                                 <thead>
                                     <tr>
                                         <th style = "text-align:center;">#</th>
+                                        <th>Code</th>
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Phone</th>
@@ -91,6 +92,7 @@
                                         ?>
                                         <tr>
                                             <td style = "text-align:center;"><?php echo $i++; ?></td>
+                                            <td><?php echo $data['agent_code'];?></td>
                                             <td><?php echo $data['first_name'].' '.$data['last_name'];?></td> 
                                             <td><?php echo $data['email'];?></td>
                                             <td><?php echo $data['phone'];?></td>

@@ -170,6 +170,23 @@ class Web_model extends CI_Model {
         return intval($row->cnt);
         
     }
+    
+    function get_logged_user_details ($type = '') {
+        $this->db->select('*');
+        if($type == 'admin'){
+            $this->db->where('admin_id',s('ADMIN_USERID'));
+            $query = $this->db->get('crm_admin');      
+        }
+        else {
+            $this->db->where('agent_id',s('ADMIN_USERID'));
+            $query = $this->db->get('crm_agents');
+        }
+        if($query->num_rows () > 0)
+            return $query->row_array();
+        else
+            return false;
+    }
+    
     function get_userdetails($where, $start=0, $limit=25,$user_search='',$mobile = 0){
         $this->db->select('user_id,agent_id,first_name,last_name,email,phone,status');
         $this->db->where($where);
@@ -460,6 +477,16 @@ class Web_model extends CI_Model {
             return false;
     }
     
+    public function check_username_available ($username = '') {
+        $this->db->where("username", $username);
+        $query = $this->db->get("crm_agents");       
+        if ($query->num_rows() > 0) {
+                return false;
+        } else {
+                return true;
+        }
+    }
+
     public function get_details_byusername($username = '', $type = ''){
         $this->db->select('*');
         $this->db->where("username",$username);
@@ -603,7 +630,7 @@ class Web_model extends CI_Model {
              $this->db->where('u.agent_id',s('ADMIN_USERID'));
         }
         
-        $this->db->order_by("u.agent_id","desc");
+        $this->db->order_by("u.user_id","desc");
         if($mobile == 0) {
             $this->db->limit($limit, $start);
         } 
@@ -663,4 +690,5 @@ class Web_model extends CI_Model {
         else
             return false;
     }
+    
 }

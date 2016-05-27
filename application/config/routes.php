@@ -120,3 +120,5 @@ $route['user_reports/(:num)']    = "web/user_reports/$1";
 
 $route['viewmore/(:any)/(:any)']      = "ajax/viewmore/$1/$2";
 $route['district_autocomplete']      = "web/district_autocomplete";
+
+$route['check_username_available']      = "web/check_username_available";

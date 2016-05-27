@@ -15,6 +15,11 @@ var Manageagent = function(){
               minlength: 5
 
              },
+             confirmpassword: {
+              required: true,
+              minlength: 5,
+              equalTo : "#password"
+             },
              first_name: {
               required: true,
               minlength: 3
@@ -234,3 +239,28 @@ var Manageagent = function(){
         $('#form_report').find('input:text, input:password, select, textarea').val('');
         $('#form_report').find('input:radio, input:checkbox').prop('checked', false);
     })
+
+    $("#username").on("blur", function() {          
+        var username = $.trim($("#username").val());      
+        if (username != "") {
+            $.post(base_url+"check_username_available", { username: username },
+            function(response) {
+                var data = $.parseJSON(response);
+                if (data["status"] == 1) {
+                    $("#msg_username").css("color", "green");
+                    $("#msg_username").html(data["msg"]);
+                    $(".check_div").fadeIn();
+                    setTimeout(function() {
+                            $(".check_div").fadeOut();
+                    }, 3000);
+                } else {
+                    $("#msg_username").css("color", "red");
+                    $("#msg_username").html(data["msg"]);
+                    $(".check_div").fadeIn();
+                    setTimeout(function() {
+                            $(".check_div").fadeOut();
+                    }, 3000);
+                }
+            });
+        }			
+    });

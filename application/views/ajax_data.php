@@ -24,10 +24,6 @@ if ($from == "agent") { ?>
                 <td><?php echo $result['username']; ?></td>
             </tr>
             <tr>
-                <td>Password: </td>
-                <td><?php echo $result['password']; ?></td>
-            </tr>
-            <tr>
                 <td>State: </td>
                 <td><?php echo $result['state']; ?></td>
             </tr>

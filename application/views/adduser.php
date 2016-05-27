@@ -2,7 +2,7 @@
             <div class="row">
                 <ol class="breadcrumb">
                     <li><a href="<?php echo base_url()?>dashboard"><i class="fa fa-home" aria-hidden="true" style="font-size: 20px;"></i></a></li>
-                    <li class="active">Add User</li>
+                    <li class="active">Users/Clients</li>
                 </ol>
             </div><!--/.row-->
 
@@ -53,26 +53,31 @@
                                         <select name="state" id="state" class="form-control" required>
                                             <option value="">Select</option>
                                           <?php foreach($state_details as $res){?> 
-                                            <option value="<?php echo $res['id']; ?>"><?php echo $res['name']; ?></option>
+                                            <option value="<?php echo $res['id']; ?>" <?php echo set_select('state', $res['id'], False); ?> ><?php echo $res['name']; ?></option>
                                           <?php } ?>
                                         </select>
                                     </div> 
                                 <?php } ?>
                                 <div class="form-group">
-                                        <label for="txtUserdistrict">District<span class="required">*</span></label>
-                                        <select name="district" id="district" class="form-control" required>
-                                            <option value="">Select</option>
-                                        </select>
-                                    </div> 
+                                    <label for="txtUserdistrict">District<span class="required">*</span></label>
+                                    <select name="district" id="district" class="form-control" required>
+                                        <option value="">Select</option>
+                                        <?php if($districts){?>
+                                            <?php foreach($districts as $res){?> 
+                                                <option value="<?php echo $res['id']; ?>" <?php if($res['id'] == $district_selected){ ?>selected="selected"<?php }?>><?php echo $res['name']; ?></option>
+                                            <?php } ?>
+                                        <?php } ?>
+                                    </select>
+                                </div> 
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                            <label for="txtCity">City</label>
+                                            <label for="txtCity">City<span class="required">*</span></label>
                                             <input type="text" class="form-control" name="city" id="city" value="<?php echo set_value('city') ?>" maxlength="25" onkeypress="return blockSpecialChar(event)">
                                         </div>
                                      <div class="form-group">
                                         <label for="txtUseraddress">Address</label>
-                                        <textarea class="form-control" name="useraddress" id="useraddress" style="height:150px ! important;" maxlength="500" value="<?php echo set_value('address') ?>" ></textarea>
+                                        <textarea class="form-control" name="useraddress" id="useraddress" style="height:150px ! important;" maxlength="500" ><?php echo set_value('useraddress') ?></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label  for="txtPincode">Pincode</label>
@@ -90,10 +95,10 @@
                                             <option value="1">User</option>
                                         </select>
                                     </div> 
-                                    <div class="form-group">
-                                        <button type="reset" id="btnCancel" class="btn btn-default">Cancel</button>
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </div>
+                                </div>
+                                <div class="col-md-12" style = "text-align:center;">  
+                                    <button type="reset" id="btnCancel" class="btn btn-default">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>
                             </div>
                         </div>

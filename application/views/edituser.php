@@ -2,7 +2,7 @@
         <div class="row">
             <ol class="breadcrumb">
                 <li><a href="<?php echo base_url()?>dashboard"><i class="fa fa-home" aria-hidden="true" style="font-size: 20px;"></i></a></li>
-                <li class="active">Edit User</li>
+                <li class="active">Users/Clients</li>
             </ol>
         </div><!--/.row-->
         <div class="row">
@@ -69,7 +69,7 @@
                                 </div>
                                 <div class="col-md-6">   
                                         <div class="form-group">
-                                            <label for="txtCity">City</label>
+                                            <label for="txtCity">City<span class="required">*</span></label>
                                             <input type="text" class="form-control" name="city" id="city" value="<?php echo $user_details['city']?>" maxlength="25" onkeypress="return blockSpecialChar(event)">
                                         </div>
                                         <div class="form-group">
@@ -93,11 +93,11 @@
                                                 <option value="1" <?php if($user_details['status']== '1') {echo 'selected=""';} ?>>User</option>
                                             </select>
                                         </div>
-                                        <div class="form-group">
-                                            <button type="reset" id="btnCancel" class="btn btn-default">Cancel</button>
-                                             <button type="submit" class="btn btn-primary">Submit</button>
-                                        </div>
-                                    </div>
+                                </div>
+                                <div class="col-md-12" style = "text-align:center;"> 
+                                    <button type="reset" id="btnCancel" class="btn btn-default">Cancel</button>
+                                     <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
                                 </div>
                             </div>
                         </div>

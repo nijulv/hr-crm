@@ -2,7 +2,7 @@
             <div class="row">
                 <ol class="breadcrumb">
                     <li><a href="<?php echo base_url()?>dashboard"><i class="fa fa-home" aria-hidden="true" style="font-size: 20px;"></i></a></li>
-                    <li class="active">Modify Agents</li>
+                    <li class="active">Agents</li>
                 </ol>
             </div><!--/.row-->
 
@@ -39,12 +39,16 @@
                                     <input type="text" name="agent_code" class="form-control" placeholder="Agent Code" required value = "<?php echo set_value('agent_code',$details['agent_code']); ?>" maxlength="20">
                                 </div>
                                 <div class="form-group">
-                                    <label>Username <span class="required">*</span></label>
-                                    <input type="text" name="username" class="form-control" placeholder="Username" required value = "<?php echo set_value('username',$details['username']); ?>" maxlength="25">
+                                    <label>Username <span class="required">*</span><span class="check_div" id="msg_username"></span></label>
+                                    <input type="text" name="username" id ="username" class="form-control" placeholder="Username" required value = "<?php echo set_value('username',$details['username']); ?>" maxlength="25">
                                 </div>
                                 <div class="form-group">
                                     <label>Password <span class="required">*</span></label>
-                                    <input type="text" name="password" class="form-control" placeholder="Password" required value = "<?php echo set_value('password',$details['password']); ?>" maxlength="30">
+                                    <input type="password" name="password" id="password" class="form-control" placeholder="Password" required value = "<?php echo set_value('password',$details['password']); ?>" maxlength="30">
+                                </div>
+                                <div class="form-group">
+                                    <label>Confirm password <span class="required">*</span></label>
+                                    <input type="password" name="confirmpassword" id="confirmpassword" class="form-control" placeholder="Confirm password" required maxlength="30" value="<?php echo set_value('confirmpassword',$details['password']); ?>">
                                 </div>
                                 <div class="form-group">
                                     <label>First name <span class="required">*</span></label>
@@ -58,12 +62,12 @@
                                     <label>Email <span class="required">*</span></label>
                                     <input type="text" name="email" class="form-control" placeholder="Email" required value = "<?php echo set_value('email',$details['email']); ?>">
                                 </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Phone <span class="required">*</span></label>
                                     <input type="text" name="phone" class="form-control" placeholder="Phone" required value = "<?php echo set_value('phone',$details['phone']); ?>" maxlength="10" onkeypress="return numberValidate(event);">
                                 </div>
-                            </div>
-                            <div class="col-md-6">
                                 <?php if(!empty($state_details)){?>
                                       <div class="form-group">
                                         <label for="txtUserstate">State<span class="required">*</span></label>
@@ -86,21 +90,21 @@
                                     </div> 
                                 <?php } ?>
                                 <div class="form-group">
-                                            <label for="txtCity">City</label>
-                                            <input type="text" class="form-control" name="city" id="city" value="<?php echo set_value('city',$details['city']);?>" maxlength="25" onkeypress="return blockSpecialChar(event)">
-                                </div>
-                                <div class="form-group">
-                                    <label>Address <small class="text-muted"></small></label>
-                                    <textarea class="form-control" name="address" style="height: 150px !important;" maxlength="500"><?php echo set_value('address',$details['address']);?></textarea>
+                                    <label for="txtCity">City<span class="required">*</span></label>
+                                    <input type="text" class="form-control" placeholder="City" name="city" id="city" value="<?php echo set_value('city',$details['city']);?>" maxlength="25" onkeypress="return blockSpecialChar(event)">
                                 </div>
                                 <div class="form-group">
                                     <label>Pin code</label>
                                     <input type="text" name="pincode" class="form-control" placeholder="Pin code" maxlength="6" value = "<?php echo set_value('pincode',$details['pincode']); ?>" onkeypress="return numberValidate(event);">
                                 </div>
                                 <div class="form-group">
+                                    <label>Address <small class="text-muted"></small></label>
+                                    <textarea class="form-control" name="address" style="height: 150px !important;" maxlength="500"><?php echo set_value('address',$details['address']);?></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-12" style = "text-align:center;">
                                     <button type="reset" id="btnCancelagent" class="btn btn-default">Cancel</button>
                                     <input type="submit" class="btn btn-primary" value="Modify Agents">
-                                </div>
                                 <input type = "hidden" name = "id" value = "<?php echo $details['agent_id'];?>">
                                 <?php echo form_close();?> 
                             </div>

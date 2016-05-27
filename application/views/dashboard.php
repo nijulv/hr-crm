@@ -30,7 +30,7 @@
                     <div class="panel panel-orange panel-widget">
                         <div class="row no-padding">
                             <div class="col-sm-3 col-lg-5 widget-left">
-                                <i class="fa fa-comment-o" aria-hidden="true" style="font-size: 55px;"></i>
+                                <i class="fa fa-yelp" aria-hidden="true" style="font-size: 55px;"></i>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
                                 <div class="large"><?php echo $agent_count;?></div>  
@@ -153,7 +153,7 @@
                     <div class="panel panel-default">
                         <div class="panel-body easypiechart-panel">
                             <h4>Finished Appointments</h4>
-                            <div class="easypiechart" id="easypiechart-blue" data-percent="92" ><span class="percent">92</span>
+                            <div class="easypiechart" id="easypiechart-blue" data-percent="80" ><span class="percent">80</span>
                             </div>
                         </div>
                     </div>

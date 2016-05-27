@@ -2,7 +2,7 @@
             <div class="row">
                 <ol class="breadcrumb">
                     <li><a href="<?php echo base_url()?>dashboard"><i class="fa fa-home" aria-hidden="true" style="font-size: 20px;"></i></a></li>
-                    <li class="active">Add Bank Payment</li>
+                    <li class="active"> Bank Payments</li>
                 </ol>
             </div><!--/.row-->
 

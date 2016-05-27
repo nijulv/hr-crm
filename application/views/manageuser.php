@@ -2,7 +2,7 @@
             <div class="row">
                 <ol class="breadcrumb">
                     <li><a href="<?php echo base_url()?>dashboard"><i class="fa fa-home" aria-hidden="true" style="font-size: 20px;"></i></a></li>
-                    <li class="active">Manage User</li>
+                    <li class="active">Users/Clients</li>
                 </ol>
             </div><!--/row-->
 
