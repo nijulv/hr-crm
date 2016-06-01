@@ -94,14 +94,17 @@ class Web extends CI_Controller {
                     $msg = $this->authentication->process_admin_login($login_details);
                     
                     if ($msg == 'success') {
-                        // Remember Password set here --- start here - added by syama
-                        //$this->admin_model->setRememberPassword();
-                        // Remember Password set here --- end here
+                        
                         redirect("dashboard");
-                    } else if ($msg == 'inactive') {
-                        sf('error_message', 'Your account has been inactivate');
+                    } else if ($msg == 'emailactivation') {
+                        sf('error_message', 'Your account is inactive. Please check your mail for activation link');
                         redirect("web");
-                    } else {
+                    }
+                    else if ($msg == 'inactive') {
+                        sf('error_message', 'Your account is inactive');
+                        redirect("web"); 
+                    }
+                    else {
                         sf('error_message', 'Invalid username or password');
                         redirect("web");
                     }
@@ -1067,7 +1070,10 @@ class Web extends CI_Controller {
             $this->form_validation->set_rules('state','State', 'required|trim');
             $this->form_validation->set_rules('district','District', 'required|trim');
                 if($this->form_validation->run() == TRUE){
-
+                    
+                    $this->load->helper('string');
+                    $rand_no = random_string('alnum',20);
+                    
                     $userdata = array(
                         "agent_code"            => $this->input->post("agent_code",true),
                         "username"              => $this->input->post("username",true),
@@ -1081,15 +1087,39 @@ class Web extends CI_Controller {
                         'state_id'              => $this->input->post("state", true),
                         'district_id'           => $this->input->post("district", true),
                         'city'                  => $this->input->post("city", true),
-                        'date'     => date('Y-m-d')
-
+                        'number'                => $rand_no,
+                        'date'                  => date('Y-m-d')
                     );
 
                     $tbl_name = 'crm_agents';
                     $result = $this->web_model->insert_datas($userdata,$tbl_name);
                     if($result){
-                        sf( 'success_message', "Agents details inserted successfully" );
-                        redirect("manage_agents");
+                        
+                        $this->load->helper('email_helper');
+                        $this->gen_contents["mail_template"]  =  $this->web_model->get_mail_template(2);
+                        $to = $this->input->post("email");
+                        $username = $this->input->post("username");
+                        $password = $this->input->post("password");
+                        $firstname = $this->input->post("first_name");
+                       
+                        $message = "<br/>This is the confirmation of your registration. Below are the credentials of your registration.<br/><br/><br/>"
+                        ."<b>Username</b>  ".$username."<br/>"
+                        ."<b>Password</b>  ".$password."<br/>Please try to sign in to your dashboard with your Identification code(If provided)/ Username and Password after clicking "
+                        . "<a href='". site_url("web/enable_logging/".$rand_no)."'>Here</a>";
+                        
+                        
+                        $mail_body  = sprintf($this->gen_contents["mail_template"]["mail_body"],$firstname,$message);
+                        $subject    = $this->gen_contents["mail_template"]["mail_subject"];
+                        $from_name  = $this->gen_contents["mail_template"]["mail_from_name"];
+                        $from_email = $this->gen_contents["mail_template"]["mail_from"];
+                        
+                        send_mail($to, $from_name,$subject,$mail_body,$from_email);
+                       
+                        sf( 'success_message', "Agents details inserted successfully,Please check the email." );
+                        redirect("manage_agents"); 
+
+                        sf( 'success_message', "Your login details sended successfully,Please check your email." );
+                        redirect("web"); 
                     }
                     else {
                         sf('error_message', 'Agents details not inserted, Please try agin later');
@@ -1110,6 +1140,28 @@ class Web extends CI_Controller {
         }
     }
     
+    function  enable_logging() { 
+        $rand_no = $this->uri->segment(3); 
+        $data = array(
+            "enable_logging" => '1'
+        );
+        if($rand_no != '') {
+            $result = $this->web_model->enable_logging($rand_no,$data);
+            if($result) {  
+                sf( 'success_message', "Your registration enabled, Please log in." );
+                redirect("web");
+            }
+            else {  
+                sf( 'error_message', "Your registration already enabled." );
+                redirect("web");
+            }
+        }
+        else {  
+            sf( 'error_message', "Error occured,Please try again.");
+            redirect("web");
+        }
+    }
+        
     public function edit_agents ($id = 0) {  
          if (!($this->session->userdata("ADMIN_USERID"))) {
             redirect("web");

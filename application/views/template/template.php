@@ -30,7 +30,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#"></a>
+                    <a class="navbar-brand" href="#">HR-CRM <span class="label label-warning"><?php if(s('ADMIN_TYPE') == 0) {?> Admin <?php }else { ?>Agent <?php }?></span></a>
                     <ul class="user-menu" >
                         <li class="dropdown pull-right">   
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user-plus" aria-hidden="true"></i> Welcome <?php if(s('ADMIN_NAME')){echo s('ADMIN_NAME');} ?> <span class="caret"></span></a>

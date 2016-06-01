@@ -110,7 +110,7 @@ var Manageagent = function(){
         
         if(total_amount < bank_amount) {        
             
-            $("#warning_msg").html("Bank amount must be less than total amount");
+            $("#warning_msg").html("Bank payment must be less than total payment");
             $("#warning_msg").show(500);
             $('#bank_payment').val('');
         }
@@ -127,7 +127,7 @@ var Manageagent = function(){
         
         if(total_amount < bank_amount) {        
             
-            $("#warning_msg").html("Bank amount must be less than total amount");
+            $("#warning_msg").html("Bank payment must be less than total payment");
             $("#warning_msg").show(500);
             $('#bank_payment').val('');
         }
@@ -150,6 +150,22 @@ var Manageagent = function(){
         var id              = $(this).attr("data-id");
 
         var request_path    = base_url+"viewmore/"+from+"/"+id;
+        console.log(request_path);
+        $.post(request_path,function(data){
+            $("#data-output").html(data);
+        });
+    });
+    
+    $(".viewuserlist").click(function(){   
+        $('#moreDetails').modal('show');
+        var from  = $(this).attr("data-from");        
+        var name  = $(this).attr("data-name");        
+        if(from == 'agentuserlist')
+            $('#data-title').html("User List: added by <b>"+name + "</b>");
+
+        var id              = $(this).attr("data-id");
+
+        var request_path    = base_url+"viewuserlist/"+from+"/"+id;
         console.log(request_path);
         $.post(request_path,function(data){
             $("#data-output").html(data);

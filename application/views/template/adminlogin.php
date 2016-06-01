@@ -46,7 +46,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" align="center">
-                <h1 style="color: #666">HR-CRM</h1>
+                <h1 style="color: #0069AA">HR-CRM</h1>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -72px;">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                 </button>
@@ -58,7 +58,7 @@
                     <div class="modal-body">
                         <div id="div-login-msg">
                             <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
-                            <span id="text-login-msg">Administrator Login.</span>
+                            <span id="text-login-msg">Administrator Login </span>
                         </div>
                         <br>
                         <input id="login_username" class="form-control" name = "username" type="text" placeholder="Username" required>
@@ -86,8 +86,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" align="center">
-                <h1 style="color: #666">HR-CRM</h1>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h1 style="color: #0069AA">HR-CRM</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -72px;">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                 </button>
             </div>
@@ -98,7 +98,7 @@
                     <div class="modal-body">
                         <div id="div-login-msg">
                             <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
-                            <span id="text-login-msg">Agent Login.</span>
+                            <span id="text-login-msg">Agent Login </span>
                         </div>
                         <br>
                         <input id="login_username" class="form-control" type="text" name = "username" placeholder="Username" required>
@@ -141,7 +141,7 @@
                     <div class="modal-body">
                         <div id="div-login-msg">
                             <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
-                            <span id="text-login-msg">Admin Forgot Password.</span>
+                            <span id="text-login-msg">Admin Forgot Password </span>
                         </div>
                         <br>
                         <input id="username" class="form-control" name = "username" type="text" placeholder="Username" required>
@@ -175,7 +175,7 @@
                     <div class="modal-body">
                         <div id="div-login-msg">
                             <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
-                            <span id="text-login-msg">Agent Forgot Password.</span>
+                            <span id="text-login-msg">Agent Forgot Password </span>
                         </div>
                         <br>
                         <input id="username" class="form-control" name = "username" type="text" placeholder="Username" required>

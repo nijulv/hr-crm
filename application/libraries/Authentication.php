@@ -127,7 +127,7 @@ class Authentication {
         }
         else {     
             
-            $this->CI->db->select("username AS USERNAME, agent_id as USERID, first_name as NAME, status as STATUS,type as TYPE ");
+            $this->CI->db->select("username AS USERNAME, agent_id as USERID, first_name as NAME, status as STATUS,type as TYPE,enable_logging as enable_logging");
             $this->CI->db->where('username', $emailid);
             $password = $this->CI->db->escape_like_str($password);
             //$password = md5($password);
@@ -135,7 +135,7 @@ class Authentication {
             $select_query = $this->CI->db->get('crm_agents');
             if (0 < $select_query->num_rows()) {
                 $row = $select_query->row();
-                if ($row->STATUS == '1') {
+                if (($row->STATUS == '1') && ($row->enable_logging == '1')) {
                     $this->CI->db->where('agent_id', $row->USERID);
                     $arr['last_login_date'] = date('Y-m-d H:i:s');
                     $this->CI->db->update('crm_agents', $arr);
@@ -149,8 +149,12 @@ class Authentication {
                     );
                     $this->CI->session->set_userdata($session_data);
                     return 'success';
-                }else
+                }
+                else if($row->STATUS == '2') {
                     return 'inactive';
+                }
+                else
+                    return 'emailactivation';
             }
             return false;
         }

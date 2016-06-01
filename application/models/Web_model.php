@@ -137,6 +137,53 @@ class Web_model extends CI_Model {
         }
         
     }
+    public function get_bank_payments_api ($limit = '', $start = '',$mobile = 0) {
+        $this->db->select("SQL_CALC_FOUND_ROWS *",FALSE); 
+        $this->db->from('crm_bank_payment');
+        $this->db->where('status','1');
+        if(s('ADMIN_TYPE') == 1){
+             $this->db->where('agent_id',s('ADMIN_USERID'));
+        }
+        $this->db->order_by("bank_payment_id","desc");
+        if($mobile == 0) {
+            $this->db->limit($limit, $start);
+        } 
+        $query = $this->db->get();          
+        if($query->num_rows() > 0){
+            
+            $data = $query->result_array();
+            if(!empty($data)){
+                foreach($data as $key => $dt){
+                    
+                    $username = array();
+                    $usernames = '';
+                    $names = '';
+                                        
+                    $userids = $dt['user_id']; 
+                    $user_id =  (explode(",",$userids));
+                    if($user_id){
+                        foreach ($user_id as $id){
+                            $username[] = $this->get_username($id); 
+                        }
+                    }
+                    if($username){   
+                        foreach ($username as $name){
+                            $names .= $name['first_name'].' '.$name['last_name'] .',';
+                        }
+                    }  
+                    $usernames = rtrim($names, ",");      
+                    
+                    $data[$key]['usernames']   = $usernames;
+                    
+                }
+            }
+            return $data;
+        } else {
+            return FALSE;
+        }
+        
+    }
+    
     public function get_bank_payments ($limit = '', $start = '',$mobile = 0) {
         $this->db->select("SQL_CALC_FOUND_ROWS *",FALSE); 
         $this->db->from('crm_bank_payment');
@@ -555,10 +602,19 @@ class Web_model extends CI_Model {
     }
     
     public function get_payment_reportlist($limit = '', $start = '', $search_term = '',$search_title = '' ,$fromdate_search = '' ,$todate_search = '',$mobile = 0) {
-        $this->db->select("SQL_CALC_FOUND_ROWS p.*,u.first_name,u.last_name,u.phone",FALSE); 
-        $this->db->from('payments p');
-        $this->db->join('crm_users u', 'u.user_id = p.user_id', 'left');
-         
+        
+        if(s('ADMIN_TYPE') == 0){
+            $this->db->select("SQL_CALC_FOUND_ROWS p.*,u.first_name,u.last_name,u.phone,a.first_name as afirstname,a.last_name as alastname",FALSE); 
+            $this->db->from('payments p');
+            $this->db->join('crm_users u', 'u.user_id = p.user_id', 'left');
+            $this->db->join('crm_agents a', 'a.agent_id = p.agent_id', 'left');
+        }
+        else {
+            $this->db->select("SQL_CALC_FOUND_ROWS p.*,u.first_name,u.last_name,u.phone",FALSE); 
+            $this->db->from('payments p');
+            $this->db->join('crm_users u', 'u.user_id = p.user_id', 'left');
+        }
+        
         if($search_term != '') {
             $this->db->like('u.first_name',$search_term);
             $this->db->or_like('u.last_name',$search_term);
@@ -641,6 +697,27 @@ class Web_model extends CI_Model {
             return false;
     }
     
+    
+    function get_userlist_byagent($id = 0,$tbl_name = ''){
+        if($tbl_name == 'crm_users') {
+            $this->db->select("u.*,s.name as state,d.name as districts");
+            $where = array(
+                'agent_id' => $id
+            );
+            $this->db->where('status !=','2');
+            $this->db->from('crm_users u');
+            $this->db->join('states s', 's.id = u.state_id', 'left');
+            $this->db->join('districts d', 'd.id = u.district_id', 'left');
+        }
+        $this->db->where($where);
+        $query = $this->db->get();    
+        if($query->num_rows() > 0){
+            return $query->result_array();
+        } else {
+            return FALSE;
+        }
+    }
+    
     function get_more_details($id = 0,$tbl_name = ''){
         
         if($tbl_name == 'payments') {
@@ -688,6 +765,16 @@ class Web_model extends CI_Model {
         if ($query->num_rows() > 0)
             return $query->result_array();
         else
+            return false;
+    }
+    
+    function  enable_logging($no,$data) { 
+        
+         $this->db->where("number",$no);
+         $query = $this->db->update("crm_agents", $data); 
+        if($this->db->affected_rows() >0)
+            return true;
+        else 
             return false;
     }
     

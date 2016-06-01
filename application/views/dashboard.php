@@ -78,7 +78,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="panel panel-red" id="todo-panel">
+                    <div class="panel panel-info" id="todo-panel">
                         <div class="panel-heading dark-overlay">
                             <i class="fa fa-list-alt" aria-hidden="true" style="font-size: 25px"></i> To-do List (Today's Appointments)
                         </div>
@@ -109,7 +109,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class = "alert shedule" style = "display:none;"></div>
+                        <div class = "alert shedule" style = "display:none;background-color:#CC0921;color:#fff;"></div>
                     </div>
                 </div>
             </div><!--/.row-->

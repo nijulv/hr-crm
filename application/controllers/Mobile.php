@@ -140,10 +140,31 @@ class Mobile extends CI_Controller {
             case 'user_list':
                 $this->user_list($decoded_data_array);
                 break;
+            case 'username_byid':
+                $this->username_byid($decoded_data_array);
+                break;
             default:
                 $this->load->view('ajax_view', array('ajax_response' => json_encode(array('status' => 'error', 'message' => 'Invalid request type'))));
                 return;
         }
+    }
+    
+    
+    function username_byid ($data = array()){
+        if(empty($data)){
+            $this->load->view('ajax_view', array('ajax_response' => json_encode(array('status' => 'error', 'message' => 'No data found.'))));
+            return;
+        }
+        $user_id = $data->user_id;
+        if($user_id != 0 && is_numeric($user_id)){
+            $this->load->model('web_model'); 
+            $userlist = $this->web_model->get_username($user_id);
+            return $userlist;
+        }
+        else {   
+            $this->load->view('ajax_view', array('ajax_response' => json_encode(array('status' => 'error', 'message' => 'No data found.'))));
+            return;
+        } 
     }
     
     function user_list ($data = array()){
@@ -817,7 +838,8 @@ class Mobile extends CI_Controller {
         ss('ADMIN_USERID',$id);
         
         $this->load->model('web_model'); 
-        $bankpayment_list = $this->web_model->get_bank_payments("","",1);
+        $bankpayment_list = $this->web_model->get_bank_payments_api("","",1);
+        
         $this->load->view('ajax_view', array('ajax_response' => json_encode(array('status' => 'success', 'bankpayment_list' => $bankpayment_list))));
         return;
     }
@@ -1070,6 +1092,9 @@ class Mobile extends CI_Controller {
             return;
         }
         $this->load->model('web_model'); 
+        $this->load->helper('string');
+        $rand_no = random_string('alnum',20);
+                    
         $userdata = array(
             "agent_code"            => $data->agent_code, 
             "username"              => $data->username,
@@ -1083,6 +1108,7 @@ class Mobile extends CI_Controller {
             'state_id'              => $data->state,
             'district_id'           => $data->district,
             'city'                  => $data->city,
+            'number'                => $rand_no,
             'date'                  => date('Y-m-d')
         );
         $tbl_name = 'crm_agents';
@@ -1104,7 +1130,11 @@ class Mobile extends CI_Controller {
         return;
     }
         
-    function login($data = array()) {  
+    function login($data = array()) {
+        if(empty($data)){
+            $this->load->view('ajax_view', array('ajax_response' => json_encode(array('status' => 'error', 'message' => 'No data found.'))));
+            return;
+        }
         $this->load->model('web_model');  
         $login_details['username'] = $data->username; 
         $login_details['password'] = $data->password; 
@@ -1152,14 +1182,14 @@ class Mobile extends CI_Controller {
             $details = $this->web_model->get_details_byusername($username,$type);
             if (!empty($details)) {
                 
-                    process_and_send_mail($details['email'], array('first_name' => $details['first_name'],
-                        'user_name' => $details['username'],
-                        'Password' => $details['password'],
-                        'regards_name' => c('regards_name'),
-                        'email_bottom_instruction' => c('email_bottom_instruction')
-                            ), 'forgot_password', array(), array(), '', '');
-                    $this->load->view('ajax_view', array('ajax_response' => json_encode(array('status' => 'success', 'message' => 'Your login details sended successfully,Please check your email.'))));
-                    return;
+                process_and_send_mail($details['email'], array('first_name' => $details['first_name'],
+                    'user_name' => $details['username'],
+                    'Password' => $details['password'],
+                    'regards_name' => c('regards_name'),
+                    'email_bottom_instruction' => c('email_bottom_instruction')
+                        ), 'forgot_password', array(), array(), '', '');
+                $this->load->view('ajax_view', array('ajax_response' => json_encode(array('status' => 'success', 'message' => 'Your login details sended successfully,Please check your email.'))));
+                return;
             }
             else {
                 $this->load->view('ajax_view', array('ajax_response' => json_encode(array('status' => 'error', 'message' => 'Please check your username.'))));

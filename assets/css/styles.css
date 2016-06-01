@@ -91,14 +91,16 @@ h3, h4 {
 
 .navbar-header .navbar-brand {
     color: #fff;
-    font-size: 16px;
+    font-size: 22px;
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: 700;
     letter-spacing: 2px;
 }
 
 .navbar-header .navbar-brand span {
-    color: #30a5ff;
+/*    color: #30a5ff;*/
+    text-transform: none !important;
+    color: #fff !important;
 }
 
 /*Buttons*/
@@ -427,7 +429,7 @@ a.bg-danger:hover {
 
 .panel-blue .widget-left { background: #30a5ff; color: #fff; }
 .panel-teal .widget-left { background: #1ebfae; color: #fff; }
-.panel-orange .widget-left { background: #ffb53e; color: #fff; }
+.panel-orange .widget-left { background: #5053B1; color: #fff; }
 .panel-red .widget-left { background: #f9243f; color: #fff; }
 
 .panel-widget {
@@ -565,7 +567,7 @@ a.bg-danger:hover {
 .sidebar ul.nav a:hover, 
 .sidebar ul.nav li.parent ul li a:hover {
     text-decoration: none;
-    background-color: #e9ecf2;
+    background-color: #525252;
 }
 
 .sidebar ul.nav .active a, .sidebar ul.nav li.parent a.active,
@@ -612,7 +614,7 @@ a.bg-danger:hover {
 }
 
 .sidebar ul.nav li.divider {
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #525252;
     margin: 20px 0;
 }
 

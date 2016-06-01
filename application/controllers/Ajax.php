@@ -28,4 +28,16 @@ class Ajax extends CI_Controller {
         $this->load->view("ajax_data",$data); 
     }
     
+    public function viewuserlist ($from = "", $data_id = ""){
+        $this->load->model('web_model');
+        
+        if($from == 'agentuserlist'){
+            $tbl_name       = 'crm_users';
+            $data['from']   = "agentuserlist";
+            $data['details']     = $this->web_model->get_userlist_byagent($data_id,$tbl_name); 
+        }
+        
+        $this->load->view("ajax_data",$data); 
+    }
+    
 }

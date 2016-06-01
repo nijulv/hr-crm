@@ -70,7 +70,7 @@
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Phone</th>
-                                        <th>Agent Code</th>
+                                        <th style = "text-align:center;">Agent Code</th>
                                         <th>State</th>
                                         <th>District</th>
                                         <th>City</th>
@@ -96,13 +96,14 @@
                                             <td><?php echo $data['first_name'].' '.$data['last_name'];?></td> 
                                             <td><?php echo $data['email'];?></td>
                                             <td><?php echo $data['phone'];?></td>
-                                            <td><?php echo $data['agent_code'];?></td>
+                                            <td style = "text-align:center;"><?php echo $data['agent_code'];?></td>
                                             <td><?php echo $data['state'];?></td>
                                             <td><?php echo $data['districts'];?></td>
                                             <td><?php echo $data['city'];?></td>
                                             <td style = "text-align:center;"><?php echo $status;?></td>
                                             <td style = "text-align:center;">
                                                 <a href="javascript: void(0)" class="label label-primary more" data-from="agent" data-id="<?php echo $data['agent_id']; ?>" ><i class="fa fa-list"></i>View More</a>
+                                                <a href="javascript: void(0)" class="label label-warning viewuserlist" data-from="agentuserlist" data-id="<?php echo $data['agent_id']; ?>" data-name="<?php echo $data['first_name'].' '.$data['last_name']; ?>" ><i class="fa fa-list"></i>User list</a>
                                             </td>
                                         </tr>
                                     <?php }?>

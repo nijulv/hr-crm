@@ -25,10 +25,10 @@ p {
 }
 
 .sidebar a, .sidebar a:hover,.sidebar a:focus {
-    color: #8c1515 !important;
+    color: #A0A0A0 !important;
 }
 .breadcrumb a, .breadcrumb a:hover,.breadcrumb a:focus {
-    color: #8c1515 !important;
+    color: #0069AA !important;
 }
 h1, h2, h3, h4, h5, h6 {
     color: #5f6468;
@@ -106,7 +106,7 @@ h3, h4 {
 }
 
 .navbar-header .navbar-brand span {
-    color: #8c1515 !important;
+    color: #0069AA !important;
 }
 
 /*Buttons*/
@@ -271,10 +271,10 @@ a.bg-success:hover {
 }
 .bg-info {
     color: #fff;
-    background-color: #8c1515 !important;
+    background-color: #0069AA !important;
 }
 a.bg-info:hover {
-    background-color: #8c1515 !important;
+    background-color: #0069AA !important;
 }
 .bg-info a {
     color: rgba(255, 255, 255, .75);
@@ -491,7 +491,7 @@ a.bg-danger:hover {
 
 .nav-pills li.active a,
 .nav-pills li.active a:hover {
-    background: #8c1515 !important;
+    background: #0069AA !important;
 }
 
 .tab-content {
@@ -514,9 +514,9 @@ a.bg-danger:hover {
 .navbar input:focus {
     color: #fff;
     background: #555;
-    border: 1px solid #8c1515 !important;
+    border: 1px solid #0069AA !important;
     outline: 0;
-    box-shadow: inset 0px 0px 0px 1px #8c1515 !important;
+    box-shadow: inset 0px 0px 0px 1px #0069AA !important;
 }
 
 .user-menu {
@@ -532,7 +532,7 @@ a.bg-danger:hover {
     color: #fff !important;
 }
 .user-menu dropdown-menu a{
-    color: #8c1515 !important
+    color: #0069AA !important
 }
 .user-menu a:hover, .user-menu a:focus {
     text-decoration: none;
@@ -576,7 +576,7 @@ a.bg-danger:hover {
     }
 }
 .sidebar{
-    background-color: #fff7f0 !important;
+    background-color: #313131 !important; /*#fff7f0*/
 }
 .sidebar ul.nav a:hover, 
 .sidebar ul.nav li.parent ul li a:hover {
@@ -587,8 +587,10 @@ a.bg-danger:hover {
 .sidebar ul.nav .active a, .sidebar ul.nav li.parent a.active,
 .sidebar ul.nav .active > a:hover, .sidebar ul.nav li.parent a.active:hover,
 .sidebar ul.nav .active > a:focus, .sidebar ul.nav li.parent a.active:focus {
-    color: #8c1515 !important;
-    background-color: #F5E2D1 !important;
+    /*    color: #0069AA !important;
+        background-color: #F5E2D1 !important;*/
+    color: #EAEAEA !important;
+    background-color: #525252 !important;
 }
 
 .sidebar ul.nav ul,
@@ -607,11 +609,12 @@ a.bg-danger:hover {
 .sidebar ul.nav ul.children li a {
     height: 40px;
     background: #f9f9f9;
-    color: #8c1515 !important;
+    /*    color: #0069AA !important;*/
+    color: #EAEAEA !important;
 }
 
 .sidebar ul.nav li.current a {
-    background-color: #8c1515 !important;
+    background-color: #0069AA !important;
     color: #fff!important;
 }
 
@@ -953,18 +956,18 @@ h1.page-header {
 added for marshall
 **/
 .navbar-inverse {
-    background-color: #8c1515 !important;   /*#fff7f0*/
+    background-color: #0069AA !important;   /*#fff7f0*/
 }
 .logo{
     padding: 0px 30px 10px !important;
 }
 .error{
-        color: #fe6965;
-        font-weight: 400;
+    color: #fe6965;
+    font-weight: 400;
 }
 .success{
-        color: green;
-        font-weight: 400;
+    color: green;
+    font-weight: 400;
 }
 .form-inline{
     background: none repeat scroll 0% 0% #F6F6F6;
@@ -976,10 +979,12 @@ added for marshall
 }
 .space{
     padding-bottom: 10px;
-    
+
 }
 .form-controll{
     width:250px;
     height:45px;
     padding: 6px 12px;
 }
+
+

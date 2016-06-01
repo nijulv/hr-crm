@@ -17,7 +17,7 @@
                         
                         <div class="col-md-12">
                             <div class="col-md-3">
-                                <input type = "text" name = "search_user" class = "form-control" placeholder="Name,Phone" value = "<?php echo set_value('search_user'); ?>">
+                                <input type = "text" name = "search_user" class = "form-control" placeholder="User name,Phone" value = "<?php echo set_value('search_user'); ?>">
                             </div>
                             <div class="col-md-3">
                                 <input type = "text" name = "search_title" class = "form-control" placeholder="Title,amount" value = "<?php echo set_value('search_title'); ?>">
@@ -42,7 +42,10 @@
                                 <thead>
                                     <tr>
                                         <th style = "text-align:center;">#</th>
-                                        <th>Name</th>
+                                        <?php if(s('ADMIN_TYPE') == 0){ ?>
+                                            <th>Agent Name</th>
+                                        <?php }?>
+                                        <th>User Name</th>
                                          <th>Contact Number</th>
                                         <th>Title</th>
                                         <th>Amount</th>
@@ -55,6 +58,9 @@
                                     foreach ($details as $data) { ?>
                                         <tr>
                                             <td style = "text-align:center;"><?php echo $i++; ?></td>
+                                            <?php if(s('ADMIN_TYPE') == 0){ ?>
+                                                <td><?php echo $data['afirstname'].' '.$data['alastname'];?></td> 
+                                            <?php }?>
                                             <td><?php echo $data['first_name'].' '.$data['last_name'];?></td> 
                                              <td><?php echo $data['phone'];?></td>
                                             <td><?php echo $data['title'];?></td>

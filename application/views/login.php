@@ -34,7 +34,7 @@
             <div class="headline">
                 <div class="container">
                     <center></center>
-                    <h1 style="color: #666">HR-CRM</h1>
+                    <h1 style="color: #0069AA">HR-CRM</h1>
                     <h2></h2>
                 </div>
             </div>
@@ -61,13 +61,13 @@
          </div>
         <!-- Page Content -->
         <div class="container">
+            <br><br>
+            <h1 align="center" class="tagline">Organize a big team!</h1>
             <hr class="featurette-divider">
             <!-- First Featurette -->
             <div class="featurette" id="about">
                 <img class="featurette-image img-circle img-responsive pull-right" src="<?php echo assets_url();?>images/facilitation.jpg">
-                <h2 class="featurette-heading">Neque porro quisquam 
-                    <span class="text-muted">est qui dolorem ipsum quia </span>
-                </h2>
+                <h2 class="featurette-heading">Neque porro <span class="text-muted">quisquam</span></h2>
                 <p class="lead">
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard 
                     dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.

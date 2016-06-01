@@ -24,6 +24,10 @@ if ($from == "agent") { ?>
                 <td><?php echo $result['username']; ?></td>
             </tr>
             <tr>
+                <td>Password: </td>
+                <td><?php echo $result['password']; ?></td>
+            </tr>
+            <tr>
                 <td>State: </td>
                 <td><?php echo $result['state']; ?></td>
             </tr>
@@ -179,5 +183,27 @@ if ($from == "agent") { ?>
                 </tr>
             </table>
         </div>
+     <?php } else if ($from == "agentuserlist") {?>
+            <div class="table-responsive">
+                <table class="table">
+                    <?php if ($details) { ?>
+                                <tr>
+                                    <td style="border-top: 1px solid #FFF ! important;"><b>Name</b></td>
+                                    <td style="border-top: 1px solid #FFF ! important;"><b>Email</b></td>
+                                    <td style="border-top: 1px solid #FFF ! important;"><b>Phone</b></td>
+                                </tr>
+                            <?php foreach ($details as $qa) {?>
+                                <tr style="border-bottom: 1px solid #FFF ! important;">
+                                        <td><?php echo $qa['first_name'].' '.$qa['last_name']; ?></td>
+                                        <td><?php echo $qa['email']; ?></td>
+                                        <td><?php echo $qa['phone']; ?></td>
+                                <?php } ?>
+                                </tr>         
+                    <?php } else { ?>  
+                        <tr style="border-bottom: 1px solid #FFF ! important;"><td colspan="3" style="border-top: 1px solid #FFF ! important;"><b>No user details found</b></td></tr>  
+                    <?php } ?>
+                </table>
+            </div>
     <?php } ?>
+
 
