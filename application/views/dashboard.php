@@ -14,19 +14,6 @@
 
             <div class="row">
                 <div class="col-xs-12 col-md-6 col-lg-3">
-                    <div class="panel panel-blue panel-widget ">
-                        <div class="row no-padding">
-                            <div class="col-sm-3 col-lg-5 widget-left">
-                                <i class="fa fa-calendar" aria-hidden="true" style="font-size: 55px;"></i>
-                            </div>
-                            <div class="col-sm-9 col-lg-7 widget-right">
-                                <div class="large"><?php echo $users_count;?></div>
-                                <div class="text-muted">Total Users</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-md-6 col-lg-3">
                     <div class="panel panel-orange panel-widget">
                         <div class="row no-padding">
                             <div class="col-sm-3 col-lg-5 widget-left">
@@ -40,14 +27,27 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-6 col-lg-3">
+                    <div class="panel panel-blue panel-widget ">
+                        <div class="row no-padding">
+                            <div class="col-sm-3 col-lg-5 widget-left">                                
+                                <i class="fa fa-trophy" aria-hidden="true" style="font-size: 55px;"></i>
+                            </div>
+                            <div class="col-sm-9 col-lg-7 widget-right">
+                                <div class="large"><?php echo $users_count;?></div>
+                                <div class="text-muted">Total Clients</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+                <div class="col-xs-12 col-md-6 col-lg-3">
                     <div class="panel panel-teal panel-widget">
                         <div class="row no-padding">
                             <div class="col-sm-3 col-lg-5 widget-left">
-                                <i class="fa fa-user" aria-hidden="true" style="font-size: 55px;"></i>
+                                <i class="fa fa-users" aria-hidden="true" style="font-size: 55px;"></i>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
                                 <div class="large"><?php echo $guest_count;?></div>
-                                <div class="text-muted">Total Guests</div>
+                                <div class="text-muted">Total Prospects</div>
                             </div>
                         </div>
                     </div>
@@ -59,8 +59,8 @@
                                 <i class="fa fa-money" aria-hidden="true" style="font-size: 55px;"></i>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
-                                <div class="large"><?php if($payment_count){echo '$ '.number_format($payment_count); }else {echo '$ 0';}?></div>  
-                                <div class="text-muted">Payments</div>
+                                <div class="large"><?php if($payment_count){echo '<i class="fa fa-inr" aria-hidden="true"></i> '.number_format($payment_count); }else {echo '$ 0';}?></div>  
+                                <div class="text-muted">Total Payments</div>
                             </div>
                         </div>
                     </div>
@@ -69,7 +69,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="panel panel-default">
-                        <div class="panel-heading">Appointments in last 6 months</div>
+                        <div class="panel-heading">Clients and Prospects in last 6 months</div>
                         <div class="panel-body">
                             <div class="canvas-wrapper">
                                 <canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
@@ -80,8 +80,7 @@
                 <div class="col-lg-6">
                     <div class="panel panel-info" id="todo-panel">
                         <div class="panel-heading dark-overlay">
-                            <i class="fa fa-list-alt" aria-hidden="true" style="font-size: 25px"></i> To-do List (Today's Appointments)
-                        </div>
+                            <i class="fa fa-list-alt" aria-hidden="true" style="font-size: 25px"></i> To-do Notes                        </div>
                         <?php if($todo){?>
                         <div class="panel-body scroll">
                             <ul class="todo-list">
@@ -103,9 +102,9 @@
                         <?php } ?>
                         <div class="panel-footer">
                             <div class="input-group">
-                                <input id="todo" name="todo" type="text" class="form-control input-md" placeholder="Add new schedule">
+                                <input id="todo" name="todo" type="text" class="form-control input-md" placeholder="Type a note here">
                                 <span class="input-group-btn">
-                                   <button  class="btn btn-primary btn-md" id="btn-todo"  style="height: 44px;">Add</button>
+                                   <button  class="btn btn-primary btn-md" id="btn-todo"  style="height: 44px;">Add Note</button>
                                 </span>
                             </div>
                         </div>
@@ -118,7 +117,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                             <h4 class="modal-title">To do</h4>
+                             <h4 class="modal-title">Select date and time</h4>
                         </div>
                         <div class="modal-body">
 
@@ -136,7 +135,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                             <h4 class="modal-title">To do</h4>
+                             <h4 class="modal-title">Select date and time</h4>
                         </div>
                         <div class="modal-body" id="todocontent">
                             
@@ -152,17 +151,8 @@
                 <div class="col-xs-6 col-md-3">
                     <div class="panel panel-default">
                         <div class="panel-body easypiechart-panel">
-                            <h4>Finished Appointments</h4>
-                            <div class="easypiechart" id="easypiechart-blue" data-percent="80" ><span class="percent">80</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-3">
-                    <div class="panel panel-default">
-                        <div class="panel-body easypiechart-panel">
-                            <h4>Positive Feedback</h4>
-                            <div class="easypiechart" id="easypiechart-orange" data-percent="99" ><span class="percent">99</span>
+                            <h4>Converted Prospects</h4>
+                            <div class="easypiechart" id="easypiechart-blue" data-percent="80" ><span class="percent">80%</span>
                             </div>
                         </div>
                     </div>
@@ -171,7 +161,7 @@
                     <div class="panel panel-default">
                         <div class="panel-body easypiechart-panel">
                             <h4>New Clients/Day</h4>
-                            <div class="easypiechart" id="easypiechart-teal" data-percent="10" ><span class="percent">10</span>
+                            <div class="easypiechart" id="easypiechart-orange" data-percent="8" ><span class="percent">8</span>
                             </div>
                         </div>
                     </div>
@@ -179,7 +169,16 @@
                 <div class="col-xs-6 col-md-3">
                     <div class="panel panel-default">
                         <div class="panel-body easypiechart-panel">
-                            <h4>Visitors/Day</h4>
+                            <h4>New Prospects/Day</h4>
+                            <div class="easypiechart" id="easypiechart-teal" data-percent="12" ><span class="percent">12</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body easypiechart-panel">
+                            <h4>Active Agents/Day</h4>
                             <div class="easypiechart" id="easypiechart-red" data-percent="27" ><span class="percent">27</span>
                             </div>
                         </div>
