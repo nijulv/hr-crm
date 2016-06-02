@@ -66,7 +66,7 @@ var Manageuser = function(){
                       var u_id = $(this).data('id'); 
                       var url = $(this).data('url'); 
                       console.log(url);
-                      var ppup_content = "<b>Are you sure?</b><br><br>Do you want to delete this details?";
+                      var ppup_content = "<b>Are you sure?</b><br><br>Do you want to delete this record?";
                       bootbox.confirm(ppup_content, function(result) {
                       if(result){
                             window.location = base_url+url+'/'+u_id
@@ -81,7 +81,7 @@ var Manageuser = function(){
                     return false;
                 }
                 else {
-                     $(".shedule").html("Please enter description");
+                     $(".shedule").html("Please type a note");
                      $(".shedule").show();
                      setTimeout(function() { $(".shedule").hide(); }, 3000);
                 } 

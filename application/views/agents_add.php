@@ -37,7 +37,7 @@
                             <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Agent code <small class="text-muted"></small><span class="required">*</span></label>
-                                        <input type="text" name="agent_code" id="agent_code" class="form-control" placeholder="Agent Code" required maxlength="20" value="<?php echo set_value('agent_code') ?>">
+                                        <input type="text" name="agent_code" id="agent_code" class="form-control" placeholder="Agent Code" required maxlength="20" readonly="readonly" value="<?php echo set_value('agent_code',$agent_code_value) ?>">
                                     </div>
                                     <div class="form-group">
                                         <label>Username <span class="required">*</span><span class="check_div" id="msg_username"></span></label>
@@ -75,7 +75,7 @@
                                         <select name="state" id="state" class="form-control" required>
                                             <option value="">Select</option>
                                           <?php foreach($state_details as $res){?> 
-                                            <option value="<?php echo $res['id']; ?>" <?php echo set_select('state', $res['id'], False); ?> ><?php echo $res['name']; ?></option>
+                                            <option value="<?php echo $res['id']; ?>" <?php if($res['id'] == '18') {echo 'selected=""';} ?> <?php echo set_select('state', $res['id'], False); ?> ><?php echo $res['name']; ?></option>
                                           <?php } ?>
                                         </select>
                                     </div> 
@@ -97,7 +97,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Pincode</label>
-                                        <input type="text" name="pincode" id="pincode" class="form-control" maxlength="6" placeholder="Pin code" onkeypress="return numberValidate(event);" value="<?php echo set_value('pincode') ?>">
+                                        <input type="text" name="pincode" id="pincode" class="form-control" maxlength="6" placeholder="Pincode" onkeypress="return numberValidate(event);" value="<?php echo set_value('pincode') ?>">
                                     </div>
                                     <div class="form-group">
                                         <label>Address <small class="text-muted"></small></label>
@@ -106,7 +106,7 @@
                             </div>
                             <div class="col-md-12" style = "text-align:center;">
                                 <button type="reset" id="btnCancelagent" class="btn btn-default">Cancel</button>
-                                <input type="submit" class="btn btn-primary" value="Add Agents">
+                                <input type="submit" class="btn btn-primary" value="Add Agent">
                             </div>
                         </div>
                     </div>

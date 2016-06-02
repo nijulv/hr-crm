@@ -54,8 +54,8 @@
                 <?php if(s('ADMIN_TYPE') == 0) {?>
                 <li class="<?php echo $link_agent;?>"><a href="<?php echo base_url()?>manage_agents"><i class="fa fa-user-secret" aria-hidden="true"></i> &nbsp;&nbsp;Manage Agents</a></li>
                 <?php }?>
-                    <li class="<?php echo $link_user;?>"><a href="<?php echo base_url()?>manageuser"><i class="fa fa-users" aria-hidden="true"></i> &nbsp;&nbsp;Manage Users</a></li>
-                    <li class="<?php echo $link_payment;?>"><a href="<?php echo base_url()?>manage_payment"><i class="fa fa-money" aria-hidden="true"></i> &nbsp;&nbsp;Manage Payments</a></li>
+                    <li class="<?php echo $link_user;?>"><a href="<?php echo base_url()?>manageuser"><i class="fa fa-users" aria-hidden="true"></i> &nbsp;&nbsp;Manage Client/Prospect</a></li>
+                    <li class="<?php echo $link_payment;?>"><a href="<?php echo base_url()?>manage_payment"><i class="fa fa-money" aria-hidden="true"></i> &nbsp;&nbsp;Manage Collection</a></li>
                     <li class = "<?php echo $link_bank;?>"><a href="<?php echo base_url()?>manage_cash"><i class="fa fa-university" aria-hidden="true"></i> &nbsp;&nbsp;Manage Bank Payment </a></li>
                
                 <li>

@@ -2,13 +2,13 @@
             <div class="row">
                 <ol class="breadcrumb">
                     <li><a href="<?php echo base_url()?>dashboard"><i class="fa fa-home" aria-hidden="true" style="font-size: 20px;"></i></a></li>
-                    <li class="active">Users/Clients</li>
+                    <li class="active">Client/Prospect</li>
                 </ol>
             </div><!--/row-->
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Manage User</h1>
+                    <h1 class="page-header">Manage Client/Prospect</h1>
                 </div>
             </div><!--/.row-->
             <?php if ( f('success_message') != '' ) :?>

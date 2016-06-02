@@ -523,8 +523,23 @@ class Web extends CI_Controller {
                 $search_user = trim($this->input->post("search_user",true));
             else 
                 $search_user = '';
+            
+            if($this->input->post("state_search") != '')
+                $state_search = trim($this->input->post("state_search",true));
+            else 
+                $state_search = '';
+            
+            if($this->input->post("district_search") != '')
+                $district_search = trim($this->input->post("district_search",true));
+            else 
+                $district_search = '';
+            
+            if($this->input->post("city_search") != '')
+                $city_search = trim($this->input->post("city_search",true));
+            else 
+                $city_search = '';
 
-            $this->gen_contents['details'] = $this->web_model->get_agents($config['per_page'], $pagin,$search_user);
+            $this->gen_contents['details'] = $this->web_model->get_agents($config['per_page'], $pagin,$search_user,$state_search,$district_search,$city_search);
 
             $total_user = $this->web_model->get_total_rows();
             //--pagination
@@ -536,7 +551,21 @@ class Web extends CI_Controller {
             $config = array_merge($config, $bs_init);
             $this->pagination->initialize($config);
             $this->gen_contents['links'] =  $this->pagination->create_links();     
-
+                    
+            
+            if($this->input->post("state_search") != ''){  
+                $this->gen_contents['state_details']  = $this->web_model->get_state_details();
+                $this->gen_contents['districts'] = $this->web_model->get_district_details($this->input->post("state_search", true));
+                $this->gen_contents['district_selected'] = $this->input->post("district_search", true);
+                $this->gen_contents['state_selected'] = $this->input->post("state_search", true);
+                $this->gen_contents['state_sel'] = 1;
+            }
+            else {
+                $this->gen_contents['state_details']  = $this->web_model->get_state_details();
+                $this->gen_contents['districts'] = $this->web_model->get_district_details('18');
+                $this->gen_contents['state_sel'] = 0;
+            }
+            
             $this->gen_contents['link_agent']  = 'active';
             $this->template->write_view('content', 'agentlist', $this->gen_contents);
             $this->template->render();
@@ -590,8 +619,18 @@ class Web extends CI_Controller {
                 $search_user = trim($this->input->post("search_user",true));
             else 
                 $search_user = '';
+            
+            if($this->input->post("search_name") != '')
+                $search_name = trim($this->input->post("search_name",true));
+            else 
+                $search_name = '';
+            
+            if($this->input->post("search_name_agent") != '')
+                $search_name_agent = trim($this->input->post("search_name_agent",true));
+            else 
+                $search_name_agent = '';
 
-            $this->gen_contents['details'] = $this->web_model->get_payments($config['per_page'], $pagin,$search_user);
+            $this->gen_contents['details'] = $this->web_model->get_payments($config['per_page'], $pagin,$search_user,$search_name,$search_name_agent);
 
             $total_user = $this->web_model->get_total_rows();
             //--pagination
@@ -603,8 +642,10 @@ class Web extends CI_Controller {
             $config = array_merge($config, $bs_init);
             $this->pagination->initialize($config);
             $this->gen_contents['links'] =  $this->pagination->create_links();     
-
-            $this->gen_contents['link_payment']  = 'active';
+            $this->gen_contents['userlist'] = $this->web_model->get_users();
+            $this->gen_contents['agentlist'] = $this->web_model->get_agents_names();
+            
+            $this->gen_contents['link_payment']  = 'active';  
             $this->template->write_view('content', 'payment', $this->gen_contents);
             $this->template->render();
         }
@@ -1069,7 +1110,7 @@ class Web extends CI_Controller {
             $this->form_validation->set_rules('city','City', 'required|trim|alpha_numeric');
             $this->form_validation->set_rules('state','State', 'required|trim');
             $this->form_validation->set_rules('district','District', 'required|trim');
-                if($this->form_validation->run() == TRUE){
+            if($this->form_validation->run() == TRUE){
                     
                     $this->load->helper('string');
                     $rand_no = random_string('alnum',20);
@@ -1132,8 +1173,20 @@ class Web extends CI_Controller {
                     $this->gen_contents['state'] = $this->input->post("state", true);
                     $this->gen_contents['districts'] = $this->web_model->get_district_details($this->input->post("state", true));
                     $this->gen_contents['district_selected'] = $this->input->post("district", true);
+                    
+                    $agent_code_value = $this->web_model->get_agentcode_previous(); //print_r($agent_code_value); exit;
+                    if($agent_code_value){
+                        $num = $agent_code_value['agent_code'];
+                        for ($n=0; $n<1; $n++) {
+                            $this->gen_contents['agent_code_value'] =  ++$num . PHP_EOL;
+                        }
+                    }
+                    else {
+                        $this->gen_contents['agent_code_value'] = 'A001';
+                    }     
                 }
                 $this->gen_contents['state_details']  = $this->web_model->get_state_details();
+                $this->gen_contents['districts'] = $this->web_model->get_district_details('18');
                 $this->gen_contents['link_agent']  = 'active';
                 $this->template->write_view('content', 'agents_add', $this->gen_contents);
                 $this->template->render();

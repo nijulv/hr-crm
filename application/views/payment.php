@@ -2,13 +2,13 @@
         <div class="row">
             <ol class="breadcrumb">
                 <li><a href="<?php echo base_url()?>dashboard"><i class="fa fa-home" aria-hidden="true" style="font-size: 20px;"></i></a></li>
-                <li class="active">Payments</li>
+                <li class="active">Collection</li>
             </ol>
         </div><!--/.row-->
 
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Manage Payments</h1>
+                <h1 class="page-header">Manage Collection</h1>
             </div>
         </div><!--/.row-->
         <?php
@@ -33,24 +33,46 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="col-sm-8 col-lg-8 col-md-8 hidden-xs">
-                        List Clients and their Payments
+                        List Clients and their collections
                         </div>
                         
                         <div class="pull-right">
                             <div class="form-group">
-                                <a href = "<?php echo base_url()?>add_payments"><button class="btn btn-primary"><i class="fa fa-plus"></i> Add New Payment</button></a>
+                                <a href = "<?php echo base_url()?>add_payments"><button class="btn btn-primary"><i class="fa fa-plus"></i> Add New</button></a>
                             </div>
                         </div>
                     </div>
                     <div class="panel-body">
-                        <?php echo form_open("",array("id" => "payment"));?>
-                            <div class="form-group">
-                                <label for="exampleInputName2">Enter Title &nbsp;&nbsp;&nbsp;</label>
-                                <input type = "text" name = "search_user" class = "form-control" style="width: 280px;" placeholder="Title or Amount" value = "<?php echo set_value('search_user'); ?>">
-                                
+                        <?php echo form_open("",array("id" => "form_report"));?>
+                        <div class="row">
+                            <div class="col-md-2">
+                                 <select name="search_name" id="state" class="form-control">
+                                    <option value="">Select client/prospect</option>
+                                  <?php if($userlist){
+                                        foreach($userlist as $res){?> 
+                                            <option value="<?php echo $res['user_id']; ?>" <?php echo set_select('search_name', $res['user_id'], False); ?> ><?php echo $res['first_name'].' '.$res['last_name']; ?></option>
+                                  <?php } }?>
+                                </select>
                             </div>
-                            &nbsp;&nbsp;&nbsp;
-                            <button type="submit" class="btn btn-info">Search</button><br>
+                            <div class="col-md-2"> 
+                                 <input type = "text" name = "search_user" class = "form-control"  placeholder="Title or Amount" value = "<?php echo set_value('search_user'); ?>">
+                            </div>
+                            <?php if(s('ADMIN_TYPE') == 0){ ?>
+                                <div class="col-md-2">
+                                     <select name="search_name_agent" id="state" class="form-control">
+                                        <option value="">Select Agent</option>
+                                      <?php if($agentlist){
+                                            foreach($agentlist as $res){?> 
+                                                <option value="<?php echo $res['agent_id']; ?>" <?php echo set_select('search_name_agent', $res['agent_id'], False); ?> ><?php echo $res['first_name'].' '.$res['last_name']; ?></option>
+                                      <?php } }?>
+                                    </select>
+                                </div>
+                            <?php }?>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-info">Search</button>
+                                <button type="button" class="btn btn-default reportclear" style = "" >Clear</button>
+                            </div>
+                        </div> 
                         <?php form_close(); ?>
                         <br>
                         <?php if (!empty($details)) { ?>
@@ -60,8 +82,11 @@
                                 <thead>
                                     <tr>
                                         <th style = "text-align:center;">#</th>
-                                        <th>Name</th>
-                                        <th>Title</th>
+                                        <?php if(s('ADMIN_TYPE') == 0){ ?>
+                                            <th>Agent Name</th>
+                                        <?php }?>
+                                        <th> Client Name</th>
+                                        <th>Payment Title</th>
                                         <th>Amount</th>
                                         <th>Contact Number</th>
                                         <th style = "text-align:center;">Actions</th>
@@ -74,6 +99,9 @@
                                         ?>
                                         <tr>
                                             <td style = "text-align:center;"><?php echo $i++; ?></td>
+                                            <?php if(s('ADMIN_TYPE') == 0){ ?>
+                                                <td><?php echo $data['afirstname'].' '.$data['alastname'];?></td> 
+                                            <?php }?>
                                             <td><?php echo $data['first_name'].' '.$data['last_name'];?></td> 
                                             <td><?php echo $data['title'];?></td>
                                             <td><?php echo $data['amount'];?></td>

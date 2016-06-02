@@ -982,7 +982,7 @@ class Mobile extends CI_Controller {
         ss('ADMIN_TYPE',$type);
         ss('ADMIN_USERID',$id);
         
-        $payment_list = $this->web_model->get_payments("","","",1);
+        $payment_list = $this->web_model->get_payments("","","","","",1);
         $this->load->view('ajax_view', array('ajax_response' => json_encode(array('status' => 'success', 'payment_list' => $payment_list))));
         return;
     }
@@ -1125,7 +1125,7 @@ class Mobile extends CI_Controller {
     
     function manage_agent_list($data = array()){
         $this->load->model('web_model'); 
-        $agent_list = $this->web_model->get_agents("","","",1);
+        $agent_list = $this->web_model->get_agents("","","","","","",1);
         $this->load->view('ajax_view', array('ajax_response' => json_encode(array('status' => 'success', 'agent_list' => $agent_list))));
         return;
     }

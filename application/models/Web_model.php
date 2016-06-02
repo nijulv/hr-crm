@@ -24,7 +24,7 @@ class Web_model extends CI_Model {
              $this->db->where('agent_id',s('ADMIN_USERID'));
         }
         $this->db->where("status !=", '2');
-        $this->db->order_by("user_id","asc");
+        $this->db->order_by("user_id","desc");
         $query = $this->db->get();  
         if($query->num_rows () >0)
             return $query->result_array();
@@ -47,8 +47,8 @@ class Web_model extends CI_Model {
     public function get_agents_names () {
         $this->db->select('*');
         $this->db->from("crm_agents");
-        //$this->db->where("status", '1');
-        $this->db->order_by("agent_id","asc");
+        $this->db->where("status !=", '0');
+        $this->db->order_by("agent_id","desc");
         $query = $this->db->get();  
         if($query->num_rows () >0)
             return $query->result_array();
@@ -83,22 +83,35 @@ class Web_model extends CI_Model {
         
         
     }
-    public function get_agents ($limit = '', $start = '',$search_user = '',$mobile = 0) {
-        $this->db->select("SQL_CALC_FOUND_ROWS *",FALSE); 
-        $this->db->from('crm_agents');
+    public function get_agents ($limit = '', $start = '',$search_user = '',$state_search = '',$district_search = '',$city_search = '',$mobile = 0) {
+        $this->db->select("SQL_CALC_FOUND_ROWS a.*,s.name as state,d.name as district",FALSE); 
+        $this->db->from('crm_agents a');
+        $this->db->join('states s', 's.id = a.state_id', 'left');
+        $this->db->join('districts d', 'd.id = a.district_id', 'left');
+        
         if($search_user != ''){
             //$this->db->where('agent_id',$search_user);
             $this->db->like('first_name',$search_user);
             $this->db->or_like('last_name',$search_user);
-            $this->db->or_like('email',$search_user);
         }
-        //$this->db->where_in('status',['1','2']);
+        if($state_search != ''){
+            $this->db->where('a.state_id',$state_search);
+        }
+        if($district_search != ''){
+            $this->db->where('a.district_id',$district_search);
+        }
+        if($city_search != ''){
+            $this->db->like('a.city',$city_search);
+        }
+        if($state_search == '' || $district_search == '' || $city_search = '') {
+            $this->db->where('a.state_id','18');   // Default state kerala
+        }
         $this->db->where('status !=','0');
         $this->db->order_by("agent_id","desc");
         if($mobile == 0) {
             $this->db->limit($limit, $start);
         }
-        $query = $this->db->get();         
+        $query = $this->db->get();            //echo $this->db->last_query();    
         if($query->num_rows() > 0){
             return $query->result_array();
         } else {
@@ -106,10 +119,20 @@ class Web_model extends CI_Model {
         }
     }
     
-    public function get_payments ($limit = '', $start = '',$search_user = '',$mobile = 0) {
-        $this->db->select("SQL_CALC_FOUND_ROWS *",FALSE); 
-        $this->db->from('payments p');
-        $this->db->join('crm_users u', 'u.user_id = p.user_id', 'left');
+    public function get_payments ($limit = '', $start = '',$search_user = '',$search_name = '',$search_name_agent = '',$mobile = 0) {
+        
+        if(s('ADMIN_TYPE') == 0){
+            $this->db->select("SQL_CALC_FOUND_ROWS p.*,u.first_name,u.last_name,u.phone,a.first_name afirstname,a.last_name as alastname",FALSE);
+            $this->db->from('payments p');
+            $this->db->join('crm_users u', 'u.user_id = p.user_id', 'left');
+            $this->db->join('crm_agents a', 'a.agent_id = p.agent_id', 'left');
+        }
+        else {
+            $this->db->select("SQL_CALC_FOUND_ROWS *",FALSE);
+            $this->db->from('payments p');
+            $this->db->join('crm_users u', 'u.user_id = p.user_id', 'left');
+        }
+        
         if($search_user != ''){
            if(is_numeric($search_user)) {
                $this->db->where('p.amount',$search_user);
@@ -117,6 +140,12 @@ class Web_model extends CI_Model {
            else {
                $this->db->like('p.title',$search_user); 
            }
+        }
+        if($search_name != ''){
+            $this->db->where('p.user_id',$search_name);
+        }
+        if($search_name_agent != ''){
+            $this->db->where('p.agent_id',$search_name_agent);
         }
         $this->db->where('p.status','1');
        
@@ -134,9 +163,9 @@ class Web_model extends CI_Model {
             return $query->result_array();
         } else {
             return FALSE;
-        }
-        
+        } 
     }
+    
     public function get_bank_payments_api ($limit = '', $start = '',$mobile = 0) {
         $this->db->select("SQL_CALC_FOUND_ROWS *",FALSE); 
         $this->db->from('crm_bank_payment');
@@ -235,7 +264,7 @@ class Web_model extends CI_Model {
     }
     
     function get_userdetails($where, $start=0, $limit=25,$user_search='',$mobile = 0){
-        $this->db->select('user_id,agent_id,first_name,last_name,email,phone,status');
+        $this->db->select('*'); 
         $this->db->where($where);
         $this->db->where("status <>",'2');
         if('0' != trim($user_search)){
@@ -248,6 +277,7 @@ class Web_model extends CI_Model {
         $query = $this->db->get('crm_users');      
         return $query->result_array();
     }
+    
     public function get_user_detail($user_id){
         if(empty($user_id)) return false;
         else{
@@ -778,4 +808,12 @@ class Web_model extends CI_Model {
             return false;
     }
     
+    public function get_agentcode_previous () {
+        $this->db->order_by("agent_id","desc");
+        $query = $this->db->get("crm_agents");    
+        if($query->num_rows () >0)
+            return $query->row_array();
+        else
+            return false;
+    }
 }

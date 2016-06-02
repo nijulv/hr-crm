@@ -36,7 +36,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Agent code <small class="text-muted"></small> <span class="required">*</span></label>
-                                    <input type="text" name="agent_code" class="form-control" placeholder="Agent Code" required value = "<?php echo set_value('agent_code',$details['agent_code']); ?>" maxlength="20">
+                                    <input type="text" name="agent_code" class="form-control" placeholder="Agent Code" required value = "<?php echo set_value('agent_code',$details['agent_code']); ?>" maxlength="20" readonly="readonly">
                                 </div>
                                 <div class="form-group">
                                     <label>Username <span class="required">*</span><span class="check_div" id="msg_username"></span></label>
@@ -95,7 +95,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Pin code</label>
-                                    <input type="text" name="pincode" class="form-control" placeholder="Pin code" maxlength="6" value = "<?php echo set_value('pincode',$details['pincode']); ?>" onkeypress="return numberValidate(event);">
+                                    <input type="text" name="pincode" class="form-control" placeholder="Pincode" maxlength="6" value = "<?php echo set_value('pincode',$details['pincode']); ?>" onkeypress="return numberValidate(event);">
                                 </div>
                                 <div class="form-group">
                                     <label>Address <small class="text-muted"></small></label>
@@ -104,7 +104,7 @@
                             </div>
                             <div class="col-md-12" style = "text-align:center;">
                                     <button type="reset" id="btnCancelagent" class="btn btn-default">Cancel</button>
-                                    <input type="submit" class="btn btn-primary" value="Modify Agents">
+                                    <input type="submit" class="btn btn-primary" value="Modify Agent">
                                 <input type = "hidden" name = "id" value = "<?php echo $details['agent_id'];?>">
                                 <?php echo form_close();?> 
                             </div>
