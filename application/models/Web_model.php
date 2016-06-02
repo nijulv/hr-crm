@@ -103,7 +103,7 @@ class Web_model extends CI_Model {
         if($city_search != ''){
             $this->db->like('a.city',$city_search);
         }
-        if($state_search == '' || $district_search == '' || $city_search = '') {
+        if($this->input->post("search_result") != "1") {
             $this->db->where('a.state_id','18');   // Default state kerala
         }
         $this->db->where('status !=','0');
@@ -119,7 +119,7 @@ class Web_model extends CI_Model {
         }
     }
     
-    public function get_payments ($limit = '', $start = '',$search_user = '',$search_name = '',$search_name_agent = '',$mobile = 0) {
+    public function get_payments ($limit = '', $start = '',$search_user = '',$search_name = '',$search_name_agent = '',$fromdate_search = '',$todate_search = '',$mobile = 0) {
         
         if(s('ADMIN_TYPE') == 0){
             $this->db->select("SQL_CALC_FOUND_ROWS p.*,u.first_name,u.last_name,u.phone,a.first_name afirstname,a.last_name as alastname",FALSE);
@@ -147,9 +147,23 @@ class Web_model extends CI_Model {
         if($search_name_agent != ''){
             $this->db->where('p.agent_id',$search_name_agent);
         }
-        $this->db->where('p.status','1');
-       
+        if($fromdate_search != '') {
+            $this->db->where('p.date >=', $fromdate_search);
+        }
+        if($todate_search != '')  {
+            $this->db->where('p.date <=', $todate_search);
+        }
         
+        // Default current month details
+        if($this->input->post("search_result") != "1") {
+            
+            $firstday = date('Y-m-01');
+            $lastday  = date('Y-m-t');
+            $this->db->where('p.date >=', $firstday);
+            $this->db->where('p.date <=', $lastday);  
+        }
+        
+        $this->db->where('p.status','1');
         if(s('ADMIN_TYPE') == 1){
              $this->db->where('p.agent_id',s('ADMIN_USERID'));
         }
@@ -213,10 +227,45 @@ class Web_model extends CI_Model {
         
     }
     
-    public function get_bank_payments ($limit = '', $start = '',$mobile = 0) {
-        $this->db->select("SQL_CALC_FOUND_ROWS *",FALSE); 
-        $this->db->from('crm_bank_payment');
-        $this->db->where('status','1');
+    public function get_bank_payments ($limit = '', $start = '',$search_user = '',$search_name = '',$search_name_agent = '',$fromdate_search = '',$todate_search = '',$mobile = 0) {
+        
+        if(s('ADMIN_TYPE') == 0){
+            $this->db->select("SQL_CALC_FOUND_ROWS p.*,a.last_name as alastname",FALSE);
+            $this->db->from('crm_bank_payment p');
+            $this->db->join('crm_agents a', 'a.agent_id = p.agent_id', 'left');
+        }
+        else {
+            $this->db->select("SQL_CALC_FOUND_ROWS p.*",FALSE);
+            $this->db->from('crm_bank_payment p');
+        }
+        
+        if($search_user != ''){
+            $this->db->like('p.total_payment',$search_user); 
+            $this->db->or_like('p.bank_payment',$search_user); 
+        }
+        if($search_name != ''){
+            $this->db->like('p.user_id',$search_name);
+        }
+        if($search_name_agent != ''){
+            $this->db->where('p.agent_id',$search_name_agent);
+        }
+        if($fromdate_search != '') {
+            $this->db->where('p.date >=', $fromdate_search);
+        }
+        if($todate_search != '')  {
+            $this->db->where('p.date <=', $todate_search);
+        }
+        
+        // Default current month details
+        if($this->input->post("search_result") != "1") {
+            
+            $firstday = date('Y-m-01');
+            $lastday  = date('Y-m-t');
+            $this->db->where('p.date >=', $firstday);
+            $this->db->where('p.date <=', $lastday);  
+        }
+        
+        $this->db->where('p.status','1');
         if(s('ADMIN_TYPE') == 1){
              $this->db->where('agent_id',s('ADMIN_USERID'));
         }
@@ -229,8 +278,7 @@ class Web_model extends CI_Model {
             return $query->result_array();
         } else {
             return FALSE;
-        }
-        
+        } 
     }
     
     function get_userdetails_count($where,$user_search=''){

@@ -36,6 +36,7 @@
                         <br>
                         <?php if (!empty($details)) { ?>
                         <div class="row">  
+                            <div class = "col-md-12">
                             <div class="table-container table-responsive">  
                                 <?php echo $links; ?> 
                             <table class="table table-bordered table-striped table-hover table-responsive">
@@ -66,7 +67,7 @@
                                             <td><?php echo $data['title'];?></td>
                                             <td><?php echo $data['amount'];?></td>
                                             <td style = "text-align:center;">
-                                                <a href="javascript: void(0)" class="label label-primary more" data-from="payment" data-id="<?php echo $data['payment_id']; ?>" ><i class="fa fa-list"></i>View More</a>
+                                                <a href="javascript: void(0)" class="label label-primary more" data-from="payment" data-id="<?php echo $data['payment_id']; ?>" ><i class="fa fa-list"></i> View More</a>
                                             </td>
                                         </tr>
                                     <?php }?>
@@ -81,4 +82,5 @@
                     </div>
                 </div>
             </div>
+        </div>
     </div>

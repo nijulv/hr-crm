@@ -560,6 +560,11 @@ class Web extends CI_Controller {
                 $this->gen_contents['state_selected'] = $this->input->post("state_search", true);
                 $this->gen_contents['state_sel'] = 1;
             }
+            else if($this->input->post("search_result") == '1'){
+                $this->gen_contents['state_sel'] = 2;
+                $this->gen_contents['state_details']  = $this->web_model->get_state_details();
+                $this->gen_contents['districts'] = $this->web_model->get_district_details('18');
+            }
             else {
                 $this->gen_contents['state_details']  = $this->web_model->get_state_details();
                 $this->gen_contents['districts'] = $this->web_model->get_district_details('18');
@@ -586,8 +591,27 @@ class Web extends CI_Controller {
                 $search_user = trim($this->input->post("search_user",true));
             else 
                 $search_user = '';
+            
+            if($this->input->post("search_name") != '')
+                $search_name = trim($this->input->post("search_name",true));
+            else 
+                $search_name = '';
+            
+            if($this->input->post("search_name_agent") != '')
+                $search_name_agent = trim($this->input->post("search_name_agent",true));
+            else 
+                $search_name_agent = '';
+            
+            if($this->input->post("fromdate_search") != '')
+                $fromdate_search = $this->input->post("fromdate_search",true);
+            else 
+                $fromdate_search = '';
+            if($this->input->post("todate_search") != '')
+                $todate_search = $this->input->post("todate_search",true);
+            else 
+                $todate_search = '';
 
-            $this->gen_contents['details'] = $this->web_model->get_bank_payments($config['per_page'], $pagin);
+            $this->gen_contents['details'] = $this->web_model->get_bank_payments($config['per_page'], $pagin,$search_user,$search_name,$search_name_agent,$fromdate_search,$todate_search);
             $total_record = $this->web_model->get_total_rows();
             //--pagination
             $this->load->library('pagination');
@@ -598,7 +622,9 @@ class Web extends CI_Controller {
             $config = array_merge($config, $bs_init);
             $this->pagination->initialize($config);
             $this->gen_contents['links'] =  $this->pagination->create_links();     
-
+    
+            $this->gen_contents['userlist'] = $this->web_model->get_users();
+            $this->gen_contents['agentlist'] = $this->web_model->get_agents_names();           
             $this->gen_contents['link_bank']  = 'active';
             $this->template->write_view('content', 'bank_paymentlist', $this->gen_contents);
             $this->template->render();
@@ -629,8 +655,17 @@ class Web extends CI_Controller {
                 $search_name_agent = trim($this->input->post("search_name_agent",true));
             else 
                 $search_name_agent = '';
+            
+            if($this->input->post("fromdate_search") != '')
+                $fromdate_search = $this->input->post("fromdate_search",true);
+            else 
+                $fromdate_search = '';
+            if($this->input->post("todate_search") != '')
+                $todate_search = $this->input->post("todate_search",true);
+            else 
+                $todate_search = '';
 
-            $this->gen_contents['details'] = $this->web_model->get_payments($config['per_page'], $pagin,$search_user,$search_name,$search_name_agent);
+            $this->gen_contents['details'] = $this->web_model->get_payments($config['per_page'], $pagin,$search_user,$search_name,$search_name_agent,$fromdate_search,$todate_search);
 
             $total_user = $this->web_model->get_total_rows();
             //--pagination

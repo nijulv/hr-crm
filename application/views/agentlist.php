@@ -77,7 +77,7 @@
                                 <button type="button" class="btn btn-default reportclear" style = "" >Clear</button>
                             </div>
                         </div> 
-                           
+                         <input type = "hidden" name = "search_result" value = "1">
                         <?php form_close(); ?>
                         <br>
                         <?php if (!empty($details)) { ?>

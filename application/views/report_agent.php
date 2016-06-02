@@ -61,6 +61,7 @@
                         <br>
                         <?php if (!empty($details)) { ?>
                         <div class="row">  
+                            <div class = "col-md-12">
                             <div class="table-container table-responsive">  
                                 <?php echo $links; ?> 
                             <table class="table table-bordered table-striped table-hover table-responsive">
@@ -102,8 +103,8 @@
                                             <td><?php echo $data['city'];?></td>
                                             <td style = "text-align:center;"><?php echo $status;?></td>
                                             <td style = "text-align:center;">
-                                                <a href="javascript: void(0)" class="label label-primary more" data-from="agent" data-id="<?php echo $data['agent_id']; ?>" ><i class="fa fa-list"></i>View More</a>
-                                                <a href="javascript: void(0)" class="label label-warning viewuserlist" data-from="agentuserlist" data-id="<?php echo $data['agent_id']; ?>" data-name="<?php echo $data['first_name'].' '.$data['last_name']; ?>" ><i class="fa fa-list"></i>User list</a>
+                                                <a href="javascript: void(0)" class="label label-primary more" data-from="agent" data-id="<?php echo $data['agent_id']; ?>" ><i class="fa fa-list"></i> View More</a>
+                                                <a href="javascript: void(0)" class="label label-warning viewuserlist" data-from="agentuserlist" data-id="<?php echo $data['agent_id']; ?>" data-name="<?php echo $data['first_name'].' '.$data['last_name']; ?>" ><i class="fa fa-list"></i> User list</a>
                                             </td>
                                         </tr>
                                     <?php }?>
@@ -115,6 +116,7 @@
                         <?php } else {
                             echo '<div class="nodata">Sorry! There is no details available now.</div>';
                         } ?>
+                    </div>
                     </div>
                 </div>
             </div>
