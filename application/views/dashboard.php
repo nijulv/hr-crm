@@ -79,11 +79,20 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="panel panel-info" id="todo-panel">
-                        <div class="panel-heading dark-overlay">
-                            <i class="fa fa-list-alt" aria-hidden="true" style="font-size: 25px"></i> To-do Notes                        </div>
+                        <div class="panel-heading dark-overlay" >
+                            <div class="col-md-6">
+                                <span class="pull-left"><i class="fa fa-list-alt" aria-hidden="true" style="font-size: 25px"></i> To-do Notes</span>  
+                            </div>
+                            <div class="col-md-6">
+                                <form>
+                                    <input type = "text" id = "todo_search" class = "form-control tododate_search" name = "tododate_search" value = "<?php echo date('Y-m-d'); ?>" readonly="readonly" style="background:white;" >
+                                </form>
+                            </div>
+                            
+                        </div>
                         <?php if($todo){?>
                         <div class="panel-body scroll">
-                            <ul class="todo-list">
+                            <ul class="todo-list" id ="todo_list" >
                                 <?php foreach($todo as $res){?>
                                 <li class="todo-list-item" id='<?php echo $res['id']; ?>'>
                                     <div class="checkbox">
@@ -152,7 +161,7 @@
                     <div class="panel panel-default">
                         <div class="panel-body easypiechart-panel">
                             <h4>Converted Prospects</h4>
-                            <div class="easypiechart" id="easypiechart-blue" data-percent="80" ><span class="percent">80%</span>
+                            <div class="easypiechart" id="easypiechart-blue" data-percent= "<?php echo $Converted_Prospects; ?>" ><span class="percent"><?php echo $Converted_Prospects; ?>%</span>
                             </div>
                         </div>
                     </div>
@@ -161,7 +170,7 @@
                     <div class="panel panel-default">
                         <div class="panel-body easypiechart-panel">
                             <h4>New Clients/Day</h4>
-                            <div class="easypiechart" id="easypiechart-orange" data-percent="8" ><span class="percent">8</span>
+                            <div class="easypiechart" id="easypiechart-orange" data-percent="<?php echo $new_clents_day; ?>" ><span class="percent"><?php echo $new_clents_day; ?></span>
                             </div>
                         </div>
                     </div>
@@ -169,8 +178,8 @@
                 <div class="col-xs-6 col-md-3">
                     <div class="panel panel-default">
                         <div class="panel-body easypiechart-panel">
-                            <h4>New Prospects/Day</h4>
-                            <div class="easypiechart" id="easypiechart-teal" data-percent="12" ><span class="percent">12</span>
+                            <h4>New Prospects/Day</h4>  
+                            <div class="easypiechart" id="easypiechart-teal" data-percent="<?php echo $new_prospect_day; ?>" ><span class="percent"><?php echo $new_prospect_day; ?></span>
                             </div>
                         </div>
                     </div>
@@ -178,8 +187,8 @@
                 <div class="col-xs-6 col-md-3">
                     <div class="panel panel-default">
                         <div class="panel-body easypiechart-panel">
-                            <h4>Active Agents/Day</h4>
-                            <div class="easypiechart" id="easypiechart-red" data-percent="27" ><span class="percent">27</span>
+                            <h4>Active Agents Today</h4>
+                            <div class="easypiechart" id="easypiechart-red" data-percent="<?php echo $active_agents_today; ?>" ><span class="percent"><?php echo $active_agents_today; ?></span>
                             </div>
                         </div>
                     </div>

@@ -79,6 +79,7 @@ $route['edittodo']                = "web/edittodo";
 $route['edittodo/(:any)']         = "web/edittodo/$1";
 $route['updatetodo']              = "web/updatetodo";
 $route['updatetodo/(:any)']       = "web/updatetodo/$1";
+$route['search_todolist/(:any)']         = "web/search_todolist/$1";
 
 $route['add_payments']   = "web/add_payments";
 $route['add_bankpayments']   = "web/add_bankpayments";

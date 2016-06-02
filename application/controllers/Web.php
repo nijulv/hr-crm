@@ -147,7 +147,13 @@ class Web extends CI_Controller {
             $this->gen_contents['guest_count']  = $this->web_model->get_total_users_count($status = '0');
             $this->gen_contents['payment_count']  = $this->web_model->get_total_payment_count();
             $this->gen_contents['agent_count']  = $this->web_model->get_total_agent_count();
-            $this->gen_contents['todo']  = $this->web_model->get_todo();
+            $this->gen_contents['todo']         = $this->web_model->get_todo();
+            $this->gen_contents['total_user_count']     = $this->web_model->get_tot_users_count();
+            $this->gen_contents['Converted_Prospects']  = round(($this->gen_contents['users_count']/$this->gen_contents['total_user_count'])*100);
+            $this->gen_contents['new_clents_day']  = $this->web_model->get_new_clents_day($status = '1');
+            $this->gen_contents['new_prospect_day']  = $this->web_model->get_new_clents_day($status = '0');
+            $this->gen_contents['active_agents_today']  = $this->web_model->get_active_agents_today();
+            
             $this->gen_contents['link_dashboard']  = 'active';
             $this->template->write_view('content', 'dashboard', $this->gen_contents);
             $this->template->render();
@@ -216,6 +222,34 @@ class Web extends CI_Controller {
         $this->load->view('show_message',array('message'=>  json_encode($result)));
    
     }
+    
+    function search_todolist($date_val = '') {    
+        if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        } 
+        else  {	
+            $result = $this->web_model->todolist_serchlist($date_val);
+            if ($result){
+                 foreach($result as $res){?>
+                    <li class="todo-list-item" id='<?php echo $res['id']; ?>'>
+                        <div class="checkbox">
+                            <input type="checkbox" id="checkbox">
+                            <label for="checkbox"><?php echo $res['todo']; ?></label>
+                        </div>
+                        <div class="pull-right action-buttons">
+                            <a data-id="<?php echo $res['id']; ?>" data-url='edittodo' title="Edit" class="edittodo"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                            <!-- <a href="#" class="flag"><i class="fa fa-flag-o" aria-hidden="true"></a> -->
+                            <a data-id="<?php echo $res['id']; ?>" data-url='deletetodo' title="Delete" class="trash deletetodo"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                        </div>
+                    </li>
+               <?php } 
+            }
+            else {
+                echo '<li class="todo-list-item"<div class="checkbox" style = "color:red;text-align:center;"><label for="checkbox"> No notes found.</label></div></li>';
+            }
+        }
+    }
+        
     function deletetodo($todoid) { 
         if (!($this->session->userdata("ADMIN_USERID"))) {
             redirect("web");
@@ -230,6 +264,7 @@ class Web extends CI_Controller {
        $this->load->view('show_message',array('message'=>  json_encode($result)));
      
     }
+    
     function edittodo($todoid) { 
         $result=array('succes' => 0,'msg'=> '','html'=> '');
         if (!($this->session->userdata("ADMIN_USERID"))) {

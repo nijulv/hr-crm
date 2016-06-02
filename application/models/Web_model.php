@@ -498,6 +498,16 @@ class Web_model extends CI_Model {
         else
             return false;
     }
+    
+    public function get_tot_users_count(){
+        $this->db->where('status !=', '2');
+        $this->db->from('crm_users');
+        if(s('ADMIN_TYPE') == 1){
+             $this->db->where('agent_id',s('ADMIN_USERID'));
+        }
+        return $this->db->count_all_results();
+    }
+    
     public function get_agent_status($agent_id){
         if(empty($agent_id)) return false;
         else{
@@ -508,8 +518,29 @@ class Web_model extends CI_Model {
             return $query->result_array();
         }
     }
-    public function get_total_users_count ($staus = '') {
-        $this->db->where('status', $staus);
+    
+    public function get_new_clents_day($status = '') {
+        $this->db->where('status', $status);
+        $this->db->where('date', $date = date('Y-m-d'));   // check current date 
+        $this->db->from('crm_users');
+        
+        if(s('ADMIN_TYPE') == 1){
+             $this->db->where('agent_id',s('ADMIN_USERID'));
+        }
+        return $this->db->count_all_results();
+    }
+    
+    public function todolist_serchlist ($date_val = '') {
+        $this->db->where('date', $date_val);
+        $query = $this->db->get("todo"); 
+        if($query->num_rows () >0)
+            return $query->result_array();
+        else
+            return false;
+    }
+
+        public function get_total_users_count ($status = '') {
+        $this->db->where('status', $status);
         $this->db->from('crm_users');
         
         if(s('ADMIN_TYPE') == 1){
@@ -517,6 +548,14 @@ class Web_model extends CI_Model {
         }
         
         return $this->db->count_all_results();
+    }
+    
+    public function get_active_agents_today () {
+        $this->db->where('status', '1');
+        $this->db->from('crm_agents');
+        $this->db->like('last_login_date', $date = date('Y-m-d'));
+        
+       return $this->db->count_all_results();
     }
     
     public function get_total_agent_count () {

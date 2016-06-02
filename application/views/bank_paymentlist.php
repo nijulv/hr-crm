@@ -134,28 +134,25 @@
                                             <td style = "text-align:center;">
                                                 <?php if(s('ADMIN_TYPE') == 1){ 
                                                     if($data['agree_status'] == 1){?>
-                                                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                                                        <span style = "color:green">Adnin approved</span>
                                                     <?php } 
                                                     else if($data['agree_status'] == 2){?>
-                                                        <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+                                                        <span style = "color:red">Adnin rejected</span>
 
-                                                    <?php } 
-                                                    else {?>  
+                                                    <?php } else {?>  
                                                         <a href="<?php echo base_url(); ?>edit_bankpayments/<?php echo $data['bank_payment_id'] ?>" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
                                                         <a id="delete" class="label label-danger delete" data-id="<?php echo $data['bank_payment_id']?>" data-url="deletebankpayments"><span class="fa fa-trash"></span> Delete</a>
                                                     <?php }?>
                                                 <?php } else {
                                                             if($data['agree_status'] == 0){?>
-                                                                    <a href="javascript: void(0)" id="agree_bankpayment"  data-id="<?php echo $data['bank_payment_id']?>" data-url="agree_payment"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a> &nbsp;&nbsp;
-                                                                    <a ihref="javascript: void(0)" id="disagree_bankpayment"  data-id="<?php echo $data['bank_payment_id']?>" data-url="disagree_payment"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a>
+                                                                    <a href="javascript: void(0)" id="agree_bankpayments"  class="agree_bankpayment" data-id="<?php echo $data['bank_payment_id']?>" data-url="agree_payment"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a> &nbsp;&nbsp;
+                                                                    <a href="javascript: void(0)" id="disagree_bankpayments"  class="disagree_bankpayment" data-id="<?php echo $data['bank_payment_id']?>" data-url="disagree_payment"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a>
                                                             <?php } 
                                                             else if($data['agree_status'] == 1){?>
-                                                                <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-
+                                                                <span style = "color:green">Approved</span>
                                                             <?php } 
                                                             else {?>
-                                                                <i class="fa fa-thumbs-down" aria-hidden="true"></i>
-                                                                
+                                                                <span style = "color:red">Rejected</span>                                                            
                                                             <?php }?>
                                                 <?php }?>
                                             </td>

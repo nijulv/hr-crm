@@ -74,7 +74,7 @@ var Manageuser = function(){
                       })
             });
             
-            $('#agree_bankpayment').on('click', function(e){    
+            $('.agree_bankpayment').on('click', function(e){    
                 var id = $(this).data('id');   
                 var url = $(this).data('url'); 
                 console.log(url);
@@ -87,7 +87,7 @@ var Manageuser = function(){
             });
             
             // Disagree payment
-            $("#disagree_bankpayment").click(function () {
+            $(".disagree_bankpayment").click(function () {
                 $('#moreDetails').modal('show');
                 $('#data-title').html("Disagree bank payment");
                 var id              = $(this).attr("data-id");         
@@ -116,6 +116,19 @@ var Manageuser = function(){
                      setTimeout(function() { $(".shedule").hide(); }, 3000);
                 } 
             });
+            
+            $(document).on("change","#todo_search",function() {  
+                var date_val = $("#todo_search").val(); 
+                $.ajax({
+                    type    : "POST",
+                    url     : base_url+'search_todolist'+'/'+date_val,
+                    //dataType: "json",
+                    success : function(data){   
+                        $('#todo_list').html(data);
+                    }
+                });
+            })
+            
             $('#todo-panel').on('click','.deletetodo', function(){ 
        
                  var todo_id = $(this).data('id'); 
@@ -268,13 +281,6 @@ var Manageuser = function(){
                     $(".suggesstion-box-suburb").hide();
                 }
             });
-            
-            
-            /*function selectdistrictvalue(val, selector) {  
-        
-                $("#" + selector).val(val);
-                $(".suggesstion-box").hide();
-            } */
             
             $('.panel-body').on('click','.districtautolist', function(){  
                 

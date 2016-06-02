@@ -171,43 +171,6 @@ var Manageagent = function(){
             $("#data-output").html(data);
         });
     });
-    
-    
-    /*
-    $("#todate_search").mouseover(function(){  
-        $('#todate_search').datepicker({
-            format: "yyyy-mm-dd",
-            autoclose: true
-            
-        });  
-
-    });
-
-    $("#fromdate_search").mouseover(function(){  
-        $('#fromdate_search').datepicker({
-            format: "yyyy-mm-dd",
-            autoclose: true
-        });  
-
-    }); */
-    
-    /*
-    $(function () {
-        $("#fromdate_search").datepicker({        
-             format: "yyyy-mm-dd",          
-             autoclose: true,
-            onSelect: function(selected) {   
-                $("#todate_search").datepicker("option","minDate", selected) 
-            }
-        });
-        $("#todate_search").datepicker({
-            format: "yyyy-mm-dd",
-            autoclose: true,
-            onSelect: function(selected) {   
-                $("#fromdate_search").datepicker("option","maxDate", selected)
-            }
-        });
-    }); */
 
     $("#todocontent").on("mouseover","#popup_calender",function(){  
          $('#popup_calender').datepicker({
@@ -236,6 +199,10 @@ var Manageagent = function(){
                 dt.setDate(dt.getDate() - 1);
                 $("#fromdate_search").datepicker("option", "maxDate", dt);
             }
+        });
+        $("#todo_search").datepicker({
+            format: "yyyy-mm-dd",          
+            autoclose: true
         });
     });
    
