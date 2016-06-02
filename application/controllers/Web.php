@@ -1090,7 +1090,6 @@ class Web extends CI_Controller {
             redirect("web");
         }
         else {
-            $this->form_validation->set_rules('total_payment', 'total payment', 'required|numeric');
             $this->form_validation->set_rules('bank_payment', 'bank payment', 'required|numeric');
             
             if($this->form_validation->run() == TRUE){
@@ -1103,8 +1102,8 @@ class Web extends CI_Controller {
                 }
                 $user_id = implode(",",$this->input->post("user",true)); 
                 $userdata = array(
-                    "total_payment" => $this->input->post("total_payment",true),
                     "bank_payment"  => $this->input->post("bank_payment",true),
+                    "amount_hand"  => $this->input->post("amount_hand",true),
                     "reason"        => $this->input->post("reason",true),
                     "agent_id"      => $agent_id,
                     "user_id"       => $user_id,
@@ -1377,14 +1376,12 @@ class Web extends CI_Controller {
         }
         else {
             if($id != 0 && is_numeric($id)){
-
-                $this->form_validation->set_rules('total_payment', 'total payment', 'required|numeric');
                 $this->form_validation->set_rules('bank_payment', 'bank payment', 'required|numeric');
 
                 if($this->form_validation->run() == TRUE){ 
                     $user_id = implode(",",$this->input->post("user",true)); 
                     $userdata = array(
-                        "total_payment"   => $this->input->post("total_payment",true),
+                        "amount_hand"   => $this->input->post("amount_hand",true),
                         "bank_payment"  => $this->input->post("bank_payment",true),
                         "reason"  => $this->input->post("reason",true),
                         "user_id"  => $user_id
@@ -1461,6 +1458,62 @@ class Web extends CI_Controller {
         }
     }
     
+    public function agree_payment ($bank_payment_id = 0) { 
+        if($bank_payment_id != 0 && is_numeric($bank_payment_id)){  
+            
+            $userdata = array(
+                    "agree_status"   => '1'
+            );
+            
+            $tbl_name = 'crm_bank_payment';   
+            $result = $this->web_model->update_contents_bankpayment($userdata,$bank_payment_id,$tbl_name);
+            if($result) {
+                sf( 'success_message', "Bank payment details agreeed successfully" );
+                redirect("manage_cash");
+            }
+            else {
+                sf( 'error_message', "Bank payment details not agreeed,Please try again later" );
+                redirect("manage_cash");
+            }
+        }
+        else {
+            redirect("manage_cash");
+        }
+    }
+    
+    public function disagree_payment ($id = 0) {
+        if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            
+            $this->data['id']     = $id;
+            $this->data['from']   = "disagree_payment";
+            $this->load->view("ajax_data",$this->data); 
+        }
+    }
+    
+    public function disagree_bankpayment_submit () {
+        $reason = $this->uri->segment(2);  
+        $id     = $this->uri->segment(3);   
+        $reason_data = substr($reason, 6);  
+        $rason = urldecode($reason_data);
+        $udata = array(
+            'agree_status' => 2,
+            'admin_comments' => $rason
+        );  
+        $tbl_name = 'crm_bank_payment';   
+        $result = $this->web_model->update_contents_bankpayment($udata,$id,$tbl_name);
+        if($result) {
+            sf( 'success_message', "Bank payment details disagreeed successfully" );
+            redirect("manage_cash");
+        }
+        else {
+            sf( 'error_message', "Bank payment details not disagreeed,Please try again later" );
+            redirect("manage_cash");
+        }
+    }
+
     public function deleteagent ($agent_id = 0) { 
         if (!($this->session->userdata("ADMIN_USERID"))) {
             redirect("web");

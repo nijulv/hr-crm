@@ -90,21 +90,21 @@
                                         <?php if(s('ADMIN_TYPE') == 0){ ?>
                                             <th>Agent Name</th>
                                         <?php }?>
-                                        <th> Client Name</th>
-                                        <th>Total Payment</th>
-                                        <th>Bank Payment</th>
-                                        <th>Reason</th>
+                                        <th> Client Name</th> 
+                                        <th>Amount to bank</th>
+                                        <th>Amount in hand</th>
+                                        <th>Comments</th>
                                         <th style = "text-align:center;">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php 
                                     $i++;    
-                                    $Total_payment = 0;
-                                    $Total_bank_payment = 0;
+                                    $bank_payment = 0;
+                                    $amount_hand = 0;
                                     foreach ($details as $data) {   
-                                        $Total_payment = $Total_payment + $data['total_payment'];
-                                        $Total_bank_payment = $Total_bank_payment + $data['bank_payment'];
+                                        $bank_payment = $bank_payment + $data['bank_payment'];
+                                        $amount_hand = $amount_hand + $data['amount_hand'];
                                         $username = array();
                                         $usernames = '';
                                         $names = '';
@@ -128,12 +128,36 @@
                                                 <td><?php echo $data['afirstname'].' '.$data['alastname'];?></td> 
                                             <?php }?>
                                             <td><?php echo $usernames;?></td> 
-                                            <td><?php echo $data['total_payment'];?></td> 
-                                            <td><?php echo $data['bank_payment'];?></td>
-                                            <td><?php echo $data['reason'];?></td>
+                                            <td><?php echo $data['bank_payment'];?></td> 
+                                            <td><?php echo $data['amount_hand'];?></td>
+                                            <td><?php echo $data['reason'];?> <?php if($data['admin_comments'] != ''){ echo '  <br/><b>Admin comment - </b>'.$data['admin_comments']; }?></td>
                                             <td style = "text-align:center;">
-                                                <a href="<?php echo base_url(); ?>edit_bankpayments/<?php echo $data['bank_payment_id'] ?>" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
-                                                <a id="delete" class="label label-danger delete" data-id="<?php echo $data['bank_payment_id']?>" data-url="deletebankpayments"><span class="fa fa-trash"></span> Delete</a>
+                                                <?php if(s('ADMIN_TYPE') == 1){ 
+                                                    if($data['agree_status'] == 1){?>
+                                                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                                                    <?php } 
+                                                    else if($data['agree_status'] == 2){?>
+                                                        <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+
+                                                    <?php } 
+                                                    else {?>  
+                                                        <a href="<?php echo base_url(); ?>edit_bankpayments/<?php echo $data['bank_payment_id'] ?>" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
+                                                        <a id="delete" class="label label-danger delete" data-id="<?php echo $data['bank_payment_id']?>" data-url="deletebankpayments"><span class="fa fa-trash"></span> Delete</a>
+                                                    <?php }?>
+                                                <?php } else {
+                                                            if($data['agree_status'] == 0){?>
+                                                                    <a href="javascript: void(0)" id="agree_bankpayment"  data-id="<?php echo $data['bank_payment_id']?>" data-url="agree_payment"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a> &nbsp;&nbsp;
+                                                                    <a ihref="javascript: void(0)" id="disagree_bankpayment"  data-id="<?php echo $data['bank_payment_id']?>" data-url="disagree_payment"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a>
+                                                            <?php } 
+                                                            else if($data['agree_status'] == 1){?>
+                                                                <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+
+                                                            <?php } 
+                                                            else {?>
+                                                                <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+                                                                
+                                                            <?php }?>
+                                                <?php }?>
                                             </td>
                                         </tr>
                                     <?php }?>
@@ -141,8 +165,8 @@
                                 <?php if(s('ADMIN_TYPE') == 0){ $colspan = 3;?><?php } else { $colspan = 2; }?>
                                 <tr>
                                     <td colspan=<?php echo $colspan;?> style = "text-align:right;"><b>Total</b></td>
-                                    <td ><b><?php echo $Total_payment;?></b></td>
-                                    <td ><b><?php echo $Total_bank_payment;?></b></td>
+                                    <td ><b><?php echo $bank_payment;?></b></td>
+                                    <td ><b><?php echo $amount_hand;?></b></td>
                                     <td colspan="2"><b>&nbsp;</b></td>
                                 </tr>
                             </table>

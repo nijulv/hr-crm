@@ -73,7 +73,37 @@ var Manageuser = function(){
                       }
                       })
             });
-
+            
+            $('#agree_bankpayment').on('click', function(e){    
+                var id = $(this).data('id');   
+                var url = $(this).data('url'); 
+                console.log(url);
+                var ppup_content = "<b>Are you sure?</b><br><br>Do you want to agree this payment?";
+                bootbox.confirm(ppup_content, function(result) {
+                    if(result){
+                          window.location = base_url+url+'/'+id
+                    }
+                })
+            });
+            
+            // Disagree payment
+            $("#disagree_bankpayment").click(function () {
+                $('#moreDetails').modal('show');
+                $('#data-title').html("Disagree bank payment");
+                var id              = $(this).attr("data-id");         
+                var request_path    = base_url+"disagree_bankpayment/"+id;
+                console.log(request_path);
+                $.post(request_path,function(data){  
+                    $("#data-output").html(data);
+                });
+            })
+            
+            $(document).on("click","#disagree_paymentsubmitbtn",function () {  
+                var reason = 'reason' + $("#reason").val();
+                var id = $("#id").val();                 
+                window.location = base_url + "disagree_bankpayment_submit/" + reason + "/" + id ;
+            });
+    
 
             $('#btn-todo').on('click', function(){   
                 if(''!= $('#todo').val()){

@@ -204,6 +204,30 @@ if ($from == "agent") { ?>
                     <?php } ?>
                 </table>
             </div>
-    <?php } ?>
+
+    <?php }  if ($from == 'disagree_payment') { ?>
+    <div class="table-responsive">
+        <table class="table" >
+            <?php echo form_open("web/disagree_payment", array("id" => "disagree_payment")); ?>
+            <tr>
+                <td> 
+                    <div class="form-group">
+                        <label for="reason" class="control-label">Reason</label>
+                        <div class="input-icon right">
+                            <textarea row = "15" cols = "5" name = "reason" id = "reason"  class = "form-control"></textarea>  
+                        </div>
+                    </div>  
+                </td>
+            </tr>
+            <tr>
+                <td> 
+                    <input type = "hidden" name = "id" id = "id" value = "<?php echo $id; ?>">
+                    <button id="disagree_paymentsubmitbtn" class="btn btn-success disagree_paymentsubmit" type="button">Submit</button>
+                </td>
+            </tr>
+            <?php echo form_close(); ?>
+        </table>
+    </div>
+<?php }  ?>
 
 

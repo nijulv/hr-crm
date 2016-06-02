@@ -230,7 +230,7 @@ class Web_model extends CI_Model {
     public function get_bank_payments ($limit = '', $start = '',$search_user = '',$search_name = '',$search_name_agent = '',$fromdate_search = '',$todate_search = '',$mobile = 0) {
         
         if(s('ADMIN_TYPE') == 0){
-            $this->db->select("SQL_CALC_FOUND_ROWS p.*,a.last_name as alastname",FALSE);
+            $this->db->select("SQL_CALC_FOUND_ROWS p.*,a.first_name as afirstname,a.last_name as alastname",FALSE);
             $this->db->from('crm_bank_payment p');
             $this->db->join('crm_agents a', 'a.agent_id = p.agent_id', 'left');
         }

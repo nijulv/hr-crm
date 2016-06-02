@@ -46,16 +46,15 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Total payment <span class="required">*</span></label>
-                                    <input type="text" name="total_payment" id="total_payment" class="form-control" placeholder="Total Payment" maxlength="9" value = "<?php echo set_value('total_payment',$details['total_payment']); ?>" required onkeypress="return numberValidate(event);">
+                                    <label>Amount to bank <span class="required">*</span></label>
+                                    <input type="text" name="bank_payment" id="bank_payment" class="form-control" placeholder="Amount to bank" maxlength="9" value = "<?php echo set_value('bank_payment',$details['bank_payment']); ?>" required onkeypress="return numberValidate(event);">
                                 </div>
                                 <div class="form-group">
-                                    <label>Bank payment <span class="required">*</span></label>
-                                    <input type="text" name="bank_payment" id="bank_payment" class="form-control" placeholder="Bank Payment" maxlength="9" value = "<?php echo set_value('bank_payment',$details['bank_payment']); ?>" required onkeypress="return numberValidate(event);">
+                                    <label>Amount in hand</label>
+                                    <input type="text" name="amount_hand" id="amount_hand" class="form-control" placeholder="Amount in hand" maxlength="9" value = "<?php echo set_value('amount_hand',$details['amount_hand']); ?>" onkeypress="return numberValidate(event);">
                                 </div>
-                                <span id = "warning_msg" style = "color:red;display:none;"></span>
                                 <div class="form-group">
-                                    <label>Reason <small class="text-muted"></small></label>
+                                    <label>Comments <small class="text-muted"></small></label>
                                     <textarea class="form-control" name="reason" id="user" maxlength="550" style="height: 150px !important;"><?php echo set_value('reason',$details['reason']);?></textarea>
                                 </div>
                                 <div class="form-group">

@@ -762,7 +762,7 @@ class Mobile extends CI_Controller {
         if($bank_payment_id != 0 && is_numeric($bank_payment_id)){
             //$user_id = implode(",",$data->user);
             $userdata = array(
-                    "total_payment"   => $data->total_payment,  
+                    "amount_hand"     => $data->amount_hand,  
                     "bank_payment"    => $data->bank_payment,   
                     "reason"          => $data->reason,
                     "user_id"         => $data->user_id
@@ -806,7 +806,7 @@ class Mobile extends CI_Controller {
         }
         //$user_id = implode(",",$data->user);
         $userdata = array(
-                    "total_payment"   => $data->total_payment,  
+                    "amount_hand"   => $data->amount_hand,  
                     "bank_payment"    => $data->bank_payment,   
                     "reason"          => $data->reason,   
                     "agent_id"        => $agent_id,
