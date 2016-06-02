@@ -89,8 +89,8 @@
                                         <div class="form-group">
                                             <label  for="txtUserstatus">Status<span class="required">*</span></label>
                                             <select name="userstatus" id="Userstatus" class="form-control">
-                                                <option value="0" <?php if($user_details['status'] == '0') {echo 'selected=""';} ?>>Client</option>
-                                                <option value="1" <?php if($user_details['status']== '1') {echo 'selected=""';} ?>>User</option>
+                                                <option value="0" <?php if($user_details['status'] == '0') {echo 'selected=""';} ?>>Prospect</option>
+                                                <option value="1" <?php if($user_details['status']== '1') {echo 'selected=""';} ?>>Client</option>
                                             </select>
                                         </div>
                                 </div>

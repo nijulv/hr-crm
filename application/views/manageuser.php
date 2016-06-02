@@ -61,11 +61,11 @@
                             <tbody>
                                     <?php foreach($results as $res){?>
                                         <?php if($res['status']==0){
-                                            $status="Client";
+                                            $status="Prospect";
                                             $color = 'blue';
                                         }
                                         if($res['status']==1){
-                                            $status="User";
+                                            $status="Client";
                                              $color = 'green';
                                         }
                                         if($res['status']==2){
