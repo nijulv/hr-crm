@@ -207,7 +207,12 @@
 
 /* support bootstrap 3 */
 .table thead>tr>th {
-    padding: 0;
+/*    padding: 0;*/.table thead>tr>th
+
+
+
+
+
     margin: 0;
 }
 
