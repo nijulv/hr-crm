@@ -90,25 +90,24 @@
                             </div>
                             
                         </div>
-                        <?php if($todo){?>
                         <div class="panel-body scroll">
                             <ul class="todo-list" id ="todo_list" >
-                                <?php foreach($todo as $res){?>
-                                <li class="todo-list-item" id='<?php echo $res['id']; ?>'>
-                                    <div class="checkbox">
-                                        <input type="checkbox" id="checkbox">
-                                        <label for="checkbox"><?php echo $res['todo']; ?></label>
-                                    </div>
-                                    <div class="pull-right action-buttons">
-                                        <a data-id="<?php echo $res['id']; ?>" data-url='edittodo' title="Edit" class="edittodo"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                        <!-- <a href="#" class="flag"><i class="fa fa-flag-o" aria-hidden="true"></a> -->
-                                        <a data-id="<?php echo $res['id']; ?>" data-url='deletetodo' title="Delete" class="trash deletetodo"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                    </div>
-                                </li>
-                                <?php } ?>
+                                <?php if($todo){?>
+                                    <?php foreach($todo as $res){?>
+                                    <li class="todo-list-item" id='<?php echo $res['id']; ?>'>
+                                        <div class="checkbox">
+                                            <input type="checkbox" id="checkbox">
+                                            <label for="checkbox"><?php echo $res['todo']; ?></label>
+                                        </div>
+                                        <div class="pull-right action-buttons">
+                                            <a data-id="<?php echo $res['id']; ?>" data-url='edittodo' title="Edit" class="edittodo"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                            <!-- <a href="#" class="flag"><i class="fa fa-flag-o" aria-hidden="true"></a> -->
+                                            <a data-id="<?php echo $res['id']; ?>" data-url='deletetodo' title="Delete" class="trash deletetodo"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                        </div>
+                                    </li>
+                                <?php } }?>
                             </ul>
                         </div>
-                        <?php } ?>
                         <div class="panel-footer">
                             <div class="input-group">
                                 <input id="todo" name="todo" type="text" class="form-control input-md" placeholder="Type a note here">
