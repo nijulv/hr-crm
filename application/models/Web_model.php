@@ -83,6 +83,7 @@ class Web_model extends CI_Model {
         
         
     }
+    
     public function get_agents ($limit = '', $start = '',$search_user = '',$state_search = '',$district_search = '',$city_search = '',$mobile = 0) {
         $this->db->select("SQL_CALC_FOUND_ROWS a.*,s.name as state,d.name as district",FALSE); 
         $this->db->from('crm_agents a');
@@ -115,6 +116,57 @@ class Web_model extends CI_Model {
         if($query->num_rows() > 0){
             return $query->result_array();
         } else {
+            return FALSE;
+        }
+    }
+    
+    public function get_userdetails ($limit = '', $start = '',$search_user = '',$state_search = '',$district_search = '',$city_search = '',$search_name_agent = '',$mobile = 0) {
+        
+        if(s('ADMIN_TYPE') == 0){
+            $this->db->select("SQL_CALC_FOUND_ROWS u.*,s.name as state,d.name as district,a.first_name afirstname,a.last_name as alastname",FALSE);
+            $this->db->from('crm_users u');
+            $this->db->join('crm_agents a', 'a.agent_id = u.agent_id', 'left');
+            $this->db->join('states s', 's.id = u.state_id', 'left');
+            $this->db->join('districts d', 'd.id = u.district_id', 'left');
+        }
+        else {
+            $this->db->select("SQL_CALC_FOUND_ROWS u.*,s.name as state,d.name as district",FALSE); 
+            $this->db->from('crm_users u');
+            $this->db->join('states s', 's.id = u.state_id', 'left');
+            $this->db->join('districts d', 'd.id = u.district_id', 'left');
+        }
+        if($search_user != ''){
+            $this->db->where('u.user_id',$search_user);
+        }
+        if($search_name_agent != ''){
+            $this->db->where('u.agent_id',$search_name_agent);
+        }
+        if($state_search != ''){   
+            $this->db->where('u.state_id',$state_search);
+        }
+        if($district_search != ''){
+            $this->db->where('u.district_id',$district_search);
+        }
+        if($city_search != ''){
+            $this->db->like('u.city',$city_search);
+        }
+        if($this->input->post("search_result") != "1") {
+            $this->db->where('u.state_id','18');   // Default state kerala
+        }
+        $this->db->where('u.status !=','2');
+        if(s('ADMIN_TYPE') == 1){
+             $this->db->where('u.agent_id',s('ADMIN_USERID'));
+        }
+        
+        $this->db->order_by("u.user_id","desc");
+        if($mobile == 0) {
+            $this->db->limit($limit, $start);
+        }
+        $query = $this->db->get();            
+        if($query->num_rows() > 0){
+            return $query->result_array();
+        } 
+        else {
             return FALSE;
         }
     }
@@ -311,7 +363,7 @@ class Web_model extends CI_Model {
             return false;
     }
     
-    function get_userdetails($where, $start=0, $limit=25,$user_search='',$mobile = 0){
+    function get_userdetails_old($where, $start=0, $limit=25,$user_search='',$mobile = 0){
         $this->db->select('*'); 
         $this->db->where($where);
         $this->db->where("status <>",'2');
@@ -364,7 +416,7 @@ class Web_model extends CI_Model {
          
     }
     public function get_imagedetails($where){
-            $this->db->select('attachments');
+            $this->db->select('*');
             $this->db->from('crm_users');
             $this->db->where($where);
             $query = $this->db->get(); 

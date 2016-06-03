@@ -245,6 +245,7 @@ var Manageuser = function(){
                     });
               
             })
+            
             $('.view').on('click', function(){ 
                 var u_id = $(this).data('id'); 
                 $.ajax({
@@ -260,6 +261,19 @@ var Manageuser = function(){
                 
             })
             
+            $(".removeimage").click(function () {   
+                var answer = confirm("Are you sure you want to delete this attachment?");
+                if(answer){
+                    var id    = $(this).attr("data-id");    
+                    var no    = $(this).attr("data-no");    
+                    var request_path    = base_url+"remove_attchments/"+id+"/"+no;
+                    console.log(request_path);
+                    $.post(request_path,function(data){  
+                        $("#"+no+"div").html('');
+                    });
+                }
+            })
+
             $("#search_district").keyup(function () {  
                 var id = $(this).attr("id");    
                 if (this.value.length > 1) {

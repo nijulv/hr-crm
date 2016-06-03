@@ -10,6 +10,7 @@
         <link href="<?php echo assets_url();?>css/marshall.css" rel="stylesheet">
         <link href="<?php echo assets_url();?>css/bootstrap-table.css" rel="stylesheet">
         <link href="<?php echo assets_url();?>css/styles.css" rel="stylesheet">
+        <link href="<?php echo assets_url();?>css/bootstrap-datetimepicker.css" rel="stylesheet">
         <link rel="stylesheet" href="<?php echo assets_url();?>fonts/font-awesome/css/font-awesome.min.css">
         <!--Icons-->
         <script src="<?php echo assets_url();?>js/lumino.glyphs.js"></script>
@@ -94,6 +95,9 @@
         <script> var base_url = '<?php echo base_url(); ?>'; </script>
         <script> var assets_url = '<?php echo assets_url(); ?>'; </script>
         <script src="<?php echo assets_url();?>jquery-validation/js/jquery.validate.min.js"></script>
+        <script src="<?php echo assets_url();?>js/moment-with-locales.js"></script>
+        <script src="<?php echo assets_url();?>js/bootstrap-datetimepicker.js"></script>
+        
         <script src="<?php echo assets_url();?>js/manageuser.js"></script>
         <script src="<?php echo assets_url();?>js/managepayments.js"></script>
         <script src="<?php echo assets_url();?>js/manageagent.js"></script>
@@ -159,18 +163,18 @@
 </div>
 <!-- Pop up common model -->
 <div id="viewmyModal" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                             <h4 class="modal-title">View User</h4>
-                        </div>
-                        <div class="modal-body" id="content">
-  
-                         </div>
-                        <div class="modal-footer ">
-                            <button type="button" class="btn btn-default" id ="ok" data-dismiss="modal">Cancel</button>
-                        </div>
-                    </div>
-                </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                 <h4 class="modal-title">View User</h4>
             </div>
+            <div class="modal-body" id="content">
+
+             </div>
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-default" id ="ok" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

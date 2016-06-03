@@ -22,8 +22,8 @@
                             <div class="col-md-3">
                                 <select name = "status_search" class = "form-control">
                                     <option value = "" <?php echo  set_select('status_search', ''); ?>>All</option>
-                                    <option value = "1" <?php echo  set_select('status_search', '1'); ?>>User</option>
-                                    <option value = "0" <?php echo  set_select('status_search', '0'); ?>>Client</option>
+                                    <option value = "1" <?php echo  set_select('status_search', '1'); ?>>Client</option>
+                                    <option value = "0" <?php echo  set_select('status_search', '0'); ?>>Prospect</option>
                                 </select> 
                             </div>
                             <div class="col-md-3">
@@ -83,11 +83,11 @@
                                     $i++;  
                                     foreach ($details as $data) { 
                                         if($data['status'] == 1){
-                                            $status = 'User';
+                                            $status = 'Client';
                                             $color = 'green';
                                         }
                                         else {
-                                            $status = 'Client';
+                                            $status = 'Prospect';
                                             $color = '#5AC0DD';
                                         }
                                         ?>

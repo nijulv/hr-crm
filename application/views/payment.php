@@ -32,7 +32,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <div class="col-sm-8 col-lg-8 col-md-8 hidden-xs">
+                        <div class="col-sm-8 col-lg-8 col-md-8 hidden-xs" style = "display:none;">
                         List Clients and their collections
                         </div>
                         
@@ -45,8 +45,19 @@
                     <div class="panel-body"> 
                         <?php echo form_open("",array("id" => "form_report"));?>
                         <div class="row">
+                            <?php if(s('ADMIN_TYPE') == 0){ ?>
+                                <div class="col-md-2">
+                                     <select name="search_name_agent" id="search_name_agent" class="form-control">
+                                        <option value="">Select Agent</option>
+                                      <?php if($agentlist){
+                                            foreach($agentlist as $res){?> 
+                                                <option value="<?php echo $res['agent_id']; ?>" <?php echo set_select('search_name_agent', $res['agent_id'], False); ?> ><?php echo $res['first_name'].' '.$res['last_name']; ?></option>
+                                      <?php } }?>
+                                    </select>
+                                </div>
+                            <?php }?>
                             <div class="col-md-2">
-                                 <select name="search_name" id="state" class="form-control">
+                                 <select name="search_name" id="search_name" class="form-control">
                                     <option value="">client/prospect</option>
                                   <?php if($userlist){
                                         foreach($userlist as $res){?> 
@@ -57,17 +68,6 @@
                             <div class="col-md-2"> 
                                  <input type = "text" name = "search_user" class = "form-control"  placeholder="Title or Amount" value = "<?php echo set_value('search_user'); ?>">
                             </div>
-                            <?php if(s('ADMIN_TYPE') == 0){ ?>
-                                <div class="col-md-2">
-                                     <select name="search_name_agent" id="state" class="form-control">
-                                        <option value="">Select Agent</option>
-                                      <?php if($agentlist){
-                                            foreach($agentlist as $res){?> 
-                                                <option value="<?php echo $res['agent_id']; ?>" <?php echo set_select('search_name_agent', $res['agent_id'], False); ?> ><?php echo $res['first_name'].' '.$res['last_name']; ?></option>
-                                      <?php } }?>
-                                    </select>
-                                </div>
-                            <?php }?>
                             <div class="col-md-2"> 
                                 <input type = "text" class = "form-control" value = "<?php echo set_value('fromdate_search', date('Y-m-01'));?>" id = "fromdate_search" readonly="readonly"  style="background:white;" name = "fromdate_search" placeholder = "From date">
                             </div>

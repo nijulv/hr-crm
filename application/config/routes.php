@@ -59,10 +59,10 @@ $route['logincheck']       = "web/logincheck";
 $route['dashboard']        = "web/dashboard";
 $route['logout']           = "web/logout";
 
-
 $route['manageuser']              = "web/manageuser";
 $route['manageuser/(:any)']       = "web/manageuser/$1";
 $route['manageuser/(:any)/(:any)']       = "web/manageuser/$1/$1";
+
 $route['adduser']                 = "web/adduser";
 $route['edituser/(:any)']         = "web/edituser/$1";
 $route['edituser']                = "web/edituser";
@@ -79,6 +79,7 @@ $route['edittodo']                = "web/edittodo";
 $route['edittodo/(:any)']         = "web/edittodo/$1";
 $route['updatetodo']              = "web/updatetodo";
 $route['updatetodo/(:any)']       = "web/updatetodo/$1";
+$route['search_todolist']         = "web/search_todolist";
 $route['search_todolist/(:any)']         = "web/search_todolist/$1";
 
 $route['add_payments']   = "web/add_payments";
@@ -127,3 +128,5 @@ $route['viewuserlist/(:any)/(:any)']  = "ajax/viewuserlist/$1/$2";
 $route['district_autocomplete']       = "web/district_autocomplete";
 
 $route['check_username_available']    = "web/check_username_available";
+
+$route['remove_attchments/(:any)/(:any)']         = "web/remove_attchments/$1/$2";

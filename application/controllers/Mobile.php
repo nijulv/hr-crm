@@ -390,7 +390,7 @@ class Mobile extends CI_Controller {
         if(s('ADMIN_TYPE') == 1){
             $where = array('agent_id' => s('ADMIN_USERID'));
         }
-        $user_list = $this->web_model->get_userdetails($where,"","","0",1);
+        $user_list = $this->web_model->get_userdetails("","","","","","","",1);
         $this->load->view('ajax_view', array('ajax_response' => json_encode(array('status' => 'success', 'user_list' => $user_list))));
         return;
     }

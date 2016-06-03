@@ -1,8 +1,8 @@
                 <?php if($user_details['status']==0){
-                $status="Client";
+                $status="Prospect";
                 }
                 if($user_details['status']==1){
-                $status="User";
+                $status="Client";
                 }
                 if($user_details['status']==2){
                 $status="Deleted";
@@ -81,14 +81,36 @@
                                         <?php echo $user_details['pincode']?>
                                     </div>
                                 </div>
-                                <div class="row" style="padding-bottom: 15px;">
-                                    <div class="col-lg-3 col-sm-3 col-md-3">
-                                        <b>Attachment : </b>
+                                <?php if( $user_details['attachments'] != ''){ ?>
+                                    <div class="row" style="padding-bottom: 15px;">
+                                        <div class="col-lg-3 col-sm-3 col-md-3">
+                                            <b>Attachment 1: </b>
+                                        </div>
+                                        <div class="col-lg-8 col-sm-8 col-md-8">
+                                            <?php echo $user_details['attachments']?>
+                                        </div>
                                     </div>
-                                    <div class="col-lg-8 col-sm-8 col-md-8">
-                                        <?php echo $user_details['attachments']?>
+                                <?php }?>
+                                <?php if( $user_details['attachments2'] != ''){ ?>
+                                    <div class="row" style="padding-bottom: 15px;">
+                                        <div class="col-lg-3 col-sm-3 col-md-3">
+                                            <b>Attachment 2: </b>
+                                        </div>
+                                        <div class="col-lg-8 col-sm-8 col-md-8">
+                                            <?php echo $user_details['attachments2']?>
+                                        </div>
                                     </div>
-                                </div>
+                                <?php }?>
+                                <?php if( $user_details['attachments3'] != ''){ ?>
+                                    <div class="row" style="padding-bottom: 15px;">
+                                        <div class="col-lg-3 col-sm-3 col-md-3">
+                                            <b>Attachment 3: </b>
+                                        </div>
+                                        <div class="col-lg-8 col-sm-8 col-md-8">
+                                            <?php echo $user_details['attachments3']?>
+                                        </div>
+                                    </div>
+                                <?php }?>
                                  <div class="row" style="padding-bottom: 15px;">
                                     <div class="col-lg-3 col-sm-3 col-md-3">
                                         <b>Status : </b>

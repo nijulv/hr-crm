@@ -68,10 +68,9 @@
                                 <thead>
                                     <tr>
                                         <th style = "text-align:center;">#</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
                                         <th style = "text-align:center;">Agent Code</th>
+                                        <th>Name</th>
+                                        <th>Phone</th>
                                         <th>State</th>
                                         <th>District</th>
                                         <th>City</th>
@@ -88,16 +87,15 @@
                                             $color = 'green';
                                         }
                                         else {
-                                            $status = 'Deactive';
+                                            $status = 'Inactive';
                                             $color = 'red';
                                         }
                                         ?>
                                         <tr>
                                             <td style = "text-align:center;"><?php echo $i++; ?></td>
-                                            <td><?php echo $data['first_name'].' '.$data['last_name'];?></td> 
-                                            <td><?php echo $data['email'];?></td>
-                                            <td><?php echo $data['phone'];?></td>
                                             <td style = "text-align:center;"><?php echo $data['agent_code'];?></td>
+                                            <td><?php echo $data['first_name'].' '.$data['last_name'];?></td> 
+                                            <td><?php echo $data['phone'];?></td>
                                             <td><?php echo $data['state'];?></td>
                                             <td><?php echo $data['districts'];?></td>
                                             <td><?php echo $data['city'];?></td>

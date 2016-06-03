@@ -32,13 +32,13 @@
                 <div class="panel panel-default">
                     <div class="row">
                     <div class="panel-heading" style="padding-bottom: 10px;">
-                       <div class="col-sm-8 col-lg-8 col-md-8 hidden-xs">
+                       <div class="col-sm-8 col-lg-8 col-md-8 hidden-xs" style = "display:none;">
                         List Agents and their details
                        </div>
                         <div class="pull-right">
                            <div class="col-sm-4 col-lg-4 col-md-4" >
                             <div class="form-group">
-                                <a href = "<?php echo base_url()?>add_agents"><button class="btn btn-primary"><i class="fa fa-plus"></i> Add New Agent</button></a>
+                                <a href = "<?php echo base_url()?>add_agents"><button class="btn btn-primary"><i class="fa fa-plus"></i> Add New </button></a>
                             </div>
                            </div>
                         </div>
@@ -89,8 +89,7 @@
                                     <thead>
                                         <tr>
                                             <th style = "text-align:center;">#</th>
-                                            <th>Code</th>
-                                            <th>Name</th>
+                                            <th>Code & Name</th>
                                             <th>Phone</th>
                                             <th>State</th>
                                             <th>District</th>
@@ -107,7 +106,7 @@
                                                 $status = 'Active';
                                                 $changestatus='Inactivate';
 
-                                                $style = 'label label-danger';
+                                                $style = 'label label-warning';
                                                 $color = 'green';
                                             }
                                             else {
@@ -119,8 +118,7 @@
                                             } ?>
                                             <tr>
                                                 <td style = "text-align:center;"><?php echo $i++; ?></td>
-                                                <td><?php echo $data['agent_code'];?></td>
-                                                <td><?php echo $data['first_name'].' '.$data['last_name'];?></td> 
+                                                <td><span class="label label-default">Code: <?php echo $data['agent_code'];?> </span>&nbsp;&nbsp; <?php echo $data['first_name'].' '.$data['last_name'];?></td> 
                                                 <td><?php echo $data['phone'];?></td>
                                                 <td><?php echo $data['state'];?></td>
                                                 <td><?php echo $data['district'];?></td>

@@ -101,7 +101,7 @@ class Web extends CI_Controller {
                         redirect("web");
                     }
                     else if ($msg == 'inactive') {
-                        sf('error_message', 'Your account is inactive');
+                        sf('error_message', 'Your account is temporarily inactive,Please contact administrator');
                         redirect("web"); 
                     }
                     else {
@@ -228,6 +228,9 @@ class Web extends CI_Controller {
             redirect("web");
         } 
         else  {	
+            if($date_val == ''){
+                $date_val = date('Y-m-d');
+            }
             $result = $this->web_model->todolist_serchlist($date_val);
             if ($result){
                  foreach($result as $res){?>
@@ -612,6 +615,133 @@ class Web extends CI_Controller {
         }
     }
     
+    function manageuser () {         
+       if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            
+            $config['per_page']   = 25;
+            $pagin = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;  
+
+            if($this->input->post("search_user") != '')
+                $search_user = trim($this->input->post("search_user",true));
+            else 
+                $search_user = '';
+            
+            if($this->input->post("state_search") != '')
+                $state_search = trim($this->input->post("state_search",true));
+            else 
+                $state_search = '';
+            
+            if($this->input->post("district_search") != '')
+                $district_search = trim($this->input->post("district_search",true));
+            else 
+                $district_search = '';
+            
+            if($this->input->post("city_search") != '')
+                $city_search = trim($this->input->post("city_search",true));
+            else 
+                $city_search = '';
+            
+            if($this->input->post("search_name_agent") != '')
+                $search_name_agent = trim($this->input->post("search_name_agent",true));
+            else 
+                $search_name_agent = '';
+            
+            $this->gen_contents['details'] = $this->web_model->get_userdetails($config['per_page'], $pagin,$search_user,$state_search,$district_search,$city_search,$search_name_agent);
+
+            $total_user = $this->web_model->get_total_rows();
+            //--pagination
+            $this->load->library('pagination');
+            $this->load->library('bspagination');   
+            $config['base_url']     = base_url().'manageuser';
+            $config['total_rows']   = $total_user;
+            $bs_init = $this->bspagination->config();
+            $config = array_merge($config, $bs_init);
+            $this->pagination->initialize($config);
+            $this->gen_contents['links'] =  $this->pagination->create_links();     
+                    
+            
+            if($this->input->post("state_search") != ''){  
+                $this->gen_contents['state_details']  = $this->web_model->get_state_details();
+                $this->gen_contents['districts'] = $this->web_model->get_district_details($this->input->post("state_search", true));
+                $this->gen_contents['district_selected'] = $this->input->post("district_search", true);
+                $this->gen_contents['state_selected'] = $this->input->post("state_search", true);
+                $this->gen_contents['state_sel'] = 1;
+            }
+            else if($this->input->post("search_result") == '1'){
+                $this->gen_contents['state_sel'] = 2;
+                $this->gen_contents['state_details']  = $this->web_model->get_state_details();
+                $this->gen_contents['districts'] = $this->web_model->get_district_details('18');
+            }
+            else {
+                $this->gen_contents['state_details']  = $this->web_model->get_state_details();
+                $this->gen_contents['districts'] = $this->web_model->get_district_details('18');
+                $this->gen_contents['state_sel'] = 0;
+            }
+            $this->gen_contents['userlist'] = $this->web_model->get_users();
+            $this->gen_contents['agentlist'] = $this->web_model->get_agents_names();
+            $this->gen_contents['link_user']  = 'active';
+            $this->template->write_view('content', 'manageuser', $this->gen_contents);
+            $this->template->render();
+        }
+    }
+    
+    public function manageuser_old() {  
+         if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            if($this->input->post("user_search") != '')
+                $user_search = trim($this->input->post("user_search",true));
+            elseif("" != $this->uri->segment(2)){
+                 $user_search =$this->uri->segment(2);
+            }
+            else 
+                $user_search = '0';
+            $this->load->library('pagination');
+            $agent_id=$this->session->get_userdata('session_data'); 
+            $agent_id=$agent_id['ADMIN_USERID'];
+            $where = array();
+            if(s('ADMIN_TYPE') == 1){
+                  $where = array('agent_id' => $agent_id);
+            }
+            $total_count = $this->web_model->get_userdetails_count($where,$user_search);
+            $config['base_url'] = base_url().'manageuser/'.$user_search;
+            $config['uri_segment'] = 3;
+            $config['total_rows'] = $total_count;
+            $config['per_page'] = 25;
+            $config['display_pages'] = true; 
+            $config['full_tag_open'] = "<ul class='pagination'>";
+            $config['full_tag_close'] ="</ul>";
+            $config['num_tag_open'] = '<li>';
+            $config['num_tag_close'] = '</li>';
+            $config['cur_tag_open'] = "<li class='disabled'><li class='active'><a href='#'>";
+            $config['cur_tag_close'] = "<span class='sr-only'></span></a></li>";
+            $config['next_tag_open'] = "<li>";
+            $config['next_tagl_close'] = "</li>";
+            $config['prev_tag_open'] = "<li>";
+            $config['prev_tagl_close'] = "</li>";
+            $config['first_tag_open'] = "<li>";
+            $config['first_tagl_close'] = "</li>";
+            $config['last_tag_open'] = "<li>";
+            $config['last_tagl_close'] = "</li>";
+            $config['page_query_string'] = FALSE;
+            if($this->uri->segment(3)){
+                $page = $this->uri->segment(3);
+            }else{
+                $page = 0;
+            }
+            $this->pagination->initialize($config);
+            $this->gen_contents['results'] = $this->web_model->get_userdetails($where,$page,$config['per_page'],$user_search);
+            $this->gen_contents['js_files'] = array(); 
+            $this->gen_contents['link_user']  = 'active';
+            $this->template->write_view('content', 'manageuser', $this->gen_contents);
+            $this->template->render();
+        }
+    }
+    
     function manage_cash () {  
         
          if (!($this->session->userdata("ADMIN_USERID"))) {
@@ -720,59 +850,6 @@ class Web extends CI_Controller {
             $this->template->render();
         }
     }
-    public function manageuser() {  
-         if (!($this->session->userdata("ADMIN_USERID"))) {
-            redirect("web");
-        }
-        else {
-            if($this->input->post("user_search") != '')
-                $user_search = trim($this->input->post("user_search",true));
-            elseif("" != $this->uri->segment(2)){
-                 $user_search =$this->uri->segment(2);
-            }
-            else 
-                $user_search = '0';
-            $this->load->library('pagination');
-            $agent_id=$this->session->get_userdata('session_data'); 
-            $agent_id=$agent_id['ADMIN_USERID'];
-            $where = array();
-            if(s('ADMIN_TYPE') == 1){
-                  $where = array('agent_id' => $agent_id);
-            }
-            $total_count = $this->web_model->get_userdetails_count($where,$user_search);
-            $config['base_url'] = base_url().'manageuser/'.$user_search;
-            $config['uri_segment'] = 3;
-            $config['total_rows'] = $total_count;
-            $config['per_page'] = 25;
-            $config['display_pages'] = true; 
-            $config['full_tag_open'] = "<ul class='pagination'>";
-            $config['full_tag_close'] ="</ul>";
-            $config['num_tag_open'] = '<li>';
-            $config['num_tag_close'] = '</li>';
-            $config['cur_tag_open'] = "<li class='disabled'><li class='active'><a href='#'>";
-            $config['cur_tag_close'] = "<span class='sr-only'></span></a></li>";
-            $config['next_tag_open'] = "<li>";
-            $config['next_tagl_close'] = "</li>";
-            $config['prev_tag_open'] = "<li>";
-            $config['prev_tagl_close'] = "</li>";
-            $config['first_tag_open'] = "<li>";
-            $config['first_tagl_close'] = "</li>";
-            $config['last_tag_open'] = "<li>";
-            $config['last_tagl_close'] = "</li>";
-            $config['page_query_string'] = FALSE;
-            if($this->uri->segment(3)){
-                $page = $this->uri->segment(3);
-            }else{
-                $page = 0;
-            }
-            $this->pagination->initialize($config);
-            $this->gen_contents['results'] = $this->web_model->get_userdetails($where,$page,$config['per_page'],$user_search);
-            $this->gen_contents['js_files'] = array(); 
-            $this->gen_contents['link_user']  = 'active';
-            $this->template->write_view('content', 'manageuser', $this->gen_contents);
-            $this->template->render();
-        }
-    }
     
     public function adduser() {  
          if (!($this->session->userdata("ADMIN_USERID"))) {
@@ -835,6 +912,43 @@ class Web extends CI_Controller {
                             $this->gen_contents['district_selected'] = $this->input->post("district", true);
                         }
                     }
+                    if(!empty($_FILES['attachment2']['name'])){
+                        $this->load->library('upload');
+                        $image_path='./attachment/';
+                        $this->upload->initialize(upload_config_image($image_path));
+                        $file_name = '';
+                        if($this->upload->do_upload('attachment2')){
+                            $img = $this->upload->data();
+                            $file_name = $img['file_name'];
+                            $update_data['attachments2'] = $file_name;
+                        }else{
+                             $this->gen_contents['form_validation_error']=$this->upload->display_errors();
+                            $error = "error";
+                            
+                            $this->gen_contents['state'] = $this->input->post("state", true);
+                            $this->gen_contents['districts'] = $this->web_model->get_district_details($this->input->post("state", true));
+                            $this->gen_contents['district_selected'] = $this->input->post("district", true);
+                        }
+                    }
+                    if(!empty($_FILES['attachment3']['name'])){
+                        $this->load->library('upload');
+                        $image_path='./attachment/';
+                        $this->upload->initialize(upload_config_image($image_path));
+                        $file_name = '';
+                        if($this->upload->do_upload('attachment3')){
+                            $img = $this->upload->data();
+                            $file_name = $img['file_name'];
+                            $update_data['attachments3'] = $file_name;
+                        }else{
+                             $this->gen_contents['form_validation_error']=$this->upload->display_errors();
+                            $error = "error";
+                            
+                            $this->gen_contents['state'] = $this->input->post("state", true);
+                            $this->gen_contents['districts'] = $this->web_model->get_district_details($this->input->post("state", true));
+                            $this->gen_contents['district_selected'] = $this->input->post("district", true);
+                        }
+                    }
+                    
                     if(!$error){
                         $sts = $this->db->insert('crm_users', $update_data);
                         if($sts){
@@ -844,8 +958,8 @@ class Web extends CI_Controller {
                              $this->gen_contents['form_validation_error'] = 'Sorry. There is a problem to add details.';
                         }
                     }
-            
-                }else{
+                }
+                else{
                      $this->gen_contents['edit_return'] = 1;
                      $this->gen_contents['form_validation_error'] = validation_errors();
 
@@ -922,6 +1036,42 @@ class Web extends CI_Controller {
                         $img = $this->upload->data();
                         $file_name = $img['file_name'];
                         $update_data['attachments'] = $file_name;
+                   }else{
+                        $this->gen_contents['form_validation_error'] = $this->upload->display_errors();
+                        $error = "error";
+                    }
+                }
+                if(!empty($_FILES['attachment2']['name'])){
+                    $this->load->library('upload');
+                    $image_path='./attachment/';
+                    $this->upload->initialize(upload_config_image($image_path));
+                    $file_name = '';
+                    $where = array('user_id' => $user_id);
+                    $get_image_details = $this->web_model->get_imagedetails($where);		
+                    $get_image_details = @$get_image_details[0]['attachments2'];
+                    if($this->upload->do_upload('attachment2')){
+                        unlink('attachment/'.$get_image_details);
+                        $img = $this->upload->data();
+                        $file_name = $img['file_name'];
+                        $update_data['attachments2'] = $file_name;
+                   }else{
+                        $this->gen_contents['form_validation_error'] = $this->upload->display_errors();
+                        $error = "error";
+                    }
+                }
+                if(!empty($_FILES['attachment3']['name'])){
+                    $this->load->library('upload');
+                    $image_path='./attachment/';
+                    $this->upload->initialize(upload_config_image($image_path));
+                    $file_name = '';
+                    $where = array('user_id' => $user_id);
+                    $get_image_details = $this->web_model->get_imagedetails($where);		
+                    $get_image_details = @$get_image_details[0]['attachments2'];
+                    if($this->upload->do_upload('attachment3')){
+                        unlink('attachment/'.$get_image_details);
+                        $img = $this->upload->data();
+                        $file_name = $img['file_name'];
+                        $update_data['attachments3'] = $file_name;
                    }else{
                         $this->gen_contents['form_validation_error'] = $this->upload->display_errors();
                         $error = "error";
@@ -1696,6 +1846,47 @@ class Web extends CI_Controller {
             }
             echo json_encode($output);exit;
         }
+    }
+    
+    function remove_attchments($id = 0,$no = '') {
+        if($id != 0 && is_numeric($id)){
+            
+            $where = array('user_id' => $id);
+            $get_image_details = $this->web_model->get_imagedetails($where);
+
+            if($no == 'attachment1'){
+                $get_image_details = @$get_image_details[0]['attachments'];
+                unlink('attachment/'.$get_image_details);
+                $data = array(
+                        'attachments'  => ''
+                );
+            }
+            else if($no == 'attachment2'){
+                $get_image_details = @$get_image_details[0]['attachments2'];
+                unlink('attachment/'.$get_image_details);
+                $data = array(
+                        'attachments2'  => ''
+                );
+            }
+            else {
+                $get_image_details = @$get_image_details[0]['attachments3'];
+                unlink('attachment/'.$get_image_details);
+                $data = array(
+                        'attachments3'  => ''
+                );
+            }
+
+            $result = $this->db->update('crm_users', $data,$where);
+            if($result) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }                  
     }
     
 }

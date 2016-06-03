@@ -1,119 +1,166 @@
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
-            <div class="row">
-                <ol class="breadcrumb">
-                    <li><a href="<?php echo base_url()?>dashboard"><i class="fa fa-home" aria-hidden="true" style="font-size: 20px;"></i></a></li>
-                    <li class="active">Client/Prospect</li>
-                </ol>
-            </div><!--/row-->
+        <div class="row">
+            <ol class="breadcrumb">
+                <li><a href="<?php echo base_url()?>dashboard"><i class="fa fa-home" aria-hidden="true" style="font-size: 20px;"></i></a></li>
+                <li class="active">Client/Prospect</li>
+            </ol>
+        </div><!--/.row-->
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Manage Client/Prospect</h1>
-                </div>
-            </div><!--/.row-->
-            <?php if ( f('success_message') != '' ) :?>
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Manage Client/Prospect</h1>
+            </div>
+        </div><!--/.row-->
+        <?php
+            $error = f('error_message') ? f('error_message') : validation_errors();
+            if(!empty($error)){
+                echo '<div class="text-center">                                        
+                        <div class="alert alert-danger">
+                        '.$error.'
+                        </div>                                        
+                     </div>';
+        }?>
+        <?php if ( f('success_message') != '' ) :?>
             <div class="text-center">                                        
                 <div class="alert alert-success">
                     <?php echo f('success_message');?>
                 </div>                                        
             </div>
-            <?php endif;?>
-            <?php if("0" != $this->uri->segment(2)){
-                 $user_search =$this->uri->segment(2);
-            }?>
-            <div class="panel panel-default">
-            <div class="row panel-body" style="padding-top:20px;">
-                     <div class="col-md-9 col-sm-9 col-xs-12">
-                         <div class="form-group">
-                            <form class="" enctype="multipart/form-data" method ="POST" action="<?php echo base_url() ?>manageuser" name="frmUserdetails" id="frmUserdetails">  
-                                <div class="row">
-                                    <div class="col-xs-8">
-                                            <input type = "text" name = "user_search" class = "form-control"  placeholder="User Name or Email" value = "<?php echo set_value('user_search',$user_search); ?>">
-                                          
+        <?php endif;?>
+        <div class="row">
+                <div class="panel panel-default">
+                    <div class="row">
+                        <div class="panel-heading" style="padding-bottom: 10px;">
+                           <div class="col-sm-8 col-lg-8 col-md-8 hidden-xs" style = "display:none;">
+                            List clients and their details
+                           </div>
+                            <div class="pull-right">
+                               <div class="col-sm-4 col-lg-4 col-md-4" >
+                                    <div class="form-group">
+                                        <a href = "<?php echo base_url()?>adduser"><button class="btn btn-primary"><i class="fa fa-plus"></i> Add New </button></a>
                                     </div>
-                                    <div class="col-xs-4">
-                                        <button type="submit" class="btn btn-info">Search</button>
-                                    </div>
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <?php echo form_open("",array("id" => "form_report"));?>
+                        <div class="row">
+                            <?php if(s('ADMIN_TYPE') == 0){ ?>
+                                <div class="col-md-2">
+                                     <select name="search_name_agent" id="search_name_agent" class="form-control">
+                                        <option value="">Select Agent</option>
+                                      <?php if($agentlist){
+                                            foreach($agentlist as $res){?> 
+                                                <option value="<?php echo $res['agent_id']; ?>" <?php echo set_select('search_name_agent', $res['agent_id'], False); ?> ><?php echo $res['first_name'].' '.$res['last_name']; ?></option>
+                                      <?php } }?>
+                                    </select>
                                 </div>
-                            </form>
-                        </div>
-                     </div>
-                    <div class="col-md-3 col-sm-3 col-xs-12">
-                    <div class="pull-right text-center"><a style="text-decoration: none;padding-top: 10px;" class="btn btn-primary" href="<?php echo base_url()?>adduser"><i class="fa fa-plus"></i> Add New User</a></div>
-                </div>
-            
-            </div>
-            <div class="portlet-body">
-                <?php if(!empty($results)){
-                   if($this->uri->segment(3)=='') $i=1; else $i=$this->uri->segment(3)+1; ;?>
-                <div class="panel-body">
-                     <div class="table-container table-responsive">
-                    <table class="table table-bordered table-striped table-hover table-responsive">
-                            <thead><tr role="row" class="heading">
-                                <th class="no-sort" width="5%" style = "text-align:center;">Sl.No</th>
-                                <th class="no-sort" width="20%">Name</th>
-                                <th class="no-sort" width="20%">Phone</th>
-                                <th class="no-sort" width="25%">Email</th>
-                                <th class="no-sort" width="10%" style = "text-align:center;">Status</th>
-                                <th class="no-sort" width="20%" style = "text-align:center;">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                    <?php foreach($results as $res){?>
-                                        <?php if($res['status']==0){
-                                            $status="Prospect";
-                                            $color = 'blue';
-                                        }
-                                        if($res['status']==1){
-                                            $status="Client";
-                                             $color = 'green';
-                                        }
-                                        if($res['status']==2){
-                                        $status="Deleted";
-                                        }?>
-                                        <tr role="row" class="heading">
-                                            <td style = "text-align:center;"><?php echo $i;?></td>
-                                            <td><?php echo $res['first_name']?>&nbsp;<?php echo $res['last_name']?></td>
-                                            <td><?php echo $res['phone']?></td>
-                                            <td><?php echo $res['email']?></td>
-                                            <td style = "text-align:center;color:<?php echo  $color;?>"><?php echo $status;?></td>
-                                            <td style = "text-align:center;">
-                                                <a  data-id="<?php echo $res['user_id']?>" id="view" class="label label-primary view"><i class="fa fa-list"></i>View</a>
-                                                <a href="<?php echo base_url() ?>edituser/<?php echo $res['user_id']?>" class="label label-default" id="edit"><span class="fa fa-pencil"></span> Edit</a>
-                                                <a id="delete" class="label label-danger delete" data-id="<?php echo $res['user_id']?>" data-url="deleteuser"><span class="fa fa-trash"></span> Delete</a>
-                                            </td>
+                            <?php }?>
+                            <div class="col-md-2">
+                                 <select name="search_user" id="search_user" class="form-control">
+                                    <option value="">client/prospect</option>
+                                  <?php if($userlist){
+                                        foreach($userlist as $res){?> 
+                                            <option value="<?php echo $res['user_id']; ?>" <?php echo set_select('search_name', $res['user_id'], False); ?> ><?php echo $res['first_name'].' '.$res['last_name']; ?></option>
+                                  <?php } }?>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select name="state_search" id="state" class="form-control">
+                                    <option value="">Select</option>
+                                  <?php if($state_details){
+                                        foreach($state_details as $data){?> 
+                                            <option value="<?php echo $data['id']; ?>" <?php if($data['id'] == $state_selected) {echo 'selected="selected"';} else if($data['id'] == '18' && $state_sel == 0) {echo 'selected="selected"';} ?> <?php echo set_select('state_search', $data['id'], False); ?> ><?php echo $data['name']; ?></option>
+                                  <?php } }?>
+                                </select>
+                            </div> 
+                            <div class="col-md-2">
+                                <select name="district_search" id="district" class="form-control">
+                                    <option value="">Select district</option>
+                                    <?php if($districts){ ?>
+                                        <?php foreach($districts as $data){ ?> 
+                                            <option value="<?php echo $data['id']; ?>" <?php if($data['id'] == $district_selected){ ?>selected="selected"<?php }?>><?php echo $data['name']; ?></option>
+                                        <?php } ?>
+                                    <?php } ?>
+                                </select>
+                            </div> 
+                             <div class="col-md-2">
+                                 <input type = "text" name = "city_search" class = "form-control"  placeholder="City" value = "<?php echo set_value('city_search'); ?>">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-info">Search</button>
+                                <button type="button" class="btn btn-default reportclear" style = "" >Clear</button>
+                            </div>
+                        </div> 
+                         <input type = "hidden" name = "search_result" value = "1">
+                        <?php form_close(); ?>
+                        <br>
+                        <?php if (!empty($details)) { ?>
+                        <div class="row">
+                            <div class = "col-md-12">
+                                <div class="table-container table-responsive">
+                                    <?php echo $links; ?>
+                                <table class="table table-bordered table-striped table-hover table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th style = "text-align:center;">#</th>
+                                            <?php if(s('ADMIN_TYPE') == 0){ ?>
+                                                <th>Agent Name</th>
+                                            <?php }?>
+                                            <th>Client Name</th>
+                                            <th>Phone</th>
+                                            <th>State</th>
+                                            <th>District</th>
+                                            <th>City</th>
+                                            <th style = "text-align:center;">Status</th>
+                                            <th style = "text-align:center;">Actions</th>
                                         </tr>
-                                <?php  $i++; } ?>
-                            </tbody>
-                    </table>
-                </div>
-                </div>
-                <?php  echo $this->pagination->create_links(); ?>
-                <?php }
-                else {
-                        echo '<div class="nodata">Sorry! There is no details available now.</div>';
-                     } ?>
-            </div>
-            </div>   
-              <div id="viewmyModal" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                             <h4 class="modal-title">View User</h4>
+                                    </thead>
+                                    <tbody>
+                                        <?php 
+                                        $i++;  
+                                        foreach ($details as $data) { 
+                                            if($data['status'] == 0){
+                                                $status = 'Prospect';
+                                                $color = 'blue';
+                                            }
+                                            else if($data['status'] == 1){
+                                                $status = 'Client';
+                                                $color = 'green';
+                                            }
+                                            else {
+                                                $status = 'Deleted';
+                                                $color = 'red';
+                                            } ?>
+                                            <tr>
+                                                <td style = "text-align:center;"><?php echo $i++; ?></td>
+                                                <?php if(s('ADMIN_TYPE') == 0){ ?>
+                                                    <td><?php echo $data['afirstname'].' '.$data['alastname'];?></td> 
+                                                <?php }?>
+                                                <td><?php echo $data['first_name'].' '.$data['last_name'];?></td> 
+                                                <td><?php echo $data['phone'];?></td>
+                                                <td><?php echo $data['state'];?></td>
+                                                <td><?php echo $data['district'];?></td>
+                                                <td><?php echo $data['city'];?></td>
+                                                <td style = "text-align:center;color:<?php echo  $color;?>"><?php echo $status;?></td>
+                                                <td style = "text-align:center;">
+                                                    <a  data-id="<?php echo $data['user_id']?>" id="view" class="label label-primary view"><i class="fa fa-list"></i> View</a>
+                                                    <a href="<?php echo base_url() ?>edituser/<?php echo $data['user_id']?>" class="label label-default" id="edit"><span class="fa fa-pencil"></span> Edit</a>
+                                                    <a id="delete" class="label label-danger delete" data-id="<?php echo $data['user_id']?>" data-url="deleteuser"><span class="fa fa-trash"></span> Delete</a>
+                                                </td>
+                                            </tr>
+                                        <?php }?>
+                                    </tbody>
+                                </table>
+                                     <?php echo $links; ?> 
+                                </div>
                         </div>
-                        <div class="modal-body" id="content">
-  
-                         </div>
-                        <div class="modal-footer ">
-                            <button type="button" class="btn btn-default" id ="ok" data-dismiss="modal">Cancel</button>
-                        </div>
+                        <?php } else {
+                            echo '<div class="nodata">Sorry! There is no details available now.</div>';
+                        } ?>
+                    </div>
                     </div>
                 </div>
             </div>
-                                    
-
-        </div>	<!--/main-->
-
-        
- 
+    </div>
