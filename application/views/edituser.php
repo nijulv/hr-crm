@@ -99,7 +99,7 @@
                                             
                                         </div>
                                         <div class="form-group">
-                                            <label  for="txtUserstatus">Status<span class="required">*</span></label>
+                                            <label  for="txtUserstatus">Status<span class="required">*</span> <span class="check_div" id="payment_status"></span></label>
                                             <select name="userstatus" id="Userstatus" class="form-control">
                                                 <option value="0" <?php if($user_details['status'] == '0') {echo 'selected=""';} ?>>Prospect</option>
                                                 <option value="1" <?php if($user_details['status']== '1') {echo 'selected=""';} ?>>Client</option>
@@ -107,6 +107,7 @@
                                         </div>
                                 </div>
                                 <div class="col-md-12" style = "text-align:center;"> 
+                                    <input type = "hidden" name = "userid" id = "userid" value = "<?php echo $user_details['user_id'];?>">
                                     <button type="reset" id="btnCancel" class="btn btn-default">Cancel</button>
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>

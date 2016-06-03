@@ -201,14 +201,15 @@ var Manageuser = function(){
                     })
                 
             })
-            $('#save').on('click', function(){ 
+            $('#save').on('click', function(){     
                  $('.panel-footer font').remove();
                     $.ajax({
                         type    : "POST",
                         url     : base_url+'todo',
                         dataType: "json",
                         data    : {'todo':$('#todo').val(),
-                                   'calendar':$('#main_calendar').val()},
+                                   'calendar':$('#main_calendar').val(),
+                                   'todostatus':$('#todostatus').val()},
                         success : function(data){
                             if(data.success==1){
                                 if(0 == $('.todo-list').length){
@@ -260,6 +261,34 @@ var Manageuser = function(){
                     });
                 
             })
+            
+            $("#Userstatus").change(function () {   
+                 var value = $(this).val();  
+                 if(value == 1){
+                    var userid = $("#userid").val();
+                    if (userid != "") {
+                        $.post(base_url+"check_user_payment", { userid: userid },
+                        function(response) {
+                            var data = $.parseJSON(response);
+                            if (data["status"] == 1) {
+                                $("#payment_status").css("color", "green");
+                                $("#payment_status").html(data["msg"]);
+                                $(".check_div").fadeIn();
+                                setTimeout(function() {
+                                        $(".check_div").fadeOut();
+                                }, 3000);
+                            } else {
+                                $("#payment_status").css("color", "red");
+                                $("#payment_status").html(data["msg"]);
+                                $(".check_div").fadeIn();
+                                setTimeout(function() {
+                                        $(".check_div").fadeOut();
+                                }, 5000);
+                            }
+                        });
+                    }
+                 }
+            });
             
             $(".removeimage").click(function () {   
                 var answer = confirm("Are you sure you want to delete this attachment?");

@@ -128,5 +128,6 @@ $route['viewuserlist/(:any)/(:any)']  = "ajax/viewuserlist/$1/$2";
 $route['district_autocomplete']       = "web/district_autocomplete";
 
 $route['check_username_available']    = "web/check_username_available";
+$route['check_user_payment']          = "web/check_user_payment";
 
 $route['remove_attchments/(:any)/(:any)']         = "web/remove_attchments/$1/$2";

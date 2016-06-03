@@ -70,13 +70,13 @@ class Web_model extends CI_Model {
             $type=$this->session->userdata("ADMIN_USERID");
             $this->db->where('admin_id',$type);
         }
-        $this->db->select('id,todo');
+        $this->db->select('id,todo,status');
         $this->db->where('date',$date);
         $query = $this->db->get('todo');
         return $query->result_array();
     }
     public function edit_todo($todoid){
-        $this->db->select('id,todo,date');
+        $this->db->select('id,todo,date,status');
         $this->db->where('id',$todoid);
         $query = $this->db->get('todo');
         return $query->result_array();
@@ -700,6 +700,18 @@ class Web_model extends CI_Model {
                 return false;
         } else {
                 return true;
+        }
+    }
+    
+    public function check_user_payment ($id = 0) {
+        $this->db->where("user_id", $id);
+        $this->db->where("status", '1');
+        $query = $this->db->get("payments");       
+        if ($query->num_rows() > 0) {
+            return true;
+        } 
+        else {
+            return false;
         }
     }
 

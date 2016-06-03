@@ -93,16 +93,27 @@
                         <div class="panel-body scroll">
                             <ul class="todo-list" id ="todo_list" >
                                 <?php if($todo){?>
-                                    <?php foreach($todo as $res){?>
-                                    <li class="todo-list-item" id='<?php echo $res['id']; ?>'>
+                                    <?php foreach($todo as $res){
+                                        if($res['status'] == 'Completed'){
+                                            $label_color = 'label-success';
+                                        }
+                                        else if($res['status'] == 'Pending'){
+                                            $label_color = 'label-danger';
+                                        }
+                                        else {
+                                            $label_color = 'label-warning';
+                                        }
+                                        ?>
+                                    <li class="todo-list-item" id='<?php echo $res['id']; ?>' style = "border-bottom: #F1F4F7 solid 1px;">
                                         <div class="checkbox">
-                                            <input type="checkbox" id="checkbox">
-                                            <label for="checkbox"><?php echo $res['todo']; ?></label>
+                                            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                                            <label for="checkbox"><?php echo $res['todo']; ?>    </label>
                                         </div>
                                         <div class="pull-right action-buttons">
-                                            <a data-id="<?php echo $res['id']; ?>" data-url='edittodo' title="Edit" class="edittodo"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                            <!-- <a href="#" class="flag"><i class="fa fa-flag-o" aria-hidden="true"></a> -->
-                                            <a data-id="<?php echo $res['id']; ?>" data-url='deletetodo' title="Delete" class="trash deletetodo"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                            <span class="label <?php echo $label_color; ?>" style="padding: 0.1em 0.4em 0.1em;"> <?php echo $res['status']; ?></span>
+                                            <a href="javascript: void(0)" data-id="<?php echo $res['id']; ?>" data-url='edittodo' title="Edit" class="edittodo"><i class="fa fa-pencil" aria-hidden="true"></i></a> &nbsp;
+                                            
+                                            <a href="javascript: void(0)" data-id="<?php echo $res['id']; ?>" data-url='deletetodo' title="Delete" class="trash deletetodo"><i class="fa fa-trash" aria-hidden="true"></i></a>
                                         </div>
                                     </li>
                                 <?php } }?>
@@ -116,7 +127,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class = "alert shedule" style = "display:none;background-color:#CC0921;color:#fff;"></div>
+                        <div class = "alert alert-danger shedule" style = "display:none;"></div>
                     </div>
                 </div>
             </div><!--/.row-->
@@ -130,6 +141,12 @@
                         <div class="modal-body">
 
                             <input id="main_calendar" name="main_calendar" type="date" name="calendar" class="form-control input-md" data-date-format="yyyy-mm-dd" placeholder="Date" readonly>
+                           <br>
+                            <select name = "todostatus" id = "todostatus" class= "form-control">
+                                  <option value = "Pending">Pending</option>
+                                  <option value = "Partially completed">Partially completed</option>
+                                  <option value = "Completed">Completed</option>
+                              </select>   
                            
                          </div>
                         <div class="modal-footer">

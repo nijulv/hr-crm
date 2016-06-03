@@ -169,6 +169,7 @@ class Web extends CI_Controller {
         $result=array('succes' => 0,'msg'=> '','html'=> '');
         $data=$this->input->post('todo');
         $date= $this->input->post('calendar');
+        $todostatus= $this->input->post('todostatus');  
         $currentdate=date('Y-m-d');
         $this->load->library('form_validation');
         $this->form_validation->set_rules('todo','Schedule', 'required');
@@ -188,7 +189,8 @@ class Web extends CI_Controller {
             $update_data = array(
                     'admin_id'              => $admin_id,
                     'todo'                  => $data,
-                    'date'                  => $date
+                    'date'                  => $date,
+                    'status'                => $todostatus
             );
             $save = $this->db->insert('todo', $update_data);
             $id   = $this->db->query('SELECT MAX(id) AS maxid FROM todo')->row()->maxid;
@@ -197,14 +199,14 @@ class Web extends CI_Controller {
                     {
                 $result['success']=1;
                 $result['msg']='<font color="green">Saved!!!!</font>';
-                $result['html'] ='<li class="todo-list-item" id='.$id.'>
+                $result['html'] ='<li class="todo-list-item" id='.$id.' style = "border-bottom: #F1F4F7 solid 1px;">
                                         <div class="checkbox">
-                                            <input type="checkbox" id="checkbox">
+                                            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
                                             <label for="checkbox">'.$data.'</label>
                                         </div>
                                         <div class="pull-right action-buttons">
-                                            <a data-id='.$id.' data-url="edittodo" class="edittodo"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                            <a  id="deletetodo" data-url="deletetodo" class="trash deletetodo" data-id='.$id.'><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                            <a href="javascript: void(0)" data-id='.$id.' data-url="edittodo" class="edittodo"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;
+                                            <a href="javascript: void(0)" id="deletetodo" data-url="deletetodo" class="trash deletetodo" data-id='.$id.'><i class="fa fa-trash" aria-hidden="true"></i></a>
                                         </div>
                                     </li>';
 
@@ -321,18 +323,15 @@ class Web extends CI_Controller {
             $where = array('id' => $todoid);
             $save = $this->db->update('todo', $update_data,$where);
             if($save){
-                if($currentdate==$date)
-                    {
-                $result['success']=1;
-                $result['msg']='<font color="green" class="text-Success">Saved!!!!</font>';
-                $result['title'] = $data;
-
-            
-        }
-        else{
-            $result['msg']='<font color="green" class="text-success">Saved!!!!</font>';
-        }
-        }
+                if($currentdate==$date){
+                    $result['success']=1;
+                    $result['msg']='<font color="green" class="text-Success">Saved!!!!</font>';
+                    $result['title'] = $data;
+                }
+                else{
+                    $result['msg']='<font color="green" class="text-success">Saved!!!!</font>';
+                }
+            }
         }
         else{
              $result['success']= 2;
@@ -1843,6 +1842,23 @@ class Web extends CI_Controller {
             }
             else {
                     $output = array("status" => 0, "msg" => "Username not available! Please choose another username.");
+            }
+            echo json_encode($output);exit;
+        }
+    }
+    
+    function check_user_payment () {
+        if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            $userid = $this->input->post("userid");  
+            $result = $this->web_model->check_user_payment($userid);
+            if ($result) {
+                $output = array("status" => 1, "msg" => "");
+            }
+            else {
+                    $output = array("status" => 0, "msg" => "Sorry,There is no payment added for this prospect!");
             }
             echo json_encode($output);exit;
         }
