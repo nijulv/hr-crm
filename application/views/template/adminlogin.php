@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
-        <title>HR-CRM</title>
+        <title>Rain-CRM</title>
         <!-- Bootstrap Core CSS -->
         <link href="<?php echo assets_url();?>css/bootstrap.min.css" rel="stylesheet">
 
@@ -51,7 +51,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" align="center">
-                <h1 style="color: #0069AA">HR-CRM</h1>
+                <h1 style="color: #0069AA">Rain-CRM</h1>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -72px;">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                 </button>
@@ -91,7 +91,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" align="center">
-                <h1 style="color: #0069AA">HR-CRM</h1>
+                <h1 style="color: #0069AA">Rain-CRM</h1>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -72px;">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                 </button>
@@ -134,7 +134,7 @@
   <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" align="center">
-                <h1 style="color: #666">HR-CRM</h1>
+                <h1 style="color: #666">Rain-CRM</h1>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -72px;">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                 </button>
@@ -168,7 +168,7 @@
   <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" align="center">
-                <h1 style="color: #666">HR-CRM</h1>
+                <h1 style="color: #666">Rain-CRM</h1>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -72px;">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                 </button>
