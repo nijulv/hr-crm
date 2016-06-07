@@ -35,6 +35,10 @@
                         <div class="panel-body">
                             <div class="col-md-6">
                                     <div class="form-group">
+                                        <label>Payment code <small class="text-muted"></small><span class="required">*</span></label>
+                                        <input type="text" name="payment_code" id="payment_code" class="form-control" required maxlength="20" readonly="readonly" value="<?php echo set_value('payment_code',$details['payment_code']); ?>">
+                                    </div>
+                                    <div class="form-group">
                                         <label>Select Client <span class="required">*</span></label>
                                         <select name="user" id="user" class="form-control" required>
                                             <option value = "">Select Client</option>
@@ -57,6 +61,7 @@
                                         <textarea class="form-control" name="comments" id="comments" maxlength="550" style="height: 150px !important;"><?php echo set_value('comments',$details['comments']);?></textarea>
                                     </div>
                                     <div class="form-group">
+                                        <button type="reset" id="btnCancel_payment" class="btn btn-default">Cancel</button>
                                         <input type="submit" class="btn btn-primary" value="Modify Payment">
                                     </div>
                                     <input type = "hidden" name = "id" value = "<?php echo $details['payment_id'];?>">

@@ -48,23 +48,13 @@
                         <div class="row">
                             <?php if(s('ADMIN_TYPE') == 0){ ?>
                                 <div class="col-md-2">
-                                     <select name="search_name_agent" id="search_name_agent" class="form-control">
-                                        <option value="">Select Agent</option>
-                                      <?php if($agentlist){
-                                            foreach($agentlist as $res){?> 
-                                                <option value="<?php echo $res['agent_id']; ?>" <?php echo set_select('search_name_agent', $res['agent_id'], False); ?> ><?php echo $res['first_name'].' '.$res['last_name']; ?></option>
-                                      <?php } }?>
-                                    </select>
+                                     <input type = "text" name = "search_name_agent" class="form-control" placeholder="Agent name" value = "<?php echo set_value('search_name_agent'); ?>">
+                                     
                                 </div>
                             <?php }?>
                             <div class="col-md-2">
-                                 <select name="search_user" id="search_user" class="form-control">
-                                    <option value="">client/prospect</option>
-                                  <?php if($userlist){
-                                        foreach($userlist as $res){?> 
-                                            <option value="<?php echo $res['user_id']; ?>" <?php echo set_select('search_name', $res['user_id'], False); ?> ><?php echo $res['first_name'].' '.$res['last_name']; ?></option>
-                                  <?php } }?>
-                                </select>
+                                <input type = "text" name = "search_user" class="form-control" placeholder="Client/Prospect name" value = "<?php echo set_value('search_user'); ?>">
+                                 
                             </div>
                             <div class="col-md-2">
                                 <select name="state_search" id="state" class="form-control">
@@ -157,7 +147,7 @@
                                 </div>
                         </div>
                         <?php } else {
-                            echo '<div class="nodata">Sorry! There is no details available now.</div>';
+                            echo '<div class="nodata">No records found.</div>';
                         } ?>
                     </div>
                     </div>

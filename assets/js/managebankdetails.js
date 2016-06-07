@@ -2,7 +2,7 @@ var Payments = function(){
     $(document).ready(function() {
         $('#bankpayments').validate({
             rules: {
-             user: {
+             bank_payment_code: {
               required: true,
              },
              total_payment: {

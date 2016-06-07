@@ -35,15 +35,8 @@
                         <div class="panel-body">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <?php $userlist =  (explode(",",$details['user_id']));?>
-                                    <label>Select Client<span class="required">*</span></label>
-                                    <select name="user[]" id="user" class="form-control" required multiple="true" style = "height: 80px !important;">
-                                        
-                                        <?php if($users){
-                                            foreach ($users as $user) { ?>
-                                        <option <?php if (in_array($user['user_id'], $userlist)){?>selected <?php }?>  value = "<?php echo $user['user_id']?>"><?php echo $user['first_name'].' '.$user['last_name']?></option>
-                                            <?php }}?>
-                                    </select>
+                                    <label>Bank Payment code <small class="text-muted"></small><span class="required">*</span></label>
+                                    <input type="text" name="bank_payment_code" id="bank_payment_code" class="form-control" required maxlength="20" readonly="readonly" value="<?php echo set_value('bank_payment_code',$details['bank_payment_code']) ?>">
                                 </div>
                                 <div class="form-group">
                                     <label>Amount to bank <span class="required">*</span></label>

@@ -2,24 +2,24 @@
         <div class="row">
             <ol class="breadcrumb">
                 <li><a href="<?php echo base_url()?>dashboard"><i class="fa fa-home" aria-hidden="true" style="font-size: 20px;"></i></a></li>
-                <li class="active">Invoice Copy</li>
+                <li class="active">Bill</li>
             </ol>
-        </div><!--/.row-->
+        </div>
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Invoice Copy</h1>
+                <h1 class="page-header">Bill Copy</h1>
             </div>
-        </div><!--/.row-->
+        </div>
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Invoice copy of <?php echo $name; ?>
+                        Bill copy of <b><?php echo $name; ?></b>
                         <div class="pull-right">
                             <form>
                                 <div class="form-group">
-                                    <button name="print" class="btn btn-default" onclick="printDiv('printableArea')"><i class="fa fa-print"></i> Print Invoice</button>
-
+                                    <button type="reset" id="btnCancel_payment" class="btn btn-default">Back</button>
+                                    <button name="print" class="btn btn-info" onclick="printDiv('printableArea')"><i class="fa fa-print"></i> Print</button>
                                 </div>
                             </form>
                         </div>
@@ -29,11 +29,11 @@
                             <div class="panel panel-default" style="border: #ccc dashed 2px;">
                                 <div class="panel-heading" style="height: 180px;">
                                     <div class="col-md-6">
-                                        <h4>HR-CRM</h4>
+                                        <h4>Rain-CRM</h4>
                                         <h5>Email: <?php echo $admin_email;?><br>Phone: <?php echo $admin_phone;?></h5>
                                     </div>
                                     <div class="col-md-6" style="text-align: right;">
-                                        <h2 style="color: #8C1515;">INVOICE</h2>
+                                        <h2 style="color: #8C1515;">Bill</h2>
                                         <h4>Date: <?php echo date('d-M-Y');?></h4>
                                     </div>
                                 </div>
@@ -44,31 +44,32 @@
                                         Email: <?php echo $email; ?> <br>
                                         Ph: <?php echo $phone; ?> 
                                     </h5>
-
-                                    <h4>Payment Details</h4><hr>
                                     <table class="table">
                                         <thead>
                                             <tr>
+                                                <th colspan="3" style="text-align: center"><h4>Payment Details</h4></th>
+                                            </tr>
+                                            <tr>
+                                                <th>Payment Code</th>
                                                 <th>Title</th>
-                                                <th>Contact Number</th>
                                                 <th>Amount</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
+                                                <td><?php echo $payment_code; ?> </td> 
                                                 <td><?php echo $title; ?> </td> 
-                                                <td><?php echo $phone; ?></td>
                                                 <td><?php echo $amount; ?></td>
                                             </tr>
                                         </tbody>
                                     </table>
-
-                                    <div class="clearfix"></div>
-                                    <center><h3 class="bg-primary" style="padding: 10px;">Have a nice day!</h3></center>
-
-                                    <div class="">
+                                    <div class="clearfix"></div> <br/><br/><br/>
+                                    <div class="pull-left">
                                         <p>Place: ---------------</p>
                                         <p>Date: ----------------</p>
+                                    </div>
+                                    <div class="pull-right">
+                                        <p>Seal</p>
                                     </div>
                                 </div>
                             </div>

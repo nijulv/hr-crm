@@ -169,7 +169,7 @@ class Web extends CI_Controller {
         $result=array('succes' => 0,'msg'=> '','html'=> '');
         $data=$this->input->post('todo');
         $date= $this->input->post('calendar');
-        $todostatus= $this->input->post('todostatus');  
+        $todostatus= 'Pending';   // Default pending state
         $currentdate=date('Y-m-d');
         $this->load->library('form_validation');
         $this->form_validation->set_rules('todo','Schedule', 'required');
@@ -318,7 +318,7 @@ class Web extends CI_Controller {
                                     <b>Status : </b>
                                 </div>
                                 <div class="col-lg-8 col-sm-8 col-md-8">
-                                    <select name = "todostatus" id = "todostatus" class= "form-control">
+                                    <select name = "todostatus_edit" id = "todostatus_edit" class= "form-control">
                                         <option value = "Pending" <?php if($edit_todo['status'] == 'Pending'){?> selected="selected"<?php }?>>Pending</option>
                                        <option value = "Partially completed" <?php if($edit_todo['status'] == 'Partially completed'){?> selected="selected"<?php }?>>Partially completed</option>
                                        <option value = "Completed" <?php if($edit_todo['status'] == 'Completed'){?> selected="selected"<?php }?>>Completed</option>
@@ -336,7 +336,7 @@ class Web extends CI_Controller {
         $todoid=$this->input->post('todoid');
         $data=$this->input->post('todo');
         $date= $this->input->post('calendar');
-        $status = $this->input->post('todostatus');   
+        $status = $this->input->post('todostatus');     
         $currentdate=date('Y-m-d');
         $this->load->library('form_validation');
         $this->form_validation->set_rules('todo','Schedule', 'required');
@@ -357,7 +357,7 @@ class Web extends CI_Controller {
             if($save){
                 if($currentdate==$date){
                     
-                    $result = $this->web_model->todolist_serchlist($currentdate);
+                    $result = $this->web_model->get_todo();
                     $datas  = '';
                     if ($result){
                         foreach($result as $res){
@@ -371,32 +371,28 @@ class Web extends CI_Controller {
                                $label_color = 'label-warning';
                            } 
                            
-                    $datas ='<li class="todo-list-item" id='.$res['id'].' style = "border-bottom: #F1F4F7 solid 1px;">
-                                        <div class="checkbox">
-                                            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                                            <label for="checkbox">'.$data.'</label>
-                                        </div>
-                                        <div class="pull-right action-buttons">
-                                            <span class="label '.$label_color.'" style="padding: 0.1em 0.4em 0.1em;">'.$todostatus.'</span>
-                                            <a href="javascript: void(0)" data-id='.$id.' data-url="edittodo" class="edittodo"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;
-                                            <a href="javascript: void(0)" id="deletetodo" data-url="deletetodo" class="trash deletetodo" data-id='.$id.'><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                        </div>
-                                    </li>';
-                    
+                            $datas .='<li class="todo-list-item" id='.$res['id'].' style = "border-bottom: #F1F4F7 solid 1px;">
+                                    <div class="checkbox">
+                                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                                        <label for="checkbox">'.$res['todo'].'</label>
+                                    </div>
+                                    <div class="pull-right action-buttons">
+                                        <span class="label '.$label_color.'" style="padding: 0.1em 0.4em 0.1em;">'.$res['status'].'</span>
+                                        <a href="javascript: void(0)" data-id='.$res['id'].' data-url="edittodo" class="edittodo"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;
+                                        <a href="javascript: void(0)" id="deletetodo" data-url="deletetodo" class="trash deletetodo" data-id='.$res['id'].'><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                    </div>
+                                </li>';
                       } 
-                   }
-                   else {
-                       echo '<li class="todo-list-item"<div class="checkbox" style = "color:red;text-align:center;"><label for="checkbox"> No notes found.</label></div></li>';
                    }
             
                      
                     $result['success']=1;
-                    $result['msg']='<font color="green" class="text-Success">Saved!!!!</font>';
+                    $result['msg']='<font color="green" class="text-Success">Note modified successfully</font>';
                     $result['title'] = $data;
-                    $result['status'] = $status;
+                    $result['datas'] = $datas;
                 }
                 else{
-                    $result['msg']='<font color="green" class="text-success">Saved!!!!</font>';
+                    $result['msg']='<font color="green" class="text-success">Note modified successfully</font>';
                 }
             }
         }
@@ -957,6 +953,9 @@ class Web extends CI_Controller {
                         'address'               => $this->input->post("useraddress", true),
                         'pincode'               => $this->input->post("pincode", true),
                         'status'                => $this->input->post("userstatus", true),
+                        'star_rate'             => $this->input->post("star_rate", true),
+                        'comments'              => $this->input->post("comments", true),
+                        'category_id'           => $this->input->post("business_category", true),
                         'date'                  => date('Y-m-d')
 
                     );
@@ -1034,6 +1033,7 @@ class Web extends CI_Controller {
                     $this->gen_contents['district_selected'] = $this->input->post("district", true);
                 }
             }
+            $this->gen_contents['category']  = $this->web_model->get_category();
             $this->gen_contents['state_details']  = $this->web_model->get_state_details();
             $this->gen_contents['link_user']  = 'active';
             $this->template->write_view('content', 'adduser', $this->gen_contents);
@@ -1087,7 +1087,10 @@ class Web extends CI_Controller {
                     'city'                  => $this->input->post("city", true),
                     'address'               => $this->input->post("useraddress", true),
                     'pincode'               => $this->input->post("pincode", true),
-                    'status'                => $this->input->post("userstatus", true)
+                    'status'                => $this->input->post("userstatus", true),
+                    'star_rate'             => $this->input->post("star_rate", true),
+                    'comments'              => $this->input->post("comments", true),
+                    'category_id'           => $this->input->post("business_category", true)
                 );
                 if(!empty($_FILES['attachment']['name'])){
                     $this->load->library('upload');
@@ -1167,6 +1170,7 @@ class Web extends CI_Controller {
         $this->gen_contents['state_details']  = $this->web_model->get_state_details();
         $state_id=($get_user_details[0]['state_id']);
         $this->gen_contents['district_details']= $this->web_model->get_district_details($state_id);
+        $this->gen_contents['category']  = $this->web_model->get_category();
         $this->gen_contents['link_user']  = 'active';
         $this->template->write_view('content', 'edituser', $this->gen_contents);
         $this->template->render();
@@ -1260,6 +1264,7 @@ class Web extends CI_Controller {
         }
         else {
             $this->form_validation->set_rules('user', 'User', 'required');
+            $this->form_validation->set_rules('payment_code', 'Payment code', 'required');
             $this->form_validation->set_rules('title', 'Title', 'required');
             $this->form_validation->set_rules('amount', 'Amount', 'required|numeric');
             $page = 1;
@@ -1278,6 +1283,7 @@ class Web extends CI_Controller {
                     "amount"  => $this->input->post("amount",true),
                     "comments"  => $this->input->post("comments",true),
                     "agent_id"  => $agent_id,
+                    "payment_code"  => $this->input->post("payment_code",true),
                     'date'     => date('Y-m-d')
                 );
 
@@ -1314,6 +1320,7 @@ class Web extends CI_Controller {
                     }
                     $this->gen_contents['amount'] = $this->input->post("amount",true);
                     $this->gen_contents['title'] = $this->input->post("title",true);
+                    $this->gen_contents['payment_code'] = $this->input->post("payment_code",true);
 
                     $page = 2;
                     $this->template->write_view('content', 'invoice', $this->gen_contents);
@@ -1327,6 +1334,17 @@ class Web extends CI_Controller {
             }
 
             $this->gen_contents['users'] = $this->web_model->get_users();
+            $payment_code = $this->web_model->get_payment_code_previous(); //print_r($payment_code); exit;
+            if($payment_code){
+                $num = $payment_code['payment_code'];
+                for ($n=0; $n<1; $n++) {
+                    $this->gen_contents['payment_code_value'] =  ++$num . PHP_EOL;
+                }
+            }
+            else {
+                $this->gen_contents['payment_code_value'] = 'P001';
+            }
+                    
             $this->gen_contents['link_payment']  = 'active';
             if($page == 1){
                 $this->template->write_view('content', 'payment_add', $this->gen_contents);
@@ -1341,6 +1359,7 @@ class Web extends CI_Controller {
             redirect("web");
         }
         else {
+            $this->form_validation->set_rules('bank_payment_code', 'Bank payment code', 'required');
             $this->form_validation->set_rules('bank_payment', 'bank payment', 'required|numeric');
             
             if($this->form_validation->run() == TRUE){
@@ -1351,14 +1370,14 @@ class Web extends CI_Controller {
                 else {
                     $agent_id = 0;
                 }
-                $user_id = implode(",",$this->input->post("user",true)); 
+                
                 $userdata = array(
-                    "bank_payment"  => $this->input->post("bank_payment",true),
-                    "amount_hand"  => $this->input->post("amount_hand",true),
-                    "reason"        => $this->input->post("reason",true),
-                    "agent_id"      => $agent_id,
-                    "user_id"       => $user_id,
-                    "date"          => date('Y-m-d')
+                    "bank_payment"          => $this->input->post("bank_payment",true),
+                    "amount_hand"           => $this->input->post("amount_hand",true),
+                    "reason"                => $this->input->post("reason",true),
+                    "bank_payment_code"     => $this->input->post("bank_payment_code",true),
+                    "agent_id"              => $agent_id,
+                    "date"                  => date('Y-m-d')
                 );
 
                 $tbl_name = 'crm_bank_payment';
@@ -1373,7 +1392,18 @@ class Web extends CI_Controller {
                     redirect("manage_cash");
                 }
             }
-            $this->gen_contents['users'] = $this->web_model->get_users();
+   
+            $bank_payment_code = $this->web_model->get_bank_payment_code_previous(); 
+            if($bank_payment_code){
+                $num = $bank_payment_code['bank_payment_code'];
+                for ($n=0; $n<1; $n++) {
+                    $this->gen_contents['bank_payment_code_value'] =  ++$num . PHP_EOL;
+                }
+            }
+            else {
+                $this->gen_contents['bank_payment_code_value'] = 'A001';
+            }
+                    
             $this->gen_contents['link_bank']  = 'active';
             $this->template->write_view('content', 'bankpayment_add', $this->gen_contents);
             $this->template->render();
@@ -1583,16 +1613,18 @@ class Web extends CI_Controller {
             if($id != 0 && is_numeric($id)){
 
                 $this->form_validation->set_rules('user', 'User', 'required');
+                $this->form_validation->set_rules('payment_code', 'Payment code', 'required');
                 $this->form_validation->set_rules('title', 'Title', 'required');
                 $this->form_validation->set_rules('amount', 'Amount', 'required|numeric');
 
                 if($this->form_validation->run() == TRUE){ 
 
                     $userdata = array(
-                        "user_id"   => $this->input->post("user",true),
-                        "title"  => $this->input->post("title",true),
-                        "amount"  => $this->input->post("amount",true),
-                        "comments"  => $this->input->post("comments",true)
+                        "user_id"       => $this->input->post("user",true),
+                        "title"         => $this->input->post("title",true),
+                        "amount"        => $this->input->post("amount",true),
+                        "payment_code"  => $this->input->post("payment_code",true),
+                        "comments"      => $this->input->post("comments",true)
                     );
 
                     $payment_id  = $this->input->post("id",true);  
@@ -1630,12 +1662,12 @@ class Web extends CI_Controller {
                 $this->form_validation->set_rules('bank_payment', 'bank payment', 'required|numeric');
 
                 if($this->form_validation->run() == TRUE){ 
-                    $user_id = implode(",",$this->input->post("user",true)); 
+                     
                     $userdata = array(
-                        "amount_hand"   => $this->input->post("amount_hand",true),
-                        "bank_payment"  => $this->input->post("bank_payment",true),
-                        "reason"  => $this->input->post("reason",true),
-                        "user_id"  => $user_id
+                        "amount_hand"       => $this->input->post("amount_hand",true),
+                        "bank_payment"      => $this->input->post("bank_payment",true),
+                        "reason"            => $this->input->post("reason",true),
+                        "bank_payment_code" => $this->input->post("bank_payment_code",true)
                     );
 
                     $bank_payment_id  = $this->input->post("id",true);  
@@ -1650,7 +1682,6 @@ class Web extends CI_Controller {
                         redirect("manage_cash");
                     }
                 }
-                $this->gen_contents['users'] = $this->web_model->get_users();
                 $this->gen_contents['link_bank']  = 'active';
                 $this->gen_contents['details'] = $this->web_model->get_bankpayment_details($id);
                 $this->template->write_view('content', 'modify_bankpayments', $this->gen_contents);

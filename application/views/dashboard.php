@@ -139,14 +139,7 @@
                              <h4 class="modal-title">Select date and time</h4>
                         </div>
                         <div class="modal-body">
-
                             <input id="main_calendar" name="main_calendar" type="date" name="calendar" class="form-control input-md" data-date-format="yyyy-mm-dd" placeholder="Date" readonly>
-                           <br>
-                            <select name = "todostatus" id = "todostatus" class= "form-control">
-                                  <option value = "Pending">Pending</option>
-                                  <option value = "Partially completed">Partially completed</option>
-                                  <option value = "Completed">Completed</option>
-                              </select>   
                            
                          </div>
                         <div class="modal-footer">

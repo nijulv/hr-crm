@@ -2,12 +2,12 @@
         <div class="row">
             <ol class="breadcrumb">
                 <li><a href="<?php echo base_url()?>dashboard"><i class="fa fa-home" aria-hidden="true" style="font-size: 20px;"></i></a></li>
-                <li class="active">Users/Clients Report</li>
+                <li class="active">Client/Prospect</li>
             </ol>
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Users/Clients Report</h1>
+                <h1 class="page-header">Client/Prospect Report</h1>
             </div>
         </div>
         <div class="row">
@@ -17,7 +17,7 @@
                         
                         <div class="col-md-12">
                             <div class="col-md-3">
-                                <input type = "text" name = "search_user" class = "form-control" placeholder="Name,Email" value = "<?php echo set_value('search_user'); ?>">
+                                <input type = "text" name = "search_user" class = "form-control" placeholder="Name or Email" value = "<?php echo set_value('search_user'); ?>">
                             </div>
                             <div class="col-md-3">
                                 <select name = "status_search" class = "form-control">
@@ -59,6 +59,12 @@
                         <button type="button" class="btn btn-default reportclear" style = "" >Clear</button><br>
                          <?php echo form_close(); ?>
                         <br>
+                        <div class="form-group pull-right">
+                            <button name="print" class="btn btn-default" onclick="#"><i class="fa fa-print"></i> Print</button>
+                            <button name="print" class="btn btn-info" onclick="#"><i class="fa fa-share-square"></i> Share</button>
+                            <button name="print" class="btn btn-success" onclick="#"><i class="fa fa-file-excel-o"></i> Export excel</button>
+
+                        </div>
                         <?php if (!empty($details)) { ?>
                         <div class="row">  
                             <div class = "col-md-12">
@@ -111,7 +117,7 @@
                             </div>
                         </div>
                         <?php } else {
-                            echo '<div class="nodata">Sorry! There is no details available now.</div>';
+                            echo '<div class="nodata">No records found.</div>';
                         } ?>
                     </div>
                 </div>

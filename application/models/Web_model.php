@@ -136,10 +136,14 @@ class Web_model extends CI_Model {
             $this->db->join('districts d', 'd.id = u.district_id', 'left');
         }
         if($search_user != ''){
-            $this->db->where('u.user_id',$search_user);
+           // $this->db->where('u.user_id',$search_user);
+            $this->db->like('u.first_name',$search_user);
+            $this->db->or_like('u.last_name',$search_user);
         }
         if($search_name_agent != ''){
-            $this->db->where('u.agent_id',$search_name_agent);
+            //$this->db->where('u.agent_id',$search_name_agent);
+            $this->db->like('a.first_name',$search_name_agent);
+            $this->db->like('a.last_name',$search_name_agent);
         }
         if($state_search != ''){   
             $this->db->where('u.state_id',$state_search);
@@ -162,7 +166,7 @@ class Web_model extends CI_Model {
         if($mobile == 0) {
             $this->db->limit($limit, $start);
         }
-        $query = $this->db->get();            
+        $query = $this->db->get();            //echo $this->db->last_query();
         if($query->num_rows() > 0){
             return $query->result_array();
         } 
@@ -194,10 +198,14 @@ class Web_model extends CI_Model {
            }
         }
         if($search_name != ''){
-            $this->db->where('p.user_id',$search_name);
+            //$this->db->where('p.user_id',$search_name);
+            $this->db->like('u.first_name',$search_name);
+            $this->db->or_like('u.last_name',$search_name);
         }
         if($search_name_agent != ''){
-            $this->db->where('p.agent_id',$search_name_agent);
+           // $this->db->where('p.agent_id',$search_name_agent);
+            $this->db->like('a.first_name',$search_name_agent);
+            $this->db->or_like('a.last_name',$search_name_agent);
         }
         if($fromdate_search != '') {
             $this->db->where('p.date >=', $fromdate_search);
@@ -210,7 +218,7 @@ class Web_model extends CI_Model {
         if($this->input->post("search_result") != "1") {
             
             $firstday = date('Y-m-01');
-            $lastday  = date('Y-m-t');
+            $lastday  = date('Y-m-d');
             $this->db->where('p.date >=', $firstday);
             $this->db->where('p.date <=', $lastday);  
         }
@@ -299,7 +307,9 @@ class Web_model extends CI_Model {
             $this->db->like('p.user_id',$search_name);
         }
         if($search_name_agent != ''){
-            $this->db->where('p.agent_id',$search_name_agent);
+            //$this->db->where('p.agent_id',$search_name_agent);
+            $this->db->like('a.first_name',$search_name_agent);
+            $this->db->or_like('a.last_name',$search_name_agent);
         }
         if($fromdate_search != '') {
             $this->db->where('p.date >=', $fromdate_search);
@@ -312,7 +322,7 @@ class Web_model extends CI_Model {
         if($this->input->post("search_result") != "1") {
             
             $firstday = date('Y-m-01');
-            $lastday  = date('Y-m-t');
+            $lastday  = date('Y-m-d');
             $this->db->where('p.date >=', $firstday);
             $this->db->where('p.date <=', $lastday);  
         }
@@ -387,6 +397,17 @@ class Web_model extends CI_Model {
             return $query->result_array();
         }
     }
+    
+    public function get_category(){
+        $this->db->where('status','1');
+        $this->db->from('crm_category');
+        $query = $this->db->get(); 
+         if($query->num_rows () >0)
+            return $query->result_array();
+        else
+            return false;
+    }
+    
     public function get_state_details(){
           $this->db->from('states');
           $query = $this->db->get(); 
@@ -962,6 +983,24 @@ class Web_model extends CI_Model {
     public function get_agentcode_previous () {
         $this->db->order_by("agent_id","desc");
         $query = $this->db->get("crm_agents");    
+        if($query->num_rows () >0)
+            return $query->row_array();
+        else
+            return false;
+    }
+    
+    public function get_payment_code_previous () {
+        $this->db->order_by("payment_id","desc");
+        $query = $this->db->get("payments");    
+        if($query->num_rows () >0)
+            return $query->row_array();
+        else
+            return false;
+    }
+    
+    public function get_bank_payment_code_previous () {
+        $this->db->order_by("bank_payment_id","desc");
+        $query = $this->db->get("crm_bank_payment");    
         if($query->num_rows () >0)
             return $query->row_array();
         else

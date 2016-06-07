@@ -70,12 +70,33 @@
                                         <label for="txtCity">City<span class="required">*</span></label>
                                         <input type="text" class="form-control" name="city" id="city" value="<?php echo $user_details['city']?>" maxlength="25" onkeypress="return blockSpecialChar(event)">
                                     </div>
+                                    <div class="form-group">
+                                        <label for="txtUseraddress">Address</label>
+                                        <textarea class="form-control" name="useraddress" id="useraddress" style="height:150px ! important;" maxlength="500"><?php echo $user_details['address']?></textarea>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">  
-                                        <div class="form-group">
-                                            <label for="txtUseraddress">Address</label>
-                                            <textarea class="form-control" name="useraddress" id="useraddress" style="height:150px ! important;" maxlength="500"><?php echo $user_details['address']?></textarea>
-                                          </div>
+                                    <div class="form-group">
+                                        <label  for="star_rate">Quality Rating <span class="required">*</span></label>
+                                        <select name="star_rate" id="star_rate" class="form-control">
+                                             <option value="" <?php if($user_details['star_rate']== '') {echo 'selected=""';} ?>>Select</option>
+                                            <option value="1" <?php if($user_details['star_rate']== '1') {echo 'selected=""';} ?>>1 Star</option>
+                                            <option value="2" <?php if($user_details['star_rate']== '2') {echo 'selected=""';} ?>>2 Star</option>
+                                            <option value="3" <?php if($user_details['star_rate']== '3') {echo 'selected=""';} ?>>3 Star</option>
+                                            <option value="4" <?php if($user_details['star_rate']== '4') {echo 'selected=""';} ?>>4 Star</option>
+                                            <option value="5" <?php if($user_details['star_rate']== '5') {echo 'selected=""';} ?>>5 Star</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txtUserstate">Business Category </label>
+                                        <select name="business_category" id="business_category" class="form-control">
+                                            <option value="">Select</option>
+                                          <?php if($category) {
+                                              foreach($category as $res){?> 
+                                            <option value="<?php echo $res['category_id']; ?>" <?php if($res['category_id'] == $user_details['category_id']) {echo 'selected=""';} ?> ><?php echo $res['category_name']; ?></option>
+                                          <?php } } ?>
+                                        </select>
+                                    </div>
                                         <div class="form-group">
                                             <label  for="txtPincode">Pincode</label>
                                             <input type="text" class="form-control" name="pincode" id="pincode" value="<?php echo $user_details['pincode']?>" maxlength="6" onkeypress="return numberValidate(event);">
@@ -104,6 +125,10 @@
                                                 <option value="0" <?php if($user_details['status'] == '0') {echo 'selected=""';} ?>>Prospect</option>
                                                 <option value="1" <?php if($user_details['status']== '1') {echo 'selected=""';} ?>>Client</option>
                                             </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Comments">Comments</label>
+                                            <textarea class="form-control" name="comments" id="comments" style="height:150px ! important;" maxlength="500" ><?php echo $user_details['comments']?></textarea>
                                         </div>
                                 </div>
                                 <div class="col-md-12" style = "text-align:center;"> 

@@ -31,8 +31,10 @@ var Manageuser = function(){
               minlength: 6,
               maxlength:6,
               number:true
-             },
-                       
+             },  
+            star_rate: {
+               required: true
+            },        
             },
            
             highlight: function(element) {
@@ -52,6 +54,11 @@ var Manageuser = function(){
            })
            })
                        
+            $('#btnCancel_payment').on('click', function(){   
+               window.location=base_url+'manage_payment';
+               return false;
+            }); 
+            
             $('#btnCancel').on('click', function(){   
                window.location=base_url+'manageuser';
                return false;
@@ -169,7 +176,8 @@ var Manageuser = function(){
                  
  
              });
-            $('#updatetodo').on('click', function(){ 
+            
+            $('#updatetodo').on('click', function(){    
                 $('.panel-footer font').remove(); 
                 var u_id=$('#todoid').val();  
                $.ajax({
@@ -178,13 +186,14 @@ var Manageuser = function(){
                         dataType: "json",
                         data    : {'todoid':$('#todoid').val(),
                                    'todo':$('#todotext').val(),
-                                   'todostatus':$('#todostatus').val(),
+                                   'todostatus':$('#todostatus_edit').val(),
                                    'calendar':$('#popup_calender').val()},
                         success : function(data){
                                   if(data.success==1){
                                      $('.panel-footer font').remove();
-                                     $('#'+u_id +' .checkbox label').text(data.title);
-                                     $('#'+u_id +' .status').text(data.status);
+                                     //$('#'+u_id +' .checkbox label').text(data.title);
+                                     //search$('#'+u_id +' .status').text(data.status);
+                                    $('#todo_list').html(data.datas); 
                                      $('.panel-footer').append(data.msg);
                                      $('.panel-footer font').delay(2000).fadeOut();
                                     }
@@ -333,9 +342,10 @@ var Manageuser = function(){
                 $("#search_district").val(val);
                 $(".suggesstion-box").hide();
             });
+            
             $("#main_calendar").datepicker({
                  startDate: new Date(),
                  autoclose: true,
-                });
+            });
             
 }();    

@@ -45,23 +45,13 @@
                         <div class="row">
                             <?php if(s('ADMIN_TYPE') == 0){ ?>
                                 <div class="col-md-2">
-                                     <select name="search_name_agent" id="search_name_agent" class="form-control">
-                                        <option value="">Select Agent</option>
-                                      <?php if($agentlist){
-                                            foreach($agentlist as $res){?> 
-                                                <option value="<?php echo $res['agent_id']; ?>" <?php echo set_select('search_name_agent', $res['agent_id'], False); ?> ><?php echo $res['first_name'].' '.$res['last_name']; ?></option>
-                                      <?php } }?>
-                                    </select>
+                                    <input type = "text" name = "search_name_agent" class="form-control" placeholder="Agent name" value = "<?php echo set_value('search_name_agent'); ?>">
+                                     
                                 </div>
                             <?php }?>
                             <div class="col-md-2">
-                                 <select name="search_name" id="search_name" class="form-control">
-                                    <option value="">client/prospect</option>
-                                  <?php if($userlist){
-                                        foreach($userlist as $res){?> 
-                                            <option value="<?php echo $res['user_id']; ?>" <?php echo set_select('search_name', $res['user_id'], False); ?> ><?php echo $res['first_name'].' '.$res['last_name']; ?></option>
-                                  <?php } }?>
-                                </select>
+                                <input type = "text" name = "search_user" class="form-control" placeholder="Client/Prospect name" value = "<?php echo set_value('search_user'); ?>">
+                                 
                             </div>
                             <div class="col-md-2"> 
                                  <input type = "text" name = "search_user" onkeypress="return numberValidate(event);" class = "form-control"  placeholder="Amount" value = "<?php echo set_value('search_user'); ?>">
@@ -70,7 +60,7 @@
                                 <input type = "text" class = "form-control" value = "<?php echo set_value('fromdate_search', date('Y-m-01'));?>" id = "fromdate_search" readonly="readonly"  style="background:white;" name = "fromdate_search" class = "form-control" placeholder = "From date">
                             </div>
                             <div class="col-md-2"> 
-                                 <input type = "text" class = "form-control" value = "<?php echo set_value('todate_search',date('Y-m-t'));?>" id = "todate_search" readonly="readonly" style="background:white;"  name = "todate_search" class = "form-control" placeholder = "To date">
+                                 <input type = "text" class = "form-control" value = "<?php echo set_value('todate_search',date('Y-m-d'));?>" id = "todate_search" readonly="readonly" style="background:white;"  name = "todate_search" class = "form-control" placeholder = "To date">
                             </div>
                             <div class="col-md-2">
                                 <button type="submit" class="btn btn-info">Search</button>
@@ -90,9 +80,9 @@
                                         <?php if(s('ADMIN_TYPE') == 0){ ?>
                                             <th>Agent Name</th>
                                         <?php }?>
-                                        <th> Client Name</th> 
-                                        <th>Amount to bank</th>
-                                        <th>Amount in hand</th>
+                                        <th style = "text-align:center;"> Payments Date</th> 
+                                        <th style = "text-align:right;">Amount to bank</th>
+                                        <th style = "text-align:right;">Amount in hand</th>
                                         <th>Comments</th>
                                         <th style = "text-align:center;">Actions</th>
                                     </tr>
@@ -104,32 +94,15 @@
                                     $amount_hand = 0;
                                     foreach ($details as $data) {   
                                         $bank_payment = $bank_payment + $data['bank_payment'];
-                                        $amount_hand = $amount_hand + $data['amount_hand'];
-                                        $username = array();
-                                        $usernames = '';
-                                        $names = '';
-                                    
-                                        $userids = $data['user_id']; 
-                                        $user_id =  (explode(",",$userids)); //print_r($user_id);
-                                        if($user_id){
-                                            foreach ($user_id as $id){
-                                                $username[] = get_username($id); 
-                                            }
-                                        }
-                                        if($username){   
-                                            foreach ($username as $name){
-                                                $names .= $name['first_name'].' '.$name['last_name'] .',';
-                                            }
-                                        }  
-                                        $usernames = rtrim($names, ","); ?>
+                                        $amount_hand = $amount_hand + $data['amount_hand']; ?>
                                         <tr>
                                             <td style = "text-align:center;"><?php echo $i++; ?></td>
                                             <?php if(s('ADMIN_TYPE') == 0){ ?>
                                                 <td><?php echo $data['afirstname'].' '.$data['alastname'];?></td> 
                                             <?php }?>
-                                            <td><?php echo $usernames;?></td> 
-                                            <td><?php echo $data['bank_payment'];?></td> 
-                                            <td><?php echo $data['amount_hand'];?></td>
+                                            <td style = "text-align:center;"><?php echo date('d-M-Y', strtotime($data['date']));?></td>  
+                                            <td style = "text-align:right;"><?php echo $data['bank_payment'];?></td> 
+                                            <td style = "text-align:right;"><?php echo $data['amount_hand'];?></td>
                                             <td><?php echo $data['reason'];?> <?php if($data['admin_comments'] != ''){ echo '  <br/><b>Admin comment - </b>'.$data['admin_comments']; }?></td>
                                             <td style = "text-align:center;">
                                                 <?php if(s('ADMIN_TYPE') == 1){ 
@@ -162,15 +135,15 @@
                                 <?php if(s('ADMIN_TYPE') == 0){ $colspan = 3;?><?php } else { $colspan = 2; }?>
                                 <tr>
                                     <td colspan=<?php echo $colspan;?> style = "text-align:right;"><b>Total</b></td>
-                                    <td ><b><?php echo $bank_payment;?></b></td>
-                                    <td ><b><?php echo $amount_hand;?></b></td>
+                                    <td style = "text-align:right;"><b><?php echo number_format($bank_payment);?></b></td>
+                                    <td style = "text-align:right;"><b><?php echo number_format($amount_hand);?></b></td>
                                     <td colspan="2"><b>&nbsp;</b></td>
                                 </tr>
                             </table>
                             <?php echo $links; ?>
                         </div>
                         <?php } else {
-                            echo '<div class="nodata">Sorry! There is no details available now.</div>';
+                            echo '<div class="nodata">No records found.</div>';
                         } ?> 
                     </div> 
                 </div>

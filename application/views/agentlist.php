@@ -137,7 +137,7 @@
                                 </div>
                         </div>
                         <?php } else {
-                            echo '<div class="nodata">Sorry! There is no details available now.</div>';
+                            echo '<div class="nodata">No records found.</div>';
                         } ?>
                     </div>
                     </div>
