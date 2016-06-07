@@ -196,33 +196,41 @@ class Web extends CI_Controller {
             $id   = $this->db->query('SELECT MAX(id) AS maxid FROM todo')->row()->maxid;
             if($save){
                 if($currentdate==$date)
-                    {
-                $result['success']=1;
-                $result['msg']='<font color="green">Saved!!!!</font>';
-                $result['html'] ='<li class="todo-list-item" id='.$id.' style = "border-bottom: #F1F4F7 solid 1px;">
+                {
+                    if($todostatus == 'Completed'){
+                        $label_color = 'label-success';
+                    }
+                    else if($todostatus == 'Pending'){
+                        $label_color = 'label-danger';
+                    }
+                    else {
+                        $label_color = 'label-warning';
+                    }               
+                    $result['success']=1;
+                    $result['msg']='<font color="green">Saved!!!!</font>';
+                    $result['html'] ='<li class="todo-list-item" id='.$id.' style = "border-bottom: #F1F4F7 solid 1px;">
                                         <div class="checkbox">
                                             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
                                             <label for="checkbox">'.$data.'</label>
                                         </div>
                                         <div class="pull-right action-buttons">
+                                            <span class="label '.$label_color.'" style="padding: 0.1em 0.4em 0.1em;">'.$todostatus.'</span>
                                             <a href="javascript: void(0)" data-id='.$id.' data-url="edittodo" class="edittodo"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;
                                             <a href="javascript: void(0)" id="deletetodo" data-url="deletetodo" class="trash deletetodo" data-id='.$id.'><i class="fa fa-trash" aria-hidden="true"></i></a>
                                         </div>
                                     </li>';
-
-            
-        }
-        else{
-            $result['msg']='<font color="green" class="text-success">Saved!!!!</font>';
-        }
-        }
-        }
-        else{
-             $result['msg']='<font color="red" class="text-danger">'.validation_errors().'</font>';
+                }
+                else
+                    {
+                    $result['msg']='<font color="green" class="text-success">Saved!!!!</font>';
+                }
             }
-            
+        }
+        else
+        {
+             $result['msg']='<font color="red" class="text-danger">'.validation_errors().'</font>';
+        }   
         $this->load->view('show_message',array('message'=>  json_encode($result)));
-   
     }
     
     function search_todolist($date_val = '') {    
@@ -235,15 +243,25 @@ class Web extends CI_Controller {
             }
             $result = $this->web_model->todolist_serchlist($date_val);
             if ($result){
-                 foreach($result as $res){?>
-                    <li class="todo-list-item" id='<?php echo $res['id']; ?>'>
+                 foreach($result as $res){
+                    if($res['status'] == 'Completed'){
+                        $label_color = 'label-success';
+                    }
+                    else if($res['status'] == 'Pending'){
+                        $label_color = 'label-danger';
+                    }
+                    else {
+                        $label_color = 'label-warning';
+                    } ?>
+                    <li class="todo-list-item" id='<?php echo $res['id']; ?>' style = "border-bottom: #F1F4F7 solid 1px;">
                         <div class="checkbox">
-                            <input type="checkbox" id="checkbox">
+                            <i class="fa fa-angle-double-right" aria-hidden="true"></i> 
                             <label for="checkbox"><?php echo $res['todo']; ?></label>
                         </div>
                         <div class="pull-right action-buttons">
+                            <span class="label <?php echo $label_color; ?>" style="padding: 0.1em 0.4em 0.1em;"> <?php echo $res['status']; ?></span>
                             <a data-id="<?php echo $res['id']; ?>" data-url='edittodo' title="Edit" class="edittodo"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                            <!-- <a href="#" class="flag"><i class="fa fa-flag-o" aria-hidden="true"></a> -->
+                           
                             <a data-id="<?php echo $res['id']; ?>" data-url='deletetodo' title="Delete" class="trash deletetodo"><i class="fa fa-trash" aria-hidden="true"></i></a>
                         </div>
                     </li>
@@ -280,7 +298,7 @@ class Web extends CI_Controller {
         if($edit_todo){
            echo '<div class="row" style="padding-bottom: 15px;">
                                     <div class="col-lg-3 col-sm-3 col-md-3">
-                                        <b>Schedule : </b>
+                                        <b>Note : </b>
                                     </div>
                                     <div class="col-lg-8 col-sm-8 col-md-8">
                                         <input id="todoid" name="todoid" type="hidden" class="form-control input-md space" value="'.$edit_todo['id'].'">
@@ -294,8 +312,20 @@ class Web extends CI_Controller {
                                     <div class="col-lg-8 col-sm-8 col-md-8">
                                         <input id="popup_calender" name="popup_calender" type="text"   class="form-control input-md"  placeholder="Date" value='.$edit_todo['date'].' readonly>
                                     </div>
-                                </div>';
-        }
+                                </div>';?>
+                            <div class="row" style="padding-bottom: 15px;">
+                                <div class="col-lg-3 col-sm-3 col-md-3">
+                                    <b>Status : </b>
+                                </div>
+                                <div class="col-lg-8 col-sm-8 col-md-8">
+                                    <select name = "todostatus" id = "todostatus" class= "form-control">
+                                        <option value = "Pending" <?php if($edit_todo['status'] == 'Pending'){?> selected="selected"<?php }?>>Pending</option>
+                                       <option value = "Partially completed" <?php if($edit_todo['status'] == 'Partially completed'){?> selected="selected"<?php }?>>Partially completed</option>
+                                       <option value = "Completed" <?php if($edit_todo['status'] == 'Completed'){?> selected="selected"<?php }?>>Completed</option>
+                                   </select> 
+                                </div>
+                            </div>
+        <?php }
         else{
             $result['html']='<font color="red class="text-danger"">Error!!!!</font>'; 
         }
@@ -306,6 +336,7 @@ class Web extends CI_Controller {
         $todoid=$this->input->post('todoid');
         $data=$this->input->post('todo');
         $date= $this->input->post('calendar');
+        $status = $this->input->post('todostatus');   
         $currentdate=date('Y-m-d');
         $this->load->library('form_validation');
         $this->form_validation->set_rules('todo','Schedule', 'required');
@@ -318,15 +349,51 @@ class Web extends CI_Controller {
 
             $update_data = array(
                     'todo'                  => $data,
-                    'date'                  => $date
+                    'date'                  => $date,
+                    'status'                => $status
             );
             $where = array('id' => $todoid);
             $save = $this->db->update('todo', $update_data,$where);
             if($save){
                 if($currentdate==$date){
+                    
+                    $result = $this->web_model->todolist_serchlist($currentdate);
+                    $datas  = '';
+                    if ($result){
+                        foreach($result as $res){
+                           if($res['status'] == 'Completed'){
+                               $label_color = 'label-success';
+                           }
+                           else if($res['status'] == 'Pending'){
+                               $label_color = 'label-danger';
+                           }
+                           else {
+                               $label_color = 'label-warning';
+                           } 
+                           
+                    $datas ='<li class="todo-list-item" id='.$res['id'].' style = "border-bottom: #F1F4F7 solid 1px;">
+                                        <div class="checkbox">
+                                            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                                            <label for="checkbox">'.$data.'</label>
+                                        </div>
+                                        <div class="pull-right action-buttons">
+                                            <span class="label '.$label_color.'" style="padding: 0.1em 0.4em 0.1em;">'.$todostatus.'</span>
+                                            <a href="javascript: void(0)" data-id='.$id.' data-url="edittodo" class="edittodo"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;
+                                            <a href="javascript: void(0)" id="deletetodo" data-url="deletetodo" class="trash deletetodo" data-id='.$id.'><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                        </div>
+                                    </li>';
+                    
+                      } 
+                   }
+                   else {
+                       echo '<li class="todo-list-item"<div class="checkbox" style = "color:red;text-align:center;"><label for="checkbox"> No notes found.</label></div></li>';
+                   }
+            
+                     
                     $result['success']=1;
                     $result['msg']='<font color="green" class="text-Success">Saved!!!!</font>';
                     $result['title'] = $data;
+                    $result['status'] = $status;
                 }
                 else{
                     $result['msg']='<font color="green" class="text-success">Saved!!!!</font>';
@@ -337,9 +404,9 @@ class Web extends CI_Controller {
              $result['success']= 2;
              $result['msg']='<font color="red" class="text-danger">'.validation_errors().'</font>';
         }
-        $this->load->view('show_message',array('message'=>  json_encode($result)));
-        
+        $this->load->view('show_message',array('message'=>  json_encode($result)));  
     }
+    
     function agent_reports () {     
         
         if (!($this->session->userdata("ADMIN_USERID"))) {

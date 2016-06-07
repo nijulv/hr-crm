@@ -110,7 +110,7 @@
                                             <label for="checkbox"><?php echo $res['todo']; ?>    </label>
                                         </div>
                                         <div class="pull-right action-buttons">
-                                            <span class="label <?php echo $label_color; ?>" style="padding: 0.1em 0.4em 0.1em;"> <?php echo $res['status']; ?></span>
+                                            <span class="label <?php echo $label_color; ?> status" style="padding: 0.1em 0.4em 0.1em;"> <?php echo $res['status']; ?></span>
                                             <a href="javascript: void(0)" data-id="<?php echo $res['id']; ?>" data-url='edittodo' title="Edit" class="edittodo"><i class="fa fa-pencil" aria-hidden="true"></i></a> &nbsp;
                                             
                                             <a href="javascript: void(0)" data-id="<?php echo $res['id']; ?>" data-url='deletetodo' title="Delete" class="trash deletetodo"><i class="fa fa-trash" aria-hidden="true"></i></a>

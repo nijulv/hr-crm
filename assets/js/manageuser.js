@@ -170,19 +170,21 @@ var Manageuser = function(){
  
              });
             $('#updatetodo').on('click', function(){ 
-                $('.panel-footer font').remove();
-                var u_id=$('#todoid').val();
+                $('.panel-footer font').remove(); 
+                var u_id=$('#todoid').val();  
                $.ajax({
                         type    : "POST",
                         url     : base_url+'updatetodo',
                         dataType: "json",
                         data    : {'todoid':$('#todoid').val(),
                                    'todo':$('#todotext').val(),
+                                   'todostatus':$('#todostatus').val(),
                                    'calendar':$('#popup_calender').val()},
                         success : function(data){
                                   if(data.success==1){
                                      $('.panel-footer font').remove();
                                      $('#'+u_id +' .checkbox label').text(data.title);
+                                     $('#'+u_id +' .status').text(data.status);
                                      $('.panel-footer').append(data.msg);
                                      $('.panel-footer font').delay(2000).fadeOut();
                                     }
