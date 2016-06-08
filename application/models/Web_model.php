@@ -15,6 +15,35 @@ class Web_model extends CI_Model {
         error_reporting(0);
     }
     
+    public function get_total_bank_amount ($bank_payment_id = 0) {  
+        
+        $this->db->select_sum('bank_payment', 'amount');
+        $this->db->where('status','1');
+        if($bank_payment_id != 0){
+            $this->db->where('bank_payment_id !=',$bank_payment_id);
+        }
+        if(s('ADMIN_TYPE') == 1){
+             $this->db->where('agent_id',s('ADMIN_USERID'));
+        }
+        $query = $this->db->get('crm_bank_payment'); 
+        $result = $query->result();
+
+        return $result[0]->amount;
+    }
+    
+    public function get_total_collection () {
+        
+        $this->db->select_sum('amount', 'amount');
+        $this->db->where('status','1');
+        if(s('ADMIN_TYPE') == 1){
+             $this->db->where('agent_id',s('ADMIN_USERID'));
+        }
+        $query = $this->db->get('payments');
+        $result = $query->result();
+
+        return $result[0]->amount;
+    }
+    
     public function get_users () {
         $this->db->select('*');
         $this->db->from("crm_users");
@@ -113,6 +142,20 @@ class Web_model extends CI_Model {
             $this->db->limit($limit, $start);
         }
         $query = $this->db->get();            //echo $this->db->last_query();    
+        if($query->num_rows() > 0){
+            return $query->result_array();
+        } else {
+            return FALSE;
+        }
+    }
+    
+    public function get_category_list ($limit = '', $start = '') {
+        $this->db->select("SQL_CALC_FOUND_ROWS *",FALSE); 
+        $this->db->from('crm_category');
+        
+        $this->db->where('status','1');
+        $this->db->order_by("category_id","desc");
+        $query = $this->db->get();               
         if($query->num_rows() > 0){
             return $query->result_array();
         } else {
@@ -1006,4 +1049,5 @@ class Web_model extends CI_Model {
         else
             return false;
     }
+    
 }

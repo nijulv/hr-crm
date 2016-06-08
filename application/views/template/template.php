@@ -31,7 +31,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">HR-CRM <span class="label label-warning"><?php if(s('ADMIN_TYPE') == 0) {?> Admin <?php }else { ?>Agent <?php }?></span></a>
+                    <a class="navbar-brand" href="#">Rain-CRM <span class="label label-warning"><?php if(s('ADMIN_TYPE') == 0) {?> Admin <?php }else { ?>Agent <?php }?></span></a>
                     <ul class="user-menu" >
                         <li class="dropdown pull-right">   
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user-plus" aria-hidden="true"></i> Welcome <?php if(s('ADMIN_NAME')){echo s('ADMIN_NAME');} ?> <span class="caret"></span></a>
@@ -54,6 +54,7 @@
                 <li class="<?php echo $link_dashboard;?>"><a href="<?php echo base_url()?>dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> &nbsp;&nbsp;Dashboard</a></li>
                 <?php if(s('ADMIN_TYPE') == 0) {?>
                 <li class="<?php echo $link_agent;?>"><a href="<?php echo base_url()?>manage_agents"><i class="fa fa-user-secret" aria-hidden="true"></i> &nbsp;&nbsp;Manage Agents</a></li>
+                <li class="<?php echo $link_category;?>"><a href="<?php echo base_url()?>manage_category"><i class="fa fa-cogs fa-fw"></i> &nbsp;&nbsp;Manage Business Category</a></li>
                 <?php }?>
                     <li class="<?php echo $link_user;?>"><a href="<?php echo base_url()?>manageuser"><i class="fa fa-users" aria-hidden="true"></i> &nbsp;&nbsp;Manage Client/Prospect</a></li>
                     <li class="<?php echo $link_payment;?>"><a href="<?php echo base_url()?>manage_payment"><i class="fa fa-money" aria-hidden="true"></i> &nbsp;&nbsp;Manage Collection</a></li>

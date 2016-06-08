@@ -96,6 +96,8 @@ $route['deletepayments/(:any)']          = "web/deletepayments/$1";
 $route['deletebankpayments/(:any)']          = "web/deletebankpayments/$1";
 $route['deleteagent/(:any)']          = "web/deleteagent/$1";
 
+$route['generate_invoice/(:any)']          = "web/generate_invoice/$1";
+
 $route['agree_payment/(:any)']          = "web/agree_payment/$1";
 $route['disagree_bankpayment/(:any)']       = "web/disagree_payment/$1";
 $route['disagree_bankpayment_submit/(:any)/(:any)']  = "web/disagree_bankpayment_submit/$1/$2";
@@ -109,6 +111,9 @@ $route['manage_cash/(:num)']   = "web/manage_cash/$1";
 
 $route['manage_agents']   = "web/manage_agents";
 $route['manage_agents/(:num)']   = "web/manage_agents/$1";
+
+$route['manage_category']   = "web/manage_category";
+$route['manage_category/(:num)']   = "web/manage_category/$1";
 
 $route['edit_profile']   = "web/edit_profile";
 $route['change_password']   = "web/change_password";

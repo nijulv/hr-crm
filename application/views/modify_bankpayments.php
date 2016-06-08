@@ -44,15 +44,17 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Amount in hand</label>
-                                    <input type="text" name="amount_hand" id="amount_hand" class="form-control" placeholder="Amount in hand" maxlength="9" value = "<?php echo set_value('amount_hand',$details['amount_hand']); ?>" onkeypress="return numberValidate(event);">
+                                    <input type="text" name="amount_hand" id="amount_hand" class="form-control" placeholder="Amount in hand" maxlength="9" readonly="readonly"  value = "<?php echo set_value('amount_hand',$details['amount_hand']); ?>" onkeypress="return numberValidate(event);">
                                 </div>
                                 <div class="form-group">
                                     <label>Comments <small class="text-muted"></small></label>
                                     <textarea class="form-control" name="reason" id="user" maxlength="550" style="height: 150px !important;"><?php echo set_value('reason',$details['reason']);?></textarea>
                                 </div>
                                 <div class="form-group">
+                                    <button type="reset" id="btnCancel_paymentbank" class="btn btn-default">Cancel</button>
                                     <input type="submit" class="btn btn-primary" value="Submit">
                                 </div>
+                                <input type = "hidden" name = "balance_amount" id = "balance_amount" value = "<?php echo $balance_amount;?>">
                                 <input type = "hidden" name = "id" value = "<?php echo $details['bank_payment_id'];?>">
                                 <?php echo form_close();?> 
                             </div>

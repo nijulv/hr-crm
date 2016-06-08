@@ -90,7 +90,7 @@
                             </div>
                             
                         </div>
-                        <div class="panel-body scroll">
+                        <div class="panel-body scroll" style = "height: 145px;">
                             <ul class="todo-list" id ="todo_list" >
                                 <?php if($todo){?>
                                     <?php foreach($todo as $res){
@@ -178,7 +178,7 @@
                 <div class="col-xs-6 col-md-3">
                     <div class="panel panel-default">
                         <div class="panel-body easypiechart-panel">
-                            <h4>New Clients/Day</h4>
+                            <h4>New Clients</h4>
                             <div class="easypiechart" id="easypiechart-orange" data-percent="<?php echo $new_clents_day; ?>" ><span class="percent"><?php echo $new_clents_day; ?></span>
                             </div>
                         </div>
@@ -187,7 +187,7 @@
                 <div class="col-xs-6 col-md-3">
                     <div class="panel panel-default">
                         <div class="panel-body easypiechart-panel">
-                            <h4>New Prospects/Day</h4>  
+                            <h4>New Prospects</h4>  
                             <div class="easypiechart" id="easypiechart-teal" data-percent="<?php echo $new_prospect_day; ?>" ><span class="percent"><?php echo $new_prospect_day; ?></span>
                             </div>
                         </div>

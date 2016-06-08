@@ -85,6 +85,7 @@
                                         <th> Client Name</th>
                                         <th>Payment Code</th>
                                         <th>Payment Title</th>
+                                        <th>Payment Date</th>
                                         <th style = "text-align:right;">Amount</th>
                                         <th style = "text-align:center;">Actions</th>
                                     </tr>
@@ -104,8 +105,10 @@
                                             <td><?php echo $data['first_name'].' '.$data['last_name'];?></td> 
                                             <td><?php echo $data['payment_code'];?></td>
                                             <td><?php echo $data['title'];?></td> 
+                                            <td style = "text-align:center;"><?php echo date('d-M-Y', strtotime($data['date']));?></td>
                                             <td  style = "text-align:right;"><?php echo number_format($data['amount']);?></td>
                                             <td style = "text-align:center;">
+                                                <a href="javascript: void(0)" data-id="<?php echo $data['payment_id']?>" class="label label-success generate_invoice"><i class="fa fa-file-text-o" aria-hidden="true"></i> Invoice</a>
                                                 <a href="<?php echo base_url(); ?>edit_payments/<?php echo $data['payment_id'] ?>" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
                                                 <a id="delete" class="label label-danger delete" data-id="<?php echo $data['payment_id']?>" data-url="deletepayments"><span class="fa fa-trash"></span> Delete</a>
                                             </td>
@@ -113,7 +116,7 @@
                                     <?php }?>
                                 </tbody>
                                 <tr>
-                                   <?php if(s('ADMIN_TYPE') == 0){ $colspan = 5;?><?php } else { $colspan = 4; }?>
+                                   <?php if(s('ADMIN_TYPE') == 0){ $colspan = 6;?><?php } else { $colspan = 5; }?>
                                     <td colspan = <?php echo $colspan;?>  style = "text-align:right;"><b>Total Amount</b></td>
                                     <td style = "text-align:right;"><b><?php echo number_format($Total_amount);?></b></td>
                                     <td ><b>&nbsp;</b></td>

@@ -54,6 +54,11 @@ var Manageuser = function(){
            })
            })
                        
+            $('#btnCancel_paymentbank').on('click', function(){   
+               window.location=base_url+'manage_cash';
+               return false;
+            }); 
+            
             $('#btnCancel_payment').on('click', function(){   
                window.location=base_url+'manage_payment';
                return false;
@@ -80,6 +85,12 @@ var Manageuser = function(){
                       }
                       })
             });
+            
+            $('.generate_invoice').on('click', function(e){    
+                    var p_id = $(this).data('id'); 
+                    window.location = base_url+'generate_invoice'+'/'+p_id
+            });
+            
             
             $('.agree_bankpayment').on('click', function(e){    
                 var id = $(this).data('id');   

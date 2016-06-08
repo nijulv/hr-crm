@@ -47,11 +47,12 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th colspan="3" style="text-align: center"><h4>Payment Details</h4></th>
+                                                <th colspan="4" style="text-align:center;"><h4><b>Payment Details</b></h4></th>
                                             </tr>
                                             <tr>
                                                 <th>Payment Code</th>
                                                 <th>Title</th>
+                                                 <th>Paid date</th>
                                                 <th>Amount</th>
                                             </tr>
                                         </thead>
@@ -59,7 +60,8 @@
                                             <tr>
                                                 <td><?php echo $payment_code; ?> </td> 
                                                 <td><?php echo $title; ?> </td> 
-                                                <td><?php echo $amount; ?></td>
+                                                <td><?php echo $paid_date; ?> </td> 
+                                                <td><?php echo number_format($amount); ?></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -69,7 +71,7 @@
                                         <p>Date: ----------------</p>
                                     </div>
                                     <div class="pull-right">
-                                        <p>Seal</p>
+                                        <p>Sign/Seal: ---------------</p> 
                                     </div>
                                 </div>
                             </div>

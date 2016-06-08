@@ -207,7 +207,7 @@ class Web extends CI_Controller {
                         $label_color = 'label-warning';
                     }               
                     $result['success']=1;
-                    $result['msg']='<font color="green">Saved!!!!</font>';
+                    $result['msg']='<font color="green">Saved</font>';
                     $result['html'] ='<li class="todo-list-item" id='.$id.' style = "border-bottom: #F1F4F7 solid 1px;">
                                         <div class="checkbox">
                                             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
@@ -222,7 +222,7 @@ class Web extends CI_Controller {
                 }
                 else
                     {
-                    $result['msg']='<font color="green" class="text-success">Saved!!!!</font>';
+                    $result['msg']='<font color="green" class="text-success">Saved</font>';
                 }
             }
         }
@@ -260,9 +260,9 @@ class Web extends CI_Controller {
                         </div>
                         <div class="pull-right action-buttons">
                             <span class="label <?php echo $label_color; ?>" style="padding: 0.1em 0.4em 0.1em;"> <?php echo $res['status']; ?></span>
-                            <a data-id="<?php echo $res['id']; ?>" data-url='edittodo' title="Edit" class="edittodo"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                            <a href="javascript: void(0)" data-id="<?php echo $res['id']; ?>" data-url='edittodo' title="Edit" class="edittodo"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;
                            
-                            <a data-id="<?php echo $res['id']; ?>" data-url='deletetodo' title="Delete" class="trash deletetodo"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                            <a href="javascript: void(0)" data-id="<?php echo $res['id']; ?>" data-url='deletetodo' title="Delete" class="trash deletetodo"><i class="fa fa-trash" aria-hidden="true"></i></a>
                         </div>
                     </li>
                <?php } 
@@ -331,6 +331,7 @@ class Web extends CI_Controller {
         }
    
     }
+    
     function updatetodo() { 
         $result=array('succes' => 0,'msg'=> '','html'=> '');
         $todoid=$this->input->post('todoid');
@@ -609,8 +610,7 @@ class Web extends CI_Controller {
         }
     }
             
-    function manage_agents () {  
-        
+    function manage_agents () {          
        if (!($this->session->userdata("ADMIN_USERID"))) {
             redirect("web");
         }
@@ -641,12 +641,12 @@ class Web extends CI_Controller {
 
             $this->gen_contents['details'] = $this->web_model->get_agents($config['per_page'], $pagin,$search_user,$state_search,$district_search,$city_search);
 
-            $total_user = $this->web_model->get_total_rows();
+            $total_record = $this->web_model->get_total_rows();
             //--pagination
             $this->load->library('pagination');
             $this->load->library('bspagination');   
             $config['base_url']     = base_url().'manage_agents';
-            $config['total_rows']   = $total_user;
+            $config['total_rows']   = $total_record;
             $bs_init = $this->bspagination->config();
             $config = array_merge($config, $bs_init);
             $this->pagination->initialize($config);
@@ -673,6 +673,32 @@ class Web extends CI_Controller {
             
             $this->gen_contents['link_agent']  = 'active';
             $this->template->write_view('content', 'agentlist', $this->gen_contents);
+            $this->template->render();
+        }
+    }
+    
+    public function manage_category () {         
+       if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            $config['per_page']   = 25;
+            $pagin = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;  
+
+            $this->gen_contents['details'] = $this->web_model->get_category_list($config['per_page'], $pagin);
+            $total_record = $this->web_model->get_total_rows();
+            //--pagination
+            $this->load->library('pagination');
+            $this->load->library('bspagination');   
+            $config['base_url']     = base_url().'manage_category';
+            $config['total_rows']   = $total_record;
+            $bs_init = $this->bspagination->config();
+            $config = array_merge($config, $bs_init);
+            $this->pagination->initialize($config);
+            $this->gen_contents['links'] =  $this->pagination->create_links();     
+                     
+            $this->gen_contents['link_category']  = 'active';
+            $this->template->write_view('content', 'category', $this->gen_contents);
             $this->template->render();
         }
     }
@@ -1318,9 +1344,10 @@ class Web extends CI_Controller {
                         $this->gen_contents['phone'] = '';
                         $this->gen_contents['email'] = '';
                     }
-                    $this->gen_contents['amount'] = $this->input->post("amount",true);
-                    $this->gen_contents['title'] = $this->input->post("title",true);
+                    $this->gen_contents['amount']       = $this->input->post("amount",true);
+                    $this->gen_contents['title']        = $this->input->post("title",true);
                     $this->gen_contents['payment_code'] = $this->input->post("payment_code",true);
+                    $this->gen_contents['paid_date']    = date('d-M-Y', strtotime(date('Y-m-d')));
 
                     $page = 2;
                     $this->template->write_view('content', 'invoice', $this->gen_contents);
@@ -1353,6 +1380,52 @@ class Web extends CI_Controller {
         }
     }
     
+    public function generate_invoice ($id = 0) {
+        
+        $admin_details = $this->web_model->get_admin_details();
+        if($admin_details){
+            $this->gen_contents['admin_email'] = $admin_details['email'];
+            $this->gen_contents['admin_phone'] = $admin_details['phone'];
+        }
+        else {
+            $this->gen_contents['admin_email'] = '';
+            $this->gen_contents['admin_phone'] = '';
+        }
+        $payment_details = $this->web_model->get_payment_details($id);
+        if($payment_details){
+            $user_id            = $payment_details['user_id'];
+            $amount             = $payment_details['amount'];
+            $title              = $payment_details['title'];
+            $payment_code       = $payment_details['payment_code'];
+            $paid_date          = date('d-M-Y', strtotime($payment_details['date']));
+        }
+        else {           
+            $user_id           = 0;
+            $amount            = 0;
+            $title             = 0;
+            $payment_code      = 0;
+            $paid_date        = '';
+        }
+        $get_user_data = $this->web_model->get_user_details($user_id);
+        if($get_user_data){
+            $this->gen_contents['name'] = $get_user_data['first_name'].' '.$get_user_data['last_name'];
+            $this->gen_contents['phone'] = $get_user_data['phone'];
+            $this->gen_contents['email'] = $get_user_data['email'];
+        }
+        else {
+            $this->gen_contents['name'] = '';
+            $this->gen_contents['phone'] = '';
+            $this->gen_contents['email'] = '';
+        }
+        $this->gen_contents['amount'] = $amount;
+        $this->gen_contents['title'] = $title;
+        $this->gen_contents['payment_code'] = $payment_code;
+        $this->gen_contents['paid_date'] = $paid_date;
+
+        $this->template->write_view('content', 'invoice', $this->gen_contents);
+        $this->template->render();
+    }
+     
      public function add_bankpayments () {
         
          if (!($this->session->userdata("ADMIN_USERID"))) {
@@ -1403,7 +1476,12 @@ class Web extends CI_Controller {
             else {
                 $this->gen_contents['bank_payment_code_value'] = 'A001';
             }
-                    
+              
+            $total_collection = $this->web_model->get_total_collection();  
+            $total_bank_amount = $this->web_model->get_total_bank_amount();  
+            $this->gen_contents['balance_amount']  = ($total_collection - $total_bank_amount);
+           
+            
             $this->gen_contents['link_bank']  = 'active';
             $this->template->write_view('content', 'bankpayment_add', $this->gen_contents);
             $this->template->render();
@@ -1682,6 +1760,10 @@ class Web extends CI_Controller {
                         redirect("manage_cash");
                     }
                 }
+                $total_collection = $this->web_model->get_total_collection();  
+                $total_bank_amount = $this->web_model->get_total_bank_amount($id);  
+                $this->gen_contents['balance_amount']  = ($total_collection - $total_bank_amount);
+            
                 $this->gen_contents['link_bank']  = 'active';
                 $this->gen_contents['details'] = $this->web_model->get_bankpayment_details($id);
                 $this->template->write_view('content', 'modify_bankpayments', $this->gen_contents);

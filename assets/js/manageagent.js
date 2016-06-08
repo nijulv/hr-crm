@@ -120,6 +120,14 @@ var Manageagent = function(){
        
     });
     
+    $('#bank_payment').on('blur', function(e){  
+        var amount_to_bank = parseInt($("#bank_payment").val());
+        var balance_amount = parseInt($("#balance_amount").val()); 
+        var amount_hand =  balance_amount - amount_to_bank;  
+        
+        $("#amount_hand").val(amount_hand);
+    });
+    
     $('#total_payment').on('blur', function(e){  
         
         var total_amount  = parseInt($(this).val());   
