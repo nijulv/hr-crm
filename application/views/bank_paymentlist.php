@@ -84,7 +84,7 @@
                                         <th style = "text-align:right;">Amount to bank</th>
                                         <th style = "text-align:right;">Amount in hand</th>
                                         <th>Comments</th>
-                                        <th style = "text-align:center;">Actions</th>
+                                        <th style = "text-align:center;"> <?php if(s('ADMIN_TYPE') == 1){ ?> Admin approval status<?php }else {?>Actions <?php }?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
