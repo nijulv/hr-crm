@@ -1348,7 +1348,7 @@ class Web extends CI_Controller {
                     $this->gen_contents['title']        = $this->input->post("title",true);
                     $this->gen_contents['payment_code'] = $this->input->post("payment_code",true);
                     $this->gen_contents['paid_date']    = date('d-M-Y', strtotime(date('Y-m-d')));
-
+                    $this->gen_contents['taxes']    = $this->web_model->get_tax_details(); // get tax details from tax master
                     $page = 2;
                     $this->template->write_view('content', 'invoice', $this->gen_contents);
                     //$this->template->render();
@@ -1359,7 +1359,7 @@ class Web extends CI_Controller {
                     redirect("manage_payment");
                 }
             }
-
+            
             $this->gen_contents['users'] = $this->web_model->get_users();
             $payment_code = $this->web_model->get_payment_code_previous(); //print_r($payment_code); exit;
             if($payment_code){
@@ -1421,7 +1421,7 @@ class Web extends CI_Controller {
         $this->gen_contents['title'] = $title;
         $this->gen_contents['payment_code'] = $payment_code;
         $this->gen_contents['paid_date'] = $paid_date;
-
+        $this->gen_contents['taxes']    = $this->web_model->get_tax_details(); // get tax details from tax master
         $this->template->write_view('content', 'invoice', $this->gen_contents);
         $this->template->render();
     }

@@ -1050,4 +1050,19 @@ class Web_model extends CI_Model {
             return false;
     }
     
+    public function get_tax_details(){        
+        $this->db->select("*");
+        $this->db->from("crm_tax_master");
+        $this->db->where('tax_percentage !=', 0);
+        $this->db->order_by("tax_name");
+        $query = $this->db->get();
+        //echo $this->db->last_query(); exit;
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        } else {
+            return '';
+        }
+        
+    }
+    
 }
