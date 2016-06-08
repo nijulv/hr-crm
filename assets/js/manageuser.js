@@ -74,6 +74,45 @@ var Manageuser = function(){
                return false;
             }); 
             
+           $('.edit_caterory').on('click', function(e){    
+               var id = $(this).data('id'); 
+               var name = $(this).data('name'); 
+               
+               $("#category_name").val(name);
+               $("#category_id").val(id);
+           });
+           
+           $('.savecategory').on('click', function(e){    
+               if ($.trim($("#category_name").val()) == "")
+                {
+                    $("#category_name").next(".validation_msg").html("Category name name not entered");
+                    $("#category_name").focus();
+                    return false;
+                } 
+                else {
+                    $.post(base_url+"category_add", $(".form_category").serialize(),
+                    function(response) {
+                            var data = $.parseJSON(response);
+                            if (data["status"] == 1) {
+                                    $(".err_msg").html(data["msg"]);
+                                    $( ".err_msg" ).removeClass( "alert alert-danger" ).addClass( "alert alert-success" );
+                                    $(".err_msg").show(500);
+                                    setTimeout(function() {
+                                            window.location = base_url+"manage_category";
+                                    }, 2000);
+                            } 
+                            else {
+                                    $(".err_msg").html(data["msg"]);
+                                    $( ".err_msg" ).removeClass( "alert alert-success" ).addClass( "alert alert-danger" );
+                                    $(".err_msg").show(500);
+                                    setTimeout(function() {
+                                            $(".err_msg").hide(500);
+                                    }, 3000);
+                            }
+                    });
+                } 
+           });
+           
            $('.delete').on('click', function(e){    
                       var u_id = $(this).data('id'); 
                       var url = $(this).data('url'); 

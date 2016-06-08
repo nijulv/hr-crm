@@ -113,8 +113,9 @@
                                                         <span style = "color:red">Adnin rejected</span>
 
                                                     <?php } else {?>  
-                                                        <a href="<?php echo base_url(); ?>edit_bankpayments/<?php echo $data['bank_payment_id'] ?>" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
-                                                        <a id="delete" class="label label-danger delete" data-id="<?php echo $data['bank_payment_id']?>" data-url="deletebankpayments"><span class="fa fa-trash"></span> Delete</a>
+                                                        <!--<a href="<?php echo base_url(); ?>edit_bankpayments/<?php echo $data['bank_payment_id'] ?>" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
+                                                        <a id="delete" class="label label-danger delete" data-id="<?php echo $data['bank_payment_id']?>" data-url="deletebankpayments"><span class="fa fa-trash"></span> Delete</a> -->
+                                                        <a type="button" href="javascript: void(0)" class="label label-warning">Pending</a>
                                                     <?php }?>
                                                 <?php } else {
                                                             if($data['agree_status'] == 0){?>

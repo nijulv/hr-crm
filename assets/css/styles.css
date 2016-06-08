@@ -971,6 +971,8 @@ ul#district-auto-complete li:hover {
 }
 .datepicker{z-index:1151 !important;}
 
-
+.validation_msg {
+    color:red;
+}
 
 

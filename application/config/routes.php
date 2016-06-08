@@ -95,6 +95,7 @@ $route['edit_agents/(:any)']  = "web/edit_agents/$1";
 $route['deletepayments/(:any)']          = "web/deletepayments/$1";
 $route['deletebankpayments/(:any)']          = "web/deletebankpayments/$1";
 $route['deleteagent/(:any)']          = "web/deleteagent/$1";
+$route['deletecategory/(:any)']          = "web/deletecategory/$1";
 
 $route['generate_invoice/(:any)']          = "web/generate_invoice/$1";
 
@@ -134,5 +135,7 @@ $route['district_autocomplete']       = "web/district_autocomplete";
 
 $route['check_username_available']    = "web/check_username_available";
 $route['check_user_payment']          = "web/check_user_payment";
+
+$route['category_add']          = "web/category_add";
 
 $route['remove_attchments/(:any)/(:any)']         = "web/remove_attchments/$1/$2";

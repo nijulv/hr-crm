@@ -486,6 +486,39 @@ class Web_model extends CI_Model {
             $query = $this->db->get(); 
             return $query->result_array();
     }
+    
+    public function insert_category ($data = array(),$tbl_name = '') {             
+        $sel_query = $this->db->get_where($tbl_name, $data);           
+        if ($sel_query->num_rows() == 0) {
+		$query = $this->db->insert($tbl_name, $data);     
+		if ($this->db->affected_rows() > 0){
+                    return 1;
+		}
+                else {
+                  return 0;
+                }
+        }
+        else {
+            return 3;
+        }
+    }
+    
+    public function insert_payments ($data = array(),$tbl_name = '') {             
+        $sel_query = $this->db->get_where($tbl_name, $data);           
+        if ($sel_query->num_rows() == 0) {
+		$query = $this->db->insert($tbl_name, $data);     
+		if ($this->db->affected_rows() > 0){
+                    return true;
+		}
+                else {
+                  return false;
+                }
+        }
+        else {
+            return false;
+        }
+    }
+    
     public function insert_datas ($data = array(),$tbl_name = '') {
         $this->db->insert($tbl_name,$data);
         if($this->db->affected_rows() >0)
@@ -557,6 +590,15 @@ class Web_model extends CI_Model {
     
     public function update_contents_agents ($data = array(),$id = 0,$tbl_name = '') {
         $this->db->where('agent_id',$id);
+        $this->db->update($tbl_name,$data);
+        if($this->db->affected_rows() >0)
+            return true;
+        else
+            return false;
+    }
+    
+    public function update_contents_category ($data = array(),$id = 0,$tbl_name = '') {
+        $this->db->where('category_id',$id);
         $this->db->update($tbl_name,$data);
         if($this->db->affected_rows() >0)
             return true;

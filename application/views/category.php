@@ -11,6 +11,7 @@
                 <h1 class="page-header">Manage Business Category</h1>
             </div>
         </div><!--/.row-->
+        <div class="err_msg" style="display:none;"></div> 
         <?php
             $error = f('error_message') ? f('error_message') : validation_errors();
             if(!empty($error)){
@@ -38,24 +39,24 @@
                         <div class="pull-right">
                            <div class="col-sm-4 col-lg-4 col-md-4" >
                             <div class="form-group">
-                                <a href = "<?php echo base_url()?>add_agents"><button class="btn btn-primary"><i class="fa fa-plus"></i> Add New </button></a>
+                                
                             </div>
                            </div>
                         </div>
                     </div>
                     </div>
                     <div class="panel-body">
-                        <?php echo form_open("",array("id" => "form_report"));?>
+                        <?php  echo form_open("", array("class" => "form_category")); ?>
                         <div class="row">
                             <div class="col-md-4">
-                                <input type = "text" name = "search_user" class = "form-control"  placeholder="Name" value = "<?php echo set_value('search_user'); ?>">
+                                <input type = "text" id = "category_name" name = "category_name" class = "form-control"  placeholder="Category Name" value = "<?php echo set_value('category_name'); ?>"><div class="validation_msg"></div>  
                             </div>
-                           
                             <div class="col-md-2">
-                                <button type="submit" class="btn btn-info">Search</button>
+                                <button type="button" class="btn btn-info savecategory">Save</button>
                             </div>
                         </div> 
-                        <?php form_close(); ?>
+                        <input type = "hidden" name = "category_id" id = "category_id" value = "">
+                        <?php echo form_close();?>
                         <br>
                         <?php if (!empty($details)) { ?>
                         <div class="row">
@@ -73,33 +74,13 @@
                                     <tbody>
                                         <?php 
                                         $i++;  
-                                        foreach ($details as $data) { 
-                                            if($data['status'] == 1){
-                                                $status = 'Active';
-                                                $changestatus='Inactivate';
-
-                                                $style = 'label label-warning';
-                                                $color = 'green';
-                                            }
-                                            else {
-                                                $status = 'Inactive';
-                                                $changestatus='Activate';
-
-                                                $style = 'label label-success';
-                                                $color = 'red';
-                                            } ?>
+                                        foreach ($details as $data) { ?>
                                             <tr>
                                                 <td style = "text-align:center;"><?php echo $i++; ?></td>
-                                                <td><span class="label label-default">Code: <?php echo $data['agent_code'];?> </span>&nbsp;&nbsp; <?php echo $data['first_name'].' '.$data['last_name'];?></td> 
-                                                <td><?php echo $data['phone'];?></td>
-                                                <td><?php echo $data['state'];?></td>
-                                                <td><?php echo $data['district'];?></td>
-                                                <td><?php echo $data['city'];?></td>
-                                                <td style = "text-align:center;color:<?php echo  $color;?>"><?php echo $status;?></td>
+                                                <td><?php echo $data['category_name'];?></td>
                                                 <td style = "text-align:center;">
-                                                    <a title="Modify status"  id="status" class="<?php echo $style?> status" data-id="<?php echo $data['agent_id']?>" data-url="changestatus"  data-status="<?php echo $changestatus ?>"><?php echo $changestatus ?></a>
-                                                    <a title="Modify"href="<?php echo base_url(); ?>edit_agents/<?php echo $data['agent_id'] ?>" class="label label-default"><span class="fa fa-pencil"></span>  Edit</a>
-                                                    <a  title="Delete" id="delete" class="label label-danger delete" data-id="<?php echo $data['agent_id']?>" data-url="deleteagent"><span class="fa fa-trash"></span>  Delete</a>
+                                                    <a title="Modify"href="javascript: void(0)" data-name="<?php echo $data['category_name']?>" data-id="<?php echo $data['category_id']?>" class="label label-default edit_caterory"><span class="fa fa-pencil"></span>  Edit</a>
+                                                    <a  title="Delete" id="delete" class="label label-danger delete" data-id="<?php echo $data['category_id']?>" data-url="deletecategory"><span class="fa fa-trash"></span>  Delete</a>
                                                 </td>
                                             </tr>
                                         <?php }?>

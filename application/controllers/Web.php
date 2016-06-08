@@ -1282,10 +1282,51 @@ class Web extends CI_Controller {
                 } 
       
     }
+    
+    public function category_add () {
+        if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            $category_id    = $this->input->post("category_id",true);
+            $category_name  = $this->input->post("category_name",true);
+            
+            if($category_id != ''){
+                $userdata = array(
+                    "category_name"   => $category_name
+                );
+                
+                $tbl_name = 'crm_category';   
+                $result = $this->web_model->update_contents_category($userdata,$category_id,$tbl_name);
+                if($result) {
+                    $output = array("status" => 1, "msg" => "Business category modified succcessfully");
+                }
+                else {
+                    $output = array("status" => 0, "msg" => "Business category details not modified,Please try again later");
+                }
+            }
+            else {
+                 $userdata = array(
+                    "category_name"   => $category_name,
+                    'date'     => date('Y-m-d')
+                );
 
+                $tbl_name = 'crm_category';
+                $result = $this->web_model->insert_category($userdata,$tbl_name);
+                if ($result ==1)
+                        $output = array("status" => 1, "msg" => "Business category added succcessfully");
+                elseif($result ==3)
+                        $output = array("status" => 3, "msg" => "Business category already exists");
+                else
+                        $output = array("status" => 0, "msg" => "Business category details not inserted,Please try again later");
+            }
+        }	
+        echo json_encode($output);
+    }
+    
     public function add_payments () {
         
-         if (!($this->session->userdata("ADMIN_USERID"))) {
+        if (!($this->session->userdata("ADMIN_USERID"))) {
             redirect("web");
         }
         else {
@@ -1314,7 +1355,7 @@ class Web extends CI_Controller {
                 );
 
                 $tbl_name = 'payments';
-                $result = $this->web_model->insert_datas($userdata,$tbl_name);
+                $result = $this->web_model->insert_payments($userdata,$tbl_name);
 
                 if($result){
                     sf( 'success_message', "Payment details inserted successfully" );
@@ -1902,6 +1943,34 @@ class Web extends CI_Controller {
             }
             else {
                 redirect("manage_agents");
+            }
+        }
+    }
+    
+    public function deletecategory ($id = 0) { 
+        if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            if($id != 0 && is_numeric($id)){  
+
+                $userdata = array(
+                        "status"   => '0'
+                );
+
+                $tbl_name = 'crm_category';   
+                $result = $this->web_model->update_contents_category($userdata,$id,$tbl_name);
+                if($result) {
+                    sf( 'success_message', "Business category details deleted successfully" );
+                    redirect("manage_category");
+                }
+                else {
+                    sf( 'error_message', "Business category details not deleted,Please try again later" );
+                    redirect("manage_category");
+                }
+            }
+            else {
+                redirect("manage_category");
             }
         }
     }
