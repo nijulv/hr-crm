@@ -163,6 +163,20 @@ class Web_model extends CI_Model {
         }
     }
     
+    public function get_tax_list ($limit = '', $start = '') {
+        $this->db->select("SQL_CALC_FOUND_ROWS *",FALSE); 
+        $this->db->from('crm_tax_master');
+        
+        $this->db->where('status','1');
+        $this->db->order_by("id","desc");
+        $query = $this->db->get();               
+        if($query->num_rows() > 0){
+            return $query->result_array();
+        } else {
+            return FALSE;
+        }
+    }
+    
     public function get_userdetails ($limit = '', $start = '',$search_user = '',$state_search = '',$district_search = '',$city_search = '',$search_name_agent = '',$mobile = 0) {
         
         if(s('ADMIN_TYPE') == 0){
@@ -599,6 +613,15 @@ class Web_model extends CI_Model {
     
     public function update_contents_category ($data = array(),$id = 0,$tbl_name = '') {
         $this->db->where('category_id',$id);
+        $this->db->update($tbl_name,$data);
+        if($this->db->affected_rows() >0)
+            return true;
+        else
+            return false;
+    }
+    
+    public function update_contents_tax ($data = array(),$id = 0,$tbl_name = '') {
+        $this->db->where('id',$id);
         $this->db->update($tbl_name,$data);
         if($this->db->affected_rows() >0)
             return true;

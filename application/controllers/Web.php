@@ -703,6 +703,32 @@ class Web extends CI_Controller {
         }
     }
     
+    public function manage_tax () {         
+       if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            $config['per_page']   = 25;
+            $pagin = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;  
+
+            $this->gen_contents['details'] = $this->web_model->get_tax_list($config['per_page'], $pagin);
+            $total_record = $this->web_model->get_total_rows();
+            //--pagination
+            $this->load->library('pagination');
+            $this->load->library('bspagination');   
+            $config['base_url']     = base_url().'manage_tax';
+            $config['total_rows']   = $total_record;
+            $bs_init = $this->bspagination->config();
+            $config = array_merge($config, $bs_init);
+            $this->pagination->initialize($config);
+            $this->gen_contents['links'] =  $this->pagination->create_links();     
+                     
+            $this->gen_contents['link_category']  = 'active';
+            $this->template->write_view('content', 'manage_tax', $this->gen_contents);
+            $this->template->render();
+        }
+    }
+    
     function manageuser () {         
        if (!($this->session->userdata("ADMIN_USERID"))) {
             redirect("web");
@@ -1971,6 +1997,35 @@ class Web extends CI_Controller {
             }
             else {
                 redirect("manage_category");
+            }
+        }
+    }
+    
+    public function deletetax ($id = 0) { 
+        if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            if($id != 0 && is_numeric($id)){  
+
+                $userdata = array(
+                        "status"            => '0',
+                        "tax_percentage"    => '0'
+                );
+
+                $tbl_name = 'crm_tax_master';   
+                $result = $this->web_model->update_contents_tax($userdata,$id,$tbl_name);
+                if($result) {
+                    sf( 'success_message', "Tax details deleted successfully" );
+                    redirect("manage_tax");
+                }
+                else {
+                    sf( 'error_message', "Tax details not deleted,Please try again later" );
+                    redirect("manage_tax");
+                }
+            }
+            else {
+                redirect("manage_tax");
             }
         }
     }

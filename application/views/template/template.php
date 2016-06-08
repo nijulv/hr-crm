@@ -56,15 +56,15 @@
             <div class="logo" align="center"></div>
 
             <ul class="nav menu"> 
-                <li class="<?php echo $link_dashboard; ?>"><a href="<?php echo base_url() ?>dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> &nbsp;&nbsp;Dashboard</a></li>
-                <?php if (s('ADMIN_TYPE') == 0) { ?>
-                    <li class="<?php echo $link_agent; ?>"><a href="<?php echo base_url() ?>manage_agents"><i class="fa fa-user-secret" aria-hidden="true"></i> &nbsp;&nbsp;Manage Agents</a></li>
-                    <li class="<?php echo $link_category; ?>"><a href="<?php echo base_url() ?>manage_category"><i class="fa fa-cogs fa-fw"></i> &nbsp;&nbsp;Manage Business Category</a></li>
-<?php } ?>
-                <li class="<?php echo $link_user; ?>"><a href="<?php echo base_url() ?>manageuser"><i class="fa fa-users" aria-hidden="true"></i> &nbsp;&nbsp;Manage Client/Prospect</a></li>
-                <li class="<?php echo $link_payment; ?>"><a href="<?php echo base_url() ?>manage_payment"><i class="fa fa-money" aria-hidden="true"></i> &nbsp;&nbsp;Manage Collection</a></li>
-                <li class = "<?php echo $link_bank; ?>"><a href="<?php echo base_url() ?>manage_cash"><i class="fa fa-university" aria-hidden="true"></i> &nbsp;&nbsp;Manage Bank Payment </a></li>
-
+                <li class="<?php echo $link_dashboard;?>"><a href="<?php echo base_url()?>dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> &nbsp;&nbsp;Dashboard</a></li>
+                <?php if(s('ADMIN_TYPE') == 0) {?>
+                <li class="<?php echo $link_agent;?>"><a href="<?php echo base_url()?>manage_agents"><i class="fa fa-user-secret" aria-hidden="true"></i> &nbsp;&nbsp;Manage Agents</a></li>
+                <li class="<?php echo $link_category;?>"><a href="<?php echo base_url()?>manage_category"><i class="fa fa-cogs fa-fw"></i> &nbsp;&nbsp;Manage Business Category</a></li>
+                <li class="<?php echo $link_tax;?>"><a href="<?php echo base_url()?>manage_tax"><i class="fa fa-percent" aria-hidden="true"></i> &nbsp;&nbsp;Manage Tax</a></li>
+                <?php }?>
+                    <li class="<?php echo $link_user;?>"><a href="<?php echo base_url()?>manageuser"><i class="fa fa-users" aria-hidden="true"></i> &nbsp;&nbsp;Manage Client/Prospect</a></li>
+                    <li class="<?php echo $link_payment;?>"><a href="<?php echo base_url()?>manage_payment"><i class="fa fa-money" aria-hidden="true"></i> &nbsp;&nbsp;Manage Collection</a></li>
+                    <li class = "<?php echo $link_bank;?>"><a href="<?php echo base_url()?>manage_cash"><i class="fa fa-university" aria-hidden="true"></i> &nbsp;&nbsp;Manage Bank Payment </a></li>
                 <li>
                     <a href="javascript:;" id = "report">
                         <i class="fa fa-bar-chart-o fa-fw"><div class="icon-bg bg-yellow"></div></i>
@@ -73,7 +73,7 @@
                     <ul class="nav nav-second-level collapse" id = "reportlist"> 
                         <?php if (s('ADMIN_TYPE') == 0) { ?>
                             <li class = "<?php echo $agent_report; ?>"><a href="<?php echo base_url(); ?>agent_reports">Agent</a></li>
-<?php } ?>
+                    <?php } ?>
                         <li class = "<?php echo $user_report; ?>"><a href="<?php echo base_url(); ?>user_reports">Client/Prospect</a></li>
                         <li class = "<?php echo $payment_report; ?>"><a href="<?php echo base_url(); ?>payment_reports">Collection</a></li>
                     </ul>

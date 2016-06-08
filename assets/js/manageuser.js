@@ -74,6 +74,20 @@ var Manageuser = function(){
                return false;
             }); 
             
+            
+            $('.edit_tax').on('click', function(e){    
+               var id = $(this).data('id'); 
+               var name = $(this).data('name'); 
+               var value = $(this).data('value'); 
+               
+               $("#category_name").val(name);
+               $("#category_id").val(id);
+           });
+           
+           $('.addnewtax').on('click', function(e){    
+               $("#adddiv").show();
+           });
+           
            $('.edit_caterory').on('click', function(e){    
                var id = $(this).data('id'); 
                var name = $(this).data('name'); 
