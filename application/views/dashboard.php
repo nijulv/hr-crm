@@ -139,8 +139,15 @@
                              <h4 class="modal-title">Select date and time</h4>
                         </div>
                         <div class="modal-body">
-                            <input id="main_calendar" name="main_calendar" type="date" name="calendar" class="form-control input-md" data-date-format="yyyy-mm-dd" placeholder="Date" readonly>
-                           
+                            <!--<input id="main_calendar" name="main_calendar" type="date" name="calendar" class="form-control input-md" data-date-format="yyyy-mm-dd" placeholder="Date" readonly>-->
+
+                            <div class='input-group' id='datetimepicker1'>
+                                <input type='text' class="form-control" name="main_calendar" id="main_calendar" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+
                          </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-success" id ="save" data-dismiss="modal">Save</button>
