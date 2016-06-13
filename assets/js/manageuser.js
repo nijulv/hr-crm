@@ -286,6 +286,7 @@ var Manageuser = function(){
                                    'calendar':$('#main_calendar').val(),
                                    'todostatus':$('#todostatus').val()},
                         success : function(data){
+                            alert(data);
                             if(data.success==1){
                                 if(0 == $('.todo-list').length){
                                     var html = '<div class="panel-body"><ul class="todo-list">'+data.html+'</div></div>';
@@ -407,9 +408,9 @@ var Manageuser = function(){
                 $(".suggesstion-box").hide();
             });
             
-            $("#main_calendar").datepicker({
-                 startDate: new Date(),
-                 autoclose: true,
-            });
+//            $("#main_calendar").datepicker({
+//                 startDate: new Date(),
+//                 autoclose: true,
+//            });
             
 }();    

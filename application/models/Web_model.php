@@ -91,10 +91,9 @@ class Web_model extends CI_Model {
         return $query->row()->Count;
     }
     public function get_todo(){
-        $date= date('Y-m-d');
-        $type=admin;
+        $date = date('Y-m-d');
         if(s('ADMIN_TYPE') == 0){
-             $this->db->where('admin_id',$type);
+             $this->db->where('admin_id',0);
         }else{
             $type=$this->session->userdata("ADMIN_USERID");
             $this->db->where('admin_id',$type);

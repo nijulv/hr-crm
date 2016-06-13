@@ -143,8 +143,11 @@
             })
         </script>
         <script>
-            $(function () {
-                $('#datetimepicker1').datetimepicker();
+            //Date date = new Date();
+            //String formattedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date);
+            $(function () {                
+                $('#datetimepicker1').datetimepicker({
+                });
             });
         </script>
     </body>

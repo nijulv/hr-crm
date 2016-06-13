@@ -17,7 +17,7 @@
                     <div class="panel panel-orange panel-widget">
                         <div class="row no-padding">
                             <div class="col-sm-3 col-lg-5 widget-left">
-                                <i class="fa fa-yelp" aria-hidden="true" style="font-size: 55px;"></i>
+                                <i class="fa fa-briefcase" aria-hidden="true" style="font-size: 55px;"></i>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
                                 <div class="large"><?php echo $agent_count;?></div>  
