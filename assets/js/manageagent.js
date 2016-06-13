@@ -152,6 +152,8 @@ var Manageagent = function(){
             $('#data-title').html("Agent: More details");
         else if(from == 'payment')
             $('#data-title').html("Payment: More details");
+        else if(from == 'bank_payment')
+            $('#data-title').html("Bank Statement: More details");
         else if(from == 'user')
             $('#data-title').html("User: More details");
 

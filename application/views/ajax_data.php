@@ -131,6 +131,42 @@ if ($from == "agent") { ?>
                 </tr>
             </table>
         </div>
+    <?php } else if ($from == "bank_payment") { ?>
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <td style="border-top: 1px solid #FFF ! important;">Payment Code: </td>
+                        <td style="border-top: 1px solid #FFF ! important;"><?php echo $result['bank_payment_code']; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Amount To Bank: </td>
+                        <td><?php echo number_format($result['bank_payment']); ?></td>
+                    </tr>
+                    <tr>
+                        <td>Amount In Hand: </td>
+                        <td><?php echo number_format($result['amount_hand']); ?></td>
+                    </tr>
+                    <tr>
+                        <td>Comments: </td>
+                        <td><?php echo $result['reason']; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Admin Status: </td> <?php if($result['agree_status'] == '0') { $status = 'Pending';} else if($result['agree_status'] == '2') { $status = 'Admin rejected';} else { $status = 'Admin approved';}?>
+                        <td><?php echo $status; ?></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #FFF ! important;">
+                        <td>Payment Date: </td>
+                        <?php if($result['date'] == '0000-00-00'){
+                            $date = '';
+                        }
+                        else {
+                            $date = date('d-M-Y', strtotime($result['date']));
+                        }
+                        ?>
+                        <td><?php echo $date;?></td>
+                    </tr>
+                </table>
+            </div>
     <?php } else if ($from == "user") {?>
             <div class="table-responsive">
             <table class="table">

@@ -46,7 +46,8 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <div class="row" style = "display:none;" id = "adddiv">
+                        <div class="row" style = "display:none;" id = "adddiv"> 
+                            <div class="col-md-12" id = "sub_title" style="font-weight:bold;font-size:20px;">Add Tax</div>
                             <?php  echo form_open("", array("class" => "form_tax")); ?>
                             <div class="col-md-4">
                                 <input type = "text" id = "tax_name" name = "tax_name" class = "form-control"  placeholder="Tax Name" value = "<?php echo set_value('tax_name'); ?>"><div class="validation_msg"></div>  

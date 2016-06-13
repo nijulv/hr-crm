@@ -131,6 +131,8 @@
                     </div>
                 </div>
             </div><!--/.row-->
+            
+            <!-- Add Note pop up -->
             <div id="myModal" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -141,13 +143,12 @@
                         <div class="modal-body">
                             <!--<input id="main_calendar" name="main_calendar" type="date" name="calendar" class="form-control input-md" data-date-format="yyyy-mm-dd" placeholder="Date" readonly>-->
 
-                            <div class='input-group' id='datetimepicker1'>
+                            <div class='input-group datetimepicker1' id='datetimepicker1'>
                                 <input type='text' class="form-control" name="main_calendar" id="main_calendar" />
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
                             </div>
-
                          </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-success" id ="save" data-dismiss="modal">Save</button>
@@ -155,23 +156,61 @@
                     </div>
                 </div>
             </div>
-            <div id="editModal" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                             <h4 class="modal-title">Select date and time</h4>
-                        </div>
-                        <div class="modal-body" id="todocontent">
-                            
-                         </div>
-                        
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success" id ="updatetodo" data-dismiss="modal">Save</button>
+            <!-- Add Note pop up ends -->
+            
+            <!-- Edit Note pop up -->
+                <div id="editModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                 <h4 class="modal-title">Select date and time</h4>
+                            </div>
+                            <div class="modal-body" id="todocontent">
+                                
+                                <div class="row" style="padding-bottom: 15px;">
+                                    <div class="col-lg-3 col-sm-3 col-md-3">
+                                        <b>Note : </b>
+                                    </div>
+                                    <div class="col-lg-8 col-sm-8 col-md-8">
+                                        <input id="todoid_edit" name="todoid" type="hidden" class="form-control input-md space" value="">
+                                        <input id="todotext_edit" name="todotext" type="text" class="form-control input-md space" value="">
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-bottom: 15px;">
+                                    <div class="col-lg-3 col-sm-3 col-md-3">
+                                        <b>Date : </b>
+                                    </div> 
+                                    <div class="col-lg-8 col-sm-8 col-md-8" >
+                                        <div class='input-group datetimepicker1' id='datetimepicker1'>
+                                            <input type='text' class="form-control" name="popup_calender" id="popup_calender" value=""/>
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-bottom: 15px;">
+                                    <div class="col-lg-3 col-sm-3 col-md-3">
+                                        <b>Status : </b>
+                                    </div>
+                                    <div class="col-lg-8 col-sm-8 col-md-8">
+                                        <select name = "todostatus_edit" id = "todostatus_edit" class= "form-control">
+                                            <option value = "Pending">Pending</option>
+                                            <option value = "Partially completed">Partially completed</option>
+                                            <option value = "Completed">Completed</option>
+                                        </select> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" id ="updatetodo" data-dismiss="modal">Save</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+             <!-- Edit Note pop up ends -->
+             
             <div class="row">
                 <div class="col-xs-6 col-md-3">
                     <div class="panel panel-default">

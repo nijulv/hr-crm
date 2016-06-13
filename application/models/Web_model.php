@@ -99,7 +99,8 @@ class Web_model extends CI_Model {
             $this->db->where('admin_id',$type);
         }
         $this->db->select('id,todo,status');
-        $this->db->where('date',$date);
+        $this->db->like('date',$date);
+        $this->db->order_by("date","asc");
         $query = $this->db->get('todo');
         return $query->result_array();
     }
@@ -192,14 +193,23 @@ class Web_model extends CI_Model {
             $this->db->join('districts d', 'd.id = u.district_id', 'left');
         }
         if($search_user != ''){
-           // $this->db->where('u.user_id',$search_user);
-            $this->db->like('u.first_name',$search_user);
-            $this->db->or_like('u.last_name',$search_user);
+            
+            $fullname = explode(" ",$search_user);
+            if($fullname[0] != ''){
+                $this->db->where('u.first_name',$fullname[0]);
+            }
+            if($fullname[1] != ''){
+                $this->db->where('u.last_name',$fullname[1]);
+            }
         }
-        if($search_name_agent != ''){
-            //$this->db->where('u.agent_id',$search_name_agent);
-            $this->db->like('a.first_name',$search_name_agent);
-            $this->db->like('a.last_name',$search_name_agent);
+        if($search_name_agent != ''){  
+            $fullname = explode(" ",$search_name_agent);
+            if($fullname[0] != ''){
+                $this->db->where('a.first_name',$fullname[0]);
+            }
+            if($fullname[1] != ''){
+                $this->db->where('a.last_name',$fullname[1]);
+            }
         }
         if($state_search != ''){   
             $this->db->where('u.state_id',$state_search);
@@ -222,7 +232,7 @@ class Web_model extends CI_Model {
         if($mobile == 0) {
             $this->db->limit($limit, $start);
         }
-        $query = $this->db->get();            //echo $this->db->last_query();
+        $query = $this->db->get();            // echo $this->db->last_query();
         if($query->num_rows() > 0){
             return $query->result_array();
         } 
@@ -254,14 +264,24 @@ class Web_model extends CI_Model {
            }
         }
         if($search_name != ''){
-            //$this->db->where('p.user_id',$search_name);
-            $this->db->like('u.first_name',$search_name);
-            $this->db->or_like('u.last_name',$search_name);
+            
+            $fullname = explode(" ",$search_name);
+            if($fullname[0] != ''){
+                $this->db->where('u.first_name',$fullname[0]);
+            }
+            if($fullname[1] != ''){
+                $this->db->where('u.last_name',$fullname[1]);
+            }
         }
         if($search_name_agent != ''){
-           // $this->db->where('p.agent_id',$search_name_agent);
-            $this->db->like('a.first_name',$search_name_agent);
-            $this->db->or_like('a.last_name',$search_name_agent);
+            
+            $fullname = explode(" ",$search_name_agent);
+            if($fullname[0] != ''){
+                $this->db->where('a.first_name',$fullname[0]);
+            }
+            if($fullname[1] != ''){
+                $this->db->where('a.last_name',$fullname[1]);
+            }
         }
         if($fromdate_search != '') {
             $this->db->where('p.date >=', $fromdate_search);
@@ -359,13 +379,15 @@ class Web_model extends CI_Model {
             $this->db->like('p.total_payment',$search_user); 
             $this->db->or_like('p.bank_payment',$search_user); 
         }
-        if($search_name != ''){
-            $this->db->like('p.user_id',$search_name);
-        }
         if($search_name_agent != ''){
-            //$this->db->where('p.agent_id',$search_name_agent);
-            $this->db->like('a.first_name',$search_name_agent);
-            $this->db->or_like('a.last_name',$search_name_agent);
+            
+            $fullname = explode(" ",$search_name_agent);
+            if($fullname[0] != ''){
+                $this->db->where('a.first_name',$fullname[0]);
+            }
+            if($fullname[1] != ''){
+                $this->db->where('a.last_name',$fullname[1]);
+            }
         }
         if($fromdate_search != '') {
             $this->db->where('p.date >=', $fromdate_search);
@@ -711,9 +733,17 @@ class Web_model extends CI_Model {
         return $this->db->count_all_results();
     }
     
-    public function todolist_serchlist ($date_val = '') {
-        $this->db->where('date', $date_val);
-        $query = $this->db->get("todo"); 
+    public function todolist_serchlist ($date_val = '') { 
+        if(s('ADMIN_TYPE') == 0){
+             $this->db->where('admin_id',0);
+        }else{
+            $type = $this->session->userdata("ADMIN_USERID");
+            $this->db->where('admin_id',$type);
+        }
+        
+        $this->db->like('date', $date_val);
+        $this->db->order_by("date","asc");
+        $query = $this->db->get("todo");   
         if($query->num_rows () >0)
             return $query->result_array();
         else
@@ -928,7 +958,7 @@ class Web_model extends CI_Model {
         if($search_term != '') {
             $this->db->like('u.first_name',$search_term);
             $this->db->or_like('u.last_name',$search_term);
-            $this->db->or_like('phone',$search_term);
+            $this->db->or_like('u.phone',$search_term);
         }
         if($search_title != ''){
            if(is_numeric($search_title)) {
@@ -948,6 +978,46 @@ class Web_model extends CI_Model {
              $this->db->where('p.agent_id',s('ADMIN_USERID'));
         }
         $this->db->order_by("p.payment_id","desc");
+        if($mobile == 0) {
+            $this->db->limit($limit, $start);
+        }
+        $query = $this->db->get();     
+        if($query->num_rows () >0)
+            return $query->result_array();
+        else
+            return false;
+    }
+    
+    public function get_bank_payment_reportlist($limit = '', $start = '', $payment_code = '',$search_amount = '' ,$fromdate_search = '' ,$todate_search = '',$mobile = 0) {
+        
+        if(s('ADMIN_TYPE') == 0){
+            $this->db->select("SQL_CALC_FOUND_ROWS p.*,a.first_name as afirstname,a.last_name as alastname",FALSE); 
+            $this->db->from('crm_bank_payment p');
+            $this->db->join('crm_agents a', 'a.agent_id = p.agent_id', 'left');
+        }
+        else {
+            $this->db->select("SQL_CALC_FOUND_ROWS p.*",FALSE); 
+            $this->db->from('crm_bank_payment p');
+        }
+        
+        if($payment_code != '')  {
+            $this->db->where('p.bank_payment_code', $payment_code);
+        }
+        
+        if($search_amount != '')  {
+            $this->db->where('p.bank_payment', $search_amount);
+            $this->db->or_where('p.amount_hand', $search_amount);
+        }
+        if($fromdate_search != '') 
+            $this->db->where('p.date >=', $fromdate_search);
+        if($todate_search != '') 
+        $this->db->where('p.date <=', $todate_search);
+        
+        $this->db->where('p.status','1');
+        if(s('ADMIN_TYPE') == 1){
+             $this->db->where('p.agent_id',s('ADMIN_USERID'));
+        }
+        $this->db->order_by("p.bank_payment_id","desc");
         if($mobile == 0) {
             $this->db->limit($limit, $start);
         }
@@ -1040,6 +1110,13 @@ class Web_model extends CI_Model {
             $this->db->join('states s', 's.id = u.state_id', 'left');
             $this->db->join('districts d', 'd.id = u.district_id', 'left');
         }
+        else if($tbl_name == 'crm_bank_payment') {
+            $this->db->select("p.*");
+            $where = array(
+                'bank_payment_id' => $id
+            );
+            $this->db->from('crm_bank_payment p');
+        }
         else if($tbl_name == 'crm_users') {
             $this->db->select("u.*,s.name as state,d.name as districts");
             $where = array(
@@ -1069,7 +1146,57 @@ class Web_model extends CI_Model {
         }
     }
     
-     public function district_autocomplete($keyword = '') {
+    public function agent_autocomplete($keyword = '') {
+         
+        $this->db->select('*');
+        $this->db->from("crm_agents");
+        $this->db->where("status !=", '0');
+        $this->db->like("first_name",$keyword);
+        $this->db->order_by("agent_id","desc");
+        $query = $this->db->get();  
+        if($query->num_rows () >0)
+            return $query->result_array();
+        else
+            return false;
+    }
+    
+    public function user_autocomplete($keyword = '') {
+         
+        $this->db->select('*');
+        $this->db->from("crm_users");
+        
+        if(s('ADMIN_TYPE') == 1){
+             $this->db->where('agent_id',s('ADMIN_USERID'));
+        }
+        $this->db->where("status !=", '2');
+        $this->db->like("first_name",$keyword);
+        $this->db->order_by("user_id","desc");
+        $query = $this->db->get();  
+        if($query->num_rows () >0)
+            return $query->result_array();
+        else
+            return false;
+    }
+    
+    public function bank_payment_autocomplete($keyword = '') {
+         
+        $this->db->select('*');
+        $this->db->from("crm_bank_payment");
+        
+        if(s('ADMIN_TYPE') == 1){
+             $this->db->where('agent_id',s('ADMIN_USERID'));
+        }
+        $this->db->where("status", '1');
+        $this->db->like("bank_payment_code",$keyword);
+        $this->db->order_by("bank_payment_id","desc");
+        $query = $this->db->get();  
+        if($query->num_rows () >0)
+            return $query->result_array();
+        else
+            return false;
+    }
+    
+    public function district_autocomplete($keyword = '') {
          
         $query = $this->db->query("SELECT name FROM districts WHERE name LIKE '$keyword%'");
         if ($query->num_rows() > 0)

@@ -116,16 +116,20 @@ var Manageuser = function(){
                
                var id = $(this).data('id'); 
                var name = $(this).data('name'); 
-               var value = $(this).data('value'); 
+               var value = $(this).data('value');   
                
-                $("#adddiv").show();
+                $("#adddiv").show('600');
+               $("#sub_title").html('Modify Tax');
                $("#tax_name").val(name);
                $("#tax_percentage").val(value);
                $("#tax_id").val(id);
             });
            
            $('.addnewtax').on('click', function(e){    
-               $("#adddiv").show();
+               $("#adddiv").toggle('600');
+               $("#tax_name").val('');
+               $("#tax_percentage").val('');
+               $("#sub_title").html('Add Tax');
            });
            
            $('.edit_caterory').on('click', function(e){    
@@ -228,17 +232,6 @@ var Manageuser = function(){
                 } 
             });
             
-            $(document).on("change","#todo_search",function() {  
-                var date_val = $("#todo_search").val(); 
-                $.ajax({
-                    type    : "POST",
-                    url     : base_url+'search_todolist'+'/'+date_val,
-                    //dataType: "json",
-                    success : function(data){   
-                        $('#todo_list').html(data);
-                    }
-                });
-            })
             
             $('#todo-panel').on('click','.deletetodo', function(){ 
        
@@ -268,13 +261,19 @@ var Manageuser = function(){
                   $.ajax({
                         type    : "POST",
                         url     : base_url+todourl+'/'+todo_id,
-                        success : function(data){  
-                                  $('#todocontent .row').remove();
-                                  $('#todocontent b').remove();
-                                  $('#todocontent input').remove();
-                                  $('#todocontent').append(data);
-                                  $('#editModal').modal();
+                        success : function(data){    
                             
+                            var data = $.parseJSON(data);  
+                            
+                            var todoid = data["todoid"];
+                            var todotext = data["todotext"];
+                            var date = data["date"];
+                            
+                            $("#todoid_edit").val(todoid);
+                            $("#todotext_edit").val(todotext);
+                            $("#popup_calender").val(date);
+                            
+                            $('#editModal').modal();
                         }
                     });
                  
@@ -288,8 +287,8 @@ var Manageuser = function(){
                         type    : "POST",
                         url     : base_url+'updatetodo',
                         dataType: "json",
-                        data    : {'todoid':$('#todoid').val(),
-                                   'todo':$('#todotext').val(),
+                        data    : {'todoid':$('#todoid_edit').val(),
+                                   'todo':$('#todotext_edit').val(),
                                    'todostatus':$('#todostatus_edit').val(),
                                    'calendar':$('#popup_calender').val()},
                         success : function(data){
@@ -315,38 +314,8 @@ var Manageuser = function(){
 
                     })
                 
-            })
-            $('#save').on('click', function(){      alert("aaa"); 
-                 $('.panel-footer font').remove();
-                    $.ajax({
-                        type    : "POST",
-                        url     : base_url+'todo',
-                        dataType: "json",
-                        data    : {'todo':$('#todo').val(),
-                                   'calendar':$('#main_calendar').val(),
-                                   'todostatus':$('#todostatus').val()},
-                        success : function(data){
-                            alert(data);
-                            if(data.success==1){
-                                if(0 == $('.todo-list').length){
-                                    var html = '<div class="panel-body"><ul class="todo-list">'+data.html+'</div></div>';
-                                    $('#todo-panel .panel-heading').after(html);
-                                    $('.panel-footer').append(data.msg);
-                                    $('.panel-footer font').delay(2000).fadeOut();
-                                }else{
-                                     $('.todo-list').append(data.html);
-                                     $('.panel-footer').append(data.msg);
-                                     $('.panel-footer font').delay(2000).fadeOut();
-                                }
-                                
-                            }else{
-                                 $('.panel-footer').append(data.msg);
-                                 $('.panel-footer font').delay(2000).fadeOut();
-                            }
-                           $('#todo').val('');
-                        }
-                    });
-            }); 
+            }) 
+            
             $('#state').on('change', function(){  
            
                  $.ajax({
@@ -418,7 +387,132 @@ var Manageuser = function(){
                     });
                 }
             })
-
+            
+            $(document).on("change","#todo_search",function() {  
+                var date_val = $("#todo_search").val(); 
+                $.ajax({
+                    type    : "POST",
+                    url     : base_url+'search_todolist'+'/'+date_val,
+                    //dataType: "json",
+                    success : function(data){   
+                        $('#todo_list').html(data);
+                    }
+                });
+            })
+            
+            $('#save').on('click', function(){      
+                 $('.panel-footer font').remove();  
+                    $.ajax({
+                        type    : "POST",
+                        url     : base_url+'todo',
+                        dataType: "json",
+                        data    : {'todo':$('#todo').val(),
+                                   'calendar':$('#main_calendar').val(),
+                                   'todostatus':$('#todostatus').val()},
+                        success : function(data){
+                            if(data.success==1){
+                                //$('.todo-list').append(data.html);
+                                $('#todo_list').html('');
+                                $('#todo_list').html(data.html);
+                                $('.panel-footer').append(data.msg);
+                                $('.panel-footer font').delay(2000).fadeOut();
+                            }else{
+                                 $('.panel-footer').append(data.msg);
+                                 $('.panel-footer font').delay(2000).fadeOut();
+                            }
+                           $('#todo').val('');
+                        }
+                    });
+            });
+            
+             
+            $("#search_name_agent").keyup(function () { 
+                var id = $(this).attr("id");    
+                if (this.value.length > 1) {
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "agent_autocomplete",
+                        data: {'keyword': $(this).val(), 'selector': id},
+                        beforeSend: function () {  
+                            $("#search_name_agent").css("background", "#FFF url(" + assets_url + "images/LoaderIcon.gif) no-repeat 165px");
+                        },
+                        success: function (data) {
+                            $(".suggesstion-box-agent").show();
+                            $(".suggesstion-box-agent").html(data);
+                            $("#search_name_agent").css("background", "#FFF");
+                        }
+                    });
+                }
+                else {
+                    $(".suggesstion-box-agent").hide();
+                }
+            });
+            
+            $('.panel-body').on('click','.agentautolist', function(){  
+                
+                var val = $(this).attr("data-value");    
+                $("#search_name_agent").val(val);
+                $(".suggesstion-box-agent").hide();
+            });
+            
+            $("#search_user").keyup(function () { 
+                var id = $(this).attr("id");    
+                if (this.value.length > 1) {
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "user_autocomplete",
+                        data: {'keyword': $(this).val(), 'selector': id},
+                        beforeSend: function () {  
+                            $("#search_user").css("background", "#FFF url(" + assets_url + "images/LoaderIcon.gif) no-repeat 165px");
+                        },
+                        success: function (data) {
+                            $(".suggesstion-box").show();
+                            $(".suggesstion-box").html(data);
+                            $("#search_user").css("background", "#FFF");
+                        }
+                    });
+                }
+                else {
+                    $(".suggesstion-box").hide();
+                }
+            });
+            
+            $('.panel-body').on('click','.userautolist', function(){  
+                
+                var val = $(this).attr("data-value");    
+                $("#search_user").val(val);
+                $(".suggesstion-box").hide();
+            });
+            
+             $("#payment_code").keyup(function () { 
+                var id = $(this).attr("id");    
+                if (this.value.length > 1) {
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "bank_payment_autocomplete",
+                        data: {'keyword': $(this).val(), 'selector': id},
+                        beforeSend: function () {  
+                            $("#payment_code").css("background", "#FFF url(" + assets_url + "images/LoaderIcon.gif) no-repeat 165px");
+                        },
+                        success: function (data) {
+                            $(".suggesstion-box").show();
+                            $(".suggesstion-box").html(data);
+                            $("#payment_code").css("background", "#FFF");
+                        }
+                    });
+                }
+                else {
+                    $(".suggesstion-box").hide();
+                }
+            });
+            
+            $('.panel-body').on('click','.bankpaymentautolist', function(){ 
+                
+                var val = $(this).attr("data-value");    
+                $("#payment_code").val(val);
+                $(".suggesstion-box").hide();
+            });
+            
             $("#search_district").keyup(function () {  
                 var id = $(this).attr("id");    
                 if (this.value.length > 1) {
@@ -437,7 +531,7 @@ var Manageuser = function(){
                     });
                 }
                 else {
-                    $(".suggesstion-box-suburb").hide();
+                    $(".suggesstion-box").hide();
                 }
             });
             

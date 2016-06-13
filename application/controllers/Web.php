@@ -173,12 +173,11 @@ class Web extends CI_Controller {
         $this->load->library('form_validation');
         $this->form_validation->set_rules('todo', 'Schedule', 'required');
         $this->form_validation->set_rules('calendar', 'Date', 'required');
-        $date_regex = '#^(19|20)\d\d[\- /.](0[1-9]|1[012])[\- /.](0[1-9]|[12][0-9]|3[01])$#';
-        if (!preg_match($date_regex, $date)) {
-            $this->form_validation->set_rules('calendar', 'Date', 'required|regex_match[(^\d{4}-\d{2}-\d{2})$]');
-        }
+        //$date_regex = '#^(19|20)\d\d[\- /.](0[1-9]|1[012])[\- /.](0[1-9]|[12][0-9]|3[01])$#';
+        //if (!preg_match($date_regex, $date)) {
+            //$this->form_validation->set_rules('calendar', 'Date', 'required|regex_match[(^\d{4}-\d{2}-\d{2})$]');
+        //}
         if ($this->form_validation->run() == TRUE) {
-
             if (s('ADMIN_TYPE') == 0) {
                 $admin_id = 0;
             } else {
@@ -193,30 +192,37 @@ class Web extends CI_Controller {
             $save = $this->db->insert('todo', $update_data);
             $id = $this->db->query('SELECT MAX(id) AS maxid FROM todo')->row()->maxid;
             if ($save) {
-                if ($currentdate == $date) {
-                    if ($todostatus == 'Completed') {
-                        $label_color = 'label-success';
-                    } else if ($todostatus == 'Pending') {
-                        $label_color = 'label-danger';
-                    } else {
-                        $label_color = 'label-warning';
-                    }
-                    $result['success'] = 1;
-                    $result['msg'] = '<font color="green">Saved</font>';
-                    $result['html'] = '<li class="todo-list-item" id=' . $id . ' style = "border-bottom: #F1F4F7 solid 1px;">
+                
+                $result['success'] = 1;
+                $result['msg'] = '<font color="green">Saved</font>';
+                $date_val = date('Y-m-d');
+                $result['html'] = '';
+                $results = $this->web_model->todolist_serchlist($date_val);
+                if ($results) {
+                    foreach ($results as $res) {
+                        if ($res['status'] == 'Completed') {
+                            $label_color = 'label-success';
+                        } else if ($res['status'] == 'Pending') {
+                            $label_color = 'label-danger';
+                        } else {
+                            $label_color = 'label-warning';
+                        }
+                        $result['html'] .= '<li class="todo-list-item" id=' . $res['id'] . ' style = "border-bottom: #F1F4F7 solid 1px;">
                                         <div class="checkbox">
                                             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                                            <label for="checkbox">' . $data . '</label>
+                                            <label for="checkbox">' . $res['todo'] . '</label>
                                         </div>
                                         <div class="pull-right action-buttons">
-                                            <span class="label ' . $label_color . '" style="padding: 0.1em 0.4em 0.1em;">' . $todostatus . '</span>
-                                            <a href="javascript: void(0)" data-id=' . $id . ' data-url="edittodo" class="edittodo"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;
-                                            <a href="javascript: void(0)" id="deletetodo" data-url="deletetodo" class="trash deletetodo" data-id=' . $id . '><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                            <span class="label ' . $label_color . '" style="padding: 0.1em 0.4em 0.1em;">' . $res['status'] . '</span>
+                                            <a href="javascript: void(0)" data-id=' . $res['id'] . ' data-url="edittodo" class="edittodo"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;
+                                            <a href="javascript: void(0)" id="deletetodo" data-url="deletetodo" class="trash deletetodo" data-id=' . $res['id'] . '><i class="fa fa-trash" aria-hidden="true"></i></a>
                                         </div>
                                     </li>';
-                } else {
-                    $result['msg'] = '<font color="green" class="text-success">Saved</font>';
+                    }
                 }
+            }
+            else {
+                $result['msg'] = '<font color="red" class="text-danger">Notes not saved,Please try again.</font>';
             }
         } else {
             $result['msg'] = '<font color="red" class="text-danger">' . validation_errors() . '</font>';
@@ -275,8 +281,29 @@ class Web extends CI_Controller {
         }
         $this->load->view('show_message', array('message' => json_encode($result)));
     }
-
+    
     function edittodo($todoid) {
+        $result = array('succes' => 0, 'msg' => '', 'html' => '');
+        if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        $edit_todo = $this->web_model->edit_todo($todoid);
+        $edit_todo = $edit_todo[0];
+        if ($edit_todo) {
+            
+            $result['todoid']  = $edit_todo['id'];
+            $result['todotext']  = $edit_todo['todo'];
+            $result['date']  = $edit_todo['date'];
+             
+           $output = array("status" => 1, "msg" => "Success","todoid" => $result['todoid'],"todotext" => $result['todotext'],"date" => $result['date']);
+            
+            echo json_encode($output);
+        } else {
+            $result['html'] = '<font color="red class="text-danger"">Error</font>';
+        }
+    }
+    
+    function edittodo_old($todoid) {
         $result = array('succes' => 0, 'msg' => '', 'html' => '');
         if (!($this->session->userdata("ADMIN_USERID"))) {
             redirect("web");
@@ -290,18 +317,22 @@ class Web extends CI_Controller {
                                     </div>
                                     <div class="col-lg-8 col-sm-8 col-md-8">
                                         <input id="todoid" name="todoid" type="hidden" class="form-control input-md space" value="' . $edit_todo['id'] . '">
-                                        <input id="todotext" name="todotext" type="text" class="form-control input-md space" placeholder="Add new schedule" value="' . $edit_todo['todo'] . '">
+                                        <input id="todotext" name="todotext" type="text" class="form-control input-md space" value="' . $edit_todo['todo'] . '">
                                     </div>
                                 </div>
                             <div class="row" style="padding-bottom: 15px;">
-                                    <div class="col-lg-3 col-sm-3 col-md-3">
-                                        <b>Date : </b>
+                                <div class="col-lg-3 col-sm-3 col-md-3">
+                                    <b>Date : </b>
+                                </div> '?>
+                                <div class="col-lg-8 col-sm-8 col-md-8" >
+                                    <div class='input-group datetimepicker1' id='datetimepicker1'>
+                                        <input type='text' class="form-control" name="popup_calender" id="popup_calender" value="<?php echo $edit_todo['date'];?>"/>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
                                     </div>
-                                    <div class="col-lg-8 col-sm-8 col-md-8">
-                                        <input id="popup_calender" name="popup_calender" type="text"   class="form-control input-md"  placeholder="Date" value=' . $edit_todo['date'] . ' readonly>
-                                    </div>
-                                </div>';
-            ?>
+                                </div>
+                            </div>
             <div class="row" style="padding-bottom: 15px;">
                 <div class="col-lg-3 col-sm-3 col-md-3">
                     <b>Status : </b>
@@ -316,7 +347,7 @@ class Web extends CI_Controller {
             </div>
         <?php
         } else {
-            $result['html'] = '<font color="red class="text-danger"">Error!!!!</font>';
+            $result['html'] = '<font color="red class="text-danger"">Error</font>';
         }
     }
 
@@ -324,16 +355,23 @@ class Web extends CI_Controller {
         $result = array('succes' => 0, 'msg' => '', 'html' => '');
         $todoid = $this->input->post('todoid');
         $data = $this->input->post('todo');
-        $date = $this->input->post('calendar');
+        //$date = $this->input->post('calendar');
         $status = $this->input->post('todostatus');
         $currentdate = date('Y-m-d');
+        
+        $date = $this->input->post('calendar');
+        
+        $dateTime = new DateTime($date);
+        $formatted_date = date_format ( $dateTime, 'Y-m-d H:i' );
+        $date = $formatted_date;
+        
         $this->load->library('form_validation');
         $this->form_validation->set_rules('todo', 'Schedule', 'required');
         $this->form_validation->set_rules('calendar', 'Date', 'required');
-        $date_regex = '#^(19|20)\d\d[\- /.](0[1-9]|1[012])[\- /.](0[1-9]|[12][0-9]|3[01])$#';
-        if (!preg_match($date_regex, $date)) {
-            $this->form_validation->set_rules('calendar', 'Date', 'required|regex_match[(^\d{4}-\d{2}-\d{2})$]');
-        }
+        //$date_regex = '#^(19|20)\d\d[\- /.](0[1-9]|1[012])[\- /.](0[1-9]|[12][0-9]|3[01])$#';
+        //if (!preg_match($date_regex, $date)) {
+            //$this->form_validation->set_rules('calendar', 'Date', 'required|regex_match[(^\d{4}-\d{2}-\d{2})$]');
+        //}
         if ($this->form_validation->run() == TRUE) {
 
             $update_data = array(
@@ -344,8 +382,6 @@ class Web extends CI_Controller {
             $where = array('id' => $todoid);
             $save = $this->db->update('todo', $update_data, $where);
             if ($save) {
-                if ($currentdate == $date) {
-
                     $result = $this->web_model->get_todo();
                     $datas = '';
                     if ($result) {
@@ -372,16 +408,16 @@ class Web extends CI_Controller {
                         }
                     }
 
-
                     $result['success'] = 1;
                     $result['msg'] = '<font color="green" class="text-Success">Note modified successfully</font>';
                     $result['title'] = $data;
                     $result['datas'] = $datas;
-                } else {
-                    $result['msg'] = '<font color="green" class="text-success">Note modified successfully</font>';
-                }
             }
-        } else {
+            else {
+                    $result['msg'] = '<font color="green" class="text-success">Note not modified,Please try again later </font>';
+                }
+        }
+        else {
             $result['success'] = 2;
             $result['msg'] = '<font color="red" class="text-danger">' . validation_errors() . '</font>';
         }
@@ -456,6 +492,53 @@ class Web extends CI_Controller {
         }
     }
 
+    function bank_payment_reports() {
+        if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        } else {
+
+            $config['per_page'] = 25;
+
+            $this->gen_contents['per_page'] = $config['per_page'];
+            $pagin = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+
+            if ($this->input->post("payment_code") != '')
+                $payment_code = trim($this->input->post("payment_code", true));
+            else
+                $payment_code = '';
+
+            if ($this->input->post("payment_code") != '')
+                $search_amount = trim($this->input->post("search_amount", true));
+            else
+                $search_amount = '';
+            if ($this->input->post("fromdate_search") != '')
+                $fromdate_search = $this->input->post("fromdate_search", true);
+            else
+                $fromdate_search = '';
+            if ($this->input->post("todate_search") != '')
+                $todate_search = $this->input->post("todate_search", true);
+            else
+                $todate_search = '';
+
+            $this->gen_contents['details'] = $this->web_model->get_bank_payment_reportlist($config['per_page'], $pagin, $payment_code, $search_amount, $fromdate_search, $todate_search);
+            $total_records = $this->web_model->get_total_rows();
+            //--pagination
+            $this->load->library('pagination');
+            $this->load->library('bspagination');
+            $config['base_url'] = base_url() . 'bank_payment_reports';
+            $config['total_rows'] = $total_records;
+            $bs_init = $this->bspagination->config();
+            $config = array_merge($config, $bs_init);
+            $this->pagination->initialize($config);
+            $this->gen_contents['links'] = $this->pagination->create_links();
+
+            $this->gen_contents['reports'] = '1';
+            $this->gen_contents['bank_report'] = 'active';
+            $this->template->write_view('content', 'report__bankpayment', $this->gen_contents);
+            $this->template->render();
+        }
+    }
+    
     function payment_reports() {
         if (!($this->session->userdata("ADMIN_USERID"))) {
             redirect("web");
@@ -573,14 +656,64 @@ class Web extends CI_Controller {
         }
     }
 
+    public function agent_autocomplete() {
+        $keyword = $this->input->post("keyword");
+        $selector = $this->input->post("selector");
+        if ($keyword != '') {
+            $result = $this->web_model->agent_autocomplete($keyword);
+            if ($result) { ?>
+                <ul id="district-auto-complete">
+                <?php foreach ($result as $data) { ?>
+                        <li  class = "agentautolist" data-value = "<?php echo $data["first_name"].' '.$data["last_name"]; ?>"><?php echo $data["first_name"].' '.$data["last_name"]; ?></li>
+
+                <?php } ?>
+                </ul>
+            <?php
+            }
+        }
+    }
+    
+    public function bank_payment_autocomplete() {
+        $keyword = $this->input->post("keyword");
+        $selector = $this->input->post("selector");
+        if ($keyword != '') {
+            $result = $this->web_model->bank_payment_autocomplete($keyword);
+            if ($result) { ?>
+                <ul id="district-auto-complete">
+                <?php foreach ($result as $data) { ?>
+                        <li  class = "bankpaymentautolist" data-value = "<?php echo $data["bank_payment_code"]; ?>"><?php echo $data["bank_payment_code"]; ?></li>
+
+                <?php } ?>
+                </ul>
+            <?php
+            }
+        }
+    }
+    
+    public function user_autocomplete() {
+        $keyword = $this->input->post("keyword");
+        $selector = $this->input->post("selector");
+        if ($keyword != '') {
+            $result = $this->web_model->user_autocomplete($keyword);
+            if ($result) { ?>
+                <ul id="district-auto-complete">
+                <?php foreach ($result as $data) { ?>
+                        <li  class = "userautolist" data-value = "<?php echo $data["first_name"].' '.$data["last_name"]; ?>"><?php echo $data["first_name"].' '.$data["last_name"]; ?></li>
+
+                <?php } ?>
+                </ul>
+            <?php
+            }
+        }
+    }
+    
     public function district_autocomplete() {
         $keyword = $this->input->post("keyword");
         $selector = $this->input->post("selector");
         if ($keyword != '') {
             $this->load->model('web_model');
             $result = $this->web_model->district_autocomplete($keyword);
-            if ($result) {
-                ?>
+            if ($result) { ?>
                 <ul id="district-auto-complete">
                 <?php foreach ($result as $data) { ?>
                         <li  class = "districtautolist" data-value = "<?php echo $data["name"]; ?>"><?php echo $data["name"]; ?></li>

@@ -76,6 +76,7 @@
                     <?php } ?>
                         <li class = "<?php echo $user_report; ?>"><a href="<?php echo base_url(); ?>user_reports">Client/Prospect</a></li>
                         <li class = "<?php echo $payment_report; ?>"><a href="<?php echo base_url(); ?>payment_reports">Collection</a></li>
+                        <li class = "<?php echo $bank_report; ?>"><a href="<?php echo base_url(); ?>bank_payment_reports">Bank Statement</a></li>
                     </ul>
                 </li>
 
@@ -146,7 +147,7 @@
             //Date date = new Date();
             //String formattedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date);
             $(function () {                
-                $('#datetimepicker1').datetimepicker({
+                $('.datetimepicker1').datetimepicker({
                 });
             });
         </script>

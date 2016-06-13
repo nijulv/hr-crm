@@ -127,6 +127,9 @@ $route['forgotpassword']   = "web/forgotpassword";
 $route['agent_reports']           = "web/agent_reports";
 $route['agent_reports/(:num)']    = "web/agent_reports/$1";
 
+$route['bank_payment_reports']           = "web/bank_payment_reports";
+$route['bank_payment_reports/(:num)']    = "web/bank_payment_reports/$1";
+
 $route['payment_reports']           = "web/payment_reports";
 $route['payment_reports/(:num)']    = "web/payment_reports/$1";
 
@@ -136,6 +139,9 @@ $route['user_reports/(:num)']    = "web/user_reports/$1";
 $route['viewmore/(:any)/(:any)']      = "ajax/viewmore/$1/$2";
 $route['viewuserlist/(:any)/(:any)']  = "ajax/viewuserlist/$1/$2";
 $route['district_autocomplete']       = "web/district_autocomplete";
+$route['user_autocomplete']       = "web/user_autocomplete";
+$route['agent_autocomplete']       = "web/agent_autocomplete";
+$route['bank_payment_autocomplete']       = "web/bank_payment_autocomplete";
 
 $route['check_username_available']    = "web/check_username_available";
 $route['check_user_payment']          = "web/check_user_payment";

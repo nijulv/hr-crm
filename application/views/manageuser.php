@@ -48,13 +48,13 @@
                         <div class="row">
                             <?php if(s('ADMIN_TYPE') == 0){ ?>
                                 <div class="col-md-2">
-                                     <input type = "text" name = "search_name_agent" class="form-control" placeholder="Agent name" value = "<?php echo set_value('search_name_agent'); ?>">
-                                     
+                                     <input type = "text" id = "search_name_agent" name = "search_name_agent" class="form-control" placeholder="Agent name" value = "<?php echo set_value('search_name_agent'); ?>">
+                                     <div class = "suggesstion-box-agent"></div>
                                 </div>
                             <?php }?>
                             <div class="col-md-2">
-                                <input type = "text" name = "search_user" class="form-control" placeholder="Client/Prospect name" value = "<?php echo set_value('search_user'); ?>">
-                                 
+                                <input type = "text" name = "search_user" id = "search_user" class="form-control" placeholder="Client/Prospect name" value = "<?php echo set_value('search_user'); ?>">
+                                 <div class = "suggesstion-box"></div>
                             </div>
                             <div class="col-md-2">
                                 <select name="state_search" id="state" class="form-control">
