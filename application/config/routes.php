@@ -141,5 +141,6 @@ $route['check_username_available']    = "web/check_username_available";
 $route['check_user_payment']          = "web/check_user_payment";
 
 $route['category_add']          = "web/category_add";
+$route['tax_add']               = "web/tax_add";
 
 $route['remove_attchments/(:any)/(:any)']         = "web/remove_attchments/$1/$2";

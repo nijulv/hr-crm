@@ -500,8 +500,8 @@ class Web_model extends CI_Model {
             return $query->result_array();
     }
     
-    public function insert_category ($data = array(),$tbl_name = '') {             
-        $sel_query = $this->db->get_where($tbl_name, $data);           
+    public function check_insert ($data = array(),$tbl_name = '',$data_check = array()) {             
+        $sel_query = $this->db->get_where($tbl_name, $data_check);           
         if ($sel_query->num_rows() == 0) {
 		$query = $this->db->insert($tbl_name, $data);     
 		if ($this->db->affected_rows() > 0){
@@ -515,6 +515,7 @@ class Web_model extends CI_Model {
             return 3;
         }
     }
+    
     
     public function insert_payments ($data = array(),$tbl_name = '') {             
         $sel_query = $this->db->get_where($tbl_name, $data);           

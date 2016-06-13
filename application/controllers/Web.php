@@ -698,9 +698,9 @@ class Web extends CI_Controller {
             $bs_init = $this->bspagination->config();
             $config = array_merge($config, $bs_init);
             $this->pagination->initialize($config);
-            $this->gen_contents['links'] = $this->pagination->create_links();
-
-            $this->gen_contents['link_category'] = 'active';
+            $this->gen_contents['links'] =  $this->pagination->create_links();     
+                     
+            $this->gen_contents['link_tax']  = 'active';
             $this->template->write_view('content', 'manage_tax', $this->gen_contents);
             $this->template->render();
         }
@@ -1264,7 +1264,56 @@ class Web extends CI_Controller {
         }
     }
 
-    public function category_add() {
+    public function tax_add () {
+        if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        }
+        else {
+            $tax_id          = $this->input->post("tax_id",true);
+            $tax_name        = $this->input->post("tax_name",true);
+            $tax_percentage  = $this->input->post("tax_percentage",true);
+            
+            if($tax_id != ''){
+                $userdata = array(
+                    "tax_name"   => $tax_name,
+                    "tax_percentage"   => $tax_percentage
+                );
+                
+                $tbl_name = 'crm_tax_master';   
+                $result = $this->web_model->update_contents_tax($userdata,$tax_id,$tbl_name);
+                if($result) {
+                    $output = array("status" => 1, "msg" => "Tax details modified succcessfully");
+                }
+                else {
+                    $output = array("status" => 0, "msg" => "Tax details not modified,Please try again later");
+                }
+            }
+            else {
+                $userdata = array(
+                    "tax_name"   => $tax_name,
+                    "tax_percentage"   => $tax_percentage,
+                    'date'     => date('Y-m-d')
+                );
+                $userdata_check = array(
+                    "tax_name"   => $tax_name,
+                    "tax_percentage"   => $tax_percentage,
+                    "status" => '1'
+                );
+
+                $tbl_name = 'crm_tax_master';
+                $result = $this->web_model->check_insert($userdata,$tbl_name,$userdata_check);
+                if ($result ==1)
+                        $output = array("status" => 1, "msg" => "Tax details added succcessfully");
+                elseif($result ==3)
+                        $output = array("status" => 3, "msg" => "Tax details already exists");
+                else
+                        $output = array("status" => 0, "msg" => "Tax details not inserted,Please try again later");
+            }
+        }	
+        echo json_encode($output);
+    }
+    
+    public function category_add () {
         if (!($this->session->userdata("ADMIN_USERID"))) {
             redirect("web");
         } else {
@@ -1283,14 +1332,20 @@ class Web extends CI_Controller {
                 } else {
                     $output = array("status" => 0, "msg" => "Business category details not modified,Please try again later");
                 }
-            } else {
+            } 
+            else {
                 $userdata = array(
-                    "category_name" => $category_name,
-                    'date' => date('Y-m-d')
+                    "category_name"   => $category_name,
+                    'date'     => date('Y-m-d')
+                );
+                $userdata_check = array(
+                    "category_name"   => $category_name,
+                    "status" => '1'
                 );
 
                 $tbl_name = 'crm_category';
-                $result = $this->web_model->insert_category($userdata, $tbl_name);
+                
+                $result = $this->web_model->check_insert($userdata, $tbl_name);
                 if ($result == 1)
                     $output = array("status" => 1, "msg" => "Business category added succcessfully");
                 elseif ($result == 3)

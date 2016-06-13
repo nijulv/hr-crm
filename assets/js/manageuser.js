@@ -75,14 +75,54 @@ var Manageuser = function(){
             }); 
             
             
-            $('.edit_tax').on('click', function(e){    
+            $('.savetax').on('click', function(e){    
+                if ($.trim($("#tax_name").val()) == "")
+                {
+                    $("#tax_name").next(".validation_msg").html("Tax name not entered");
+                    $("#tax_name").focus();
+                    return false;
+                } 
+                else if ($.trim($("#tax_percentage").val()) == "")
+                {
+                    $("#tax_percentage").next(".validation_msg").html("Tax value not entered");
+                    $("#tax_percentage").focus();
+                    return false;
+                }
+                else {
+                    $.post(base_url+"tax_add", $(".form_tax").serialize(),
+                    function(response) {
+                            var data = $.parseJSON(response);
+                            if (data["status"] == 1) {
+                                    $(".err_msg").html(data["msg"]);
+                                    $( ".err_msg" ).removeClass( "alert alert-danger" ).addClass( "alert alert-success" );
+                                    $(".err_msg").show(500);
+                                    setTimeout(function() {
+                                            window.location = base_url+"manage_tax";
+                                    }, 2000);
+                            } 
+                            else {
+                                    $(".err_msg").html(data["msg"]);
+                                    $( ".err_msg" ).removeClass( "alert alert-success" ).addClass( "alert alert-danger" );
+                                    $(".err_msg").show(500);
+                                    setTimeout(function() {
+                                            window.location = base_url+"manage_tax";
+                                    }, 2000);
+                            }
+                    });
+                } 
+           });
+           
+            $('.edit_tax').on('click', function(e){ 
+               
                var id = $(this).data('id'); 
                var name = $(this).data('name'); 
                var value = $(this).data('value'); 
                
-               $("#category_name").val(name);
-               $("#category_id").val(id);
-           });
+                $("#adddiv").show();
+               $("#tax_name").val(name);
+               $("#tax_percentage").val(value);
+               $("#tax_id").val(id);
+            });
            
            $('.addnewtax').on('click', function(e){    
                $("#adddiv").show();
@@ -120,8 +160,8 @@ var Manageuser = function(){
                                     $( ".err_msg" ).removeClass( "alert alert-success" ).addClass( "alert alert-danger" );
                                     $(".err_msg").show(500);
                                     setTimeout(function() {
-                                            $(".err_msg").hide(500);
-                                    }, 3000);
+                                            window.location = base_url+"manage_category";
+                                    }, 2000);
                             }
                     });
                 } 
@@ -276,7 +316,7 @@ var Manageuser = function(){
                     })
                 
             })
-            $('#save').on('click', function(){     
+            $('#save').on('click', function(){      alert("aaa"); 
                  $('.panel-footer font').remove();
                     $.ajax({
                         type    : "POST",
