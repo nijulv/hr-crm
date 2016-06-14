@@ -292,24 +292,24 @@ var Manageuser = function(){
                                    'todostatus':$('#todostatus_edit').val(),
                                    'calendar':$('#popup_calender').val()},
                         success : function(data){
-                                  if(data.success==1){
-                                     $('.panel-footer font').remove();
-                                     //$('#'+u_id +' .checkbox label').text(data.title);
-                                     //search$('#'+u_id +' .status').text(data.status);
+                                if(data.success==1){
+                                    $('.panel-footer font').remove();
+
                                     $('#todo_list').html(data.datas); 
-                                     $('.panel-footer').append(data.msg);
-                                     $('.panel-footer font').delay(2000).fadeOut();
-                                    }
-                                 else if(data.success==2){
-                                        $('.panel-footer').append(data.msg);
-                                        $('.panel-footer font').delay(2000).fadeOut();
-                                    }
+                                    $('.panel-footer').append(data.msg);
+                                    $('.panel-footer font').delay(2000).fadeOut();
+                                }
+                                else if(data.success==2){
+                                    $('.panel-footer').append(data.msg);
+                                    $('.panel-footer font').delay(2000).fadeOut();
+                                }
                                 else{
                                     $('#'+u_id).remove();
                                     $('.panel-footer').append(data.msg);
                                     $('.panel-footer font').delay(2000).fadeOut();
-                            }
-                           $('#todo').val('');
+                                }
+                            $('#todo').val('');
+                            $('.tododate_search').val(data.currentdate);
                         }
 
                     })
@@ -346,6 +346,43 @@ var Manageuser = function(){
                     });
                 
             })
+            
+            $("#dashboard_count_search").click(function () {   
+                var from_date   = $("#dashboard_fromdate").val();
+                var to_date     = $("#dashboard_todate").val();
+                if(from_date == ''){
+                    alert("Please select from date");
+                    $("#dashboard_fromdate").focus();
+                    return false;
+                }
+                else if(to_date == '') {
+                    alert("Please select to date");
+                    $("#dashboard_todate").focus();
+                    return false;
+                }
+                else if(from_date > to_date) {
+                    alert("Please check the dates");
+                    $("#dashboard_todate").focus();
+                    return false;
+                }
+                else {
+                    $.post(base_url+"specified_date_dashboard_count", { from_date: from_date,to_date:to_date },
+                        function(response) {
+                            var data = $.parseJSON(response);
+                            if (data["status"] == 1) {
+                                
+                                $("#tot_clients").html(data["users_count"]);
+                                $("#tot_prospects").html(data["guest_count"]);
+                                $("#tot_payments").html(data["payment_count"]);
+                                $("#tot_agents").html(data["agent_count"]);
+                                $("#tot_convert_prospect").html(data["Converted_Prospects"]);
+                                
+                                $("#date_range").html(data["dates"]);
+                                
+                            } 
+                        });
+                }
+            });
             
             $("#Userstatus").change(function () {   
                  var value = $(this).val();  

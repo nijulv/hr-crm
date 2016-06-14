@@ -89,8 +89,10 @@
         echo $content;
         ?>
         <script type="text/javascript">
-            var data1 = [100, 120, 55, 665, 150, 200, 500];
-            var data2 = [150, 170, 105, 165, 200, 250, 550];
+            
+            var data1 = <?php echo $prospect_data_graph;?>;  
+            var data2 = <?php echo $client_data_graph;?>;   
+            var months = <?php echo $month_data_graph;?>;    
         </script>
         <script src="<?php echo assets_url(); ?>js/jquery-1.11.1.min.js"></script>
         <script src="<?php echo assets_url(); ?>js/bootstrap.min.js"></script>

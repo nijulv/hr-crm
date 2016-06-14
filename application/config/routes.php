@@ -145,6 +145,7 @@ $route['bank_payment_autocomplete']       = "web/bank_payment_autocomplete";
 
 $route['check_username_available']    = "web/check_username_available";
 $route['check_user_payment']          = "web/check_user_payment";
+$route['specified_date_dashboard_count']          = "web/specified_date_dashboard_count";
 
 $route['category_add']          = "web/category_add";
 $route['tax_add']               = "web/tax_add";

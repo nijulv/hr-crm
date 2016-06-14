@@ -27,10 +27,10 @@
                                 </select> 
                             </div>
                             <div class="col-md-3">
-                                 <input type = "text" class = "form-control" value = "<?php echo set_value('fromdate_search');?>" id = "fromdate_search" readonly="readonly"  style="background:white;" name = "fromdate_search" class = "form-control" placeholder = "From date">
+                                 <input type = "text" class = "form-control" value = "<?php echo set_value('fromdate_search');?>" id = "fromdate_search" readonly="readonly"  style="background:white;" name = "fromdate_search" placeholder = "From date">
                             </div>
                             <div class="col-md-3">
-                                <input type = "text" class = "form-control" value = "<?php echo set_value('todate_search');?>" id = "todate_search" readonly="readonly" style="background:white;"  name = "todate_search" class = "form-control" placeholder = "To date">
+                                <input type = "text" class = "form-control" value = "<?php echo set_value('todate_search');?>" id = "todate_search" readonly="readonly" style="background:white;"  name = "todate_search" placeholder = "To date">
                             </div>  
                         </div> &nbsp;
                         <div class="col-md-12">

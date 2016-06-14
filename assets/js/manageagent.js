@@ -214,6 +214,25 @@ var Manageagent = function(){
             format: "yyyy-mm-dd",          
             autoclose: true
         });
+        
+        $("#dashboard_fromdate").datepicker({
+            format: "yyyy-mm-dd",          
+            autoclose: true,
+            onSelect: function (selected) {
+                var dt = new Date(selected);   
+                dt.setDate(dt.getDate() + 1);
+                $("#dashboard_todate").datepicker("option", "minDate", dt);
+            }
+        });
+        $("#dashboard_todate").datepicker({
+            format: "yyyy-mm-dd",          
+            autoclose: true,
+            onSelect: function (selected) {
+                var dt = new Date(selected);
+                dt.setDate(dt.getDate() - 1);
+                $("#dashboard_fromdate").datepicker("option", "maxDate", dt);
+            }
+        });
     });
    
 

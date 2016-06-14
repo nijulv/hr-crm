@@ -136,17 +136,56 @@ class Web extends CI_Controller {
             redirect("web");
         } else {
             $this->load->helper('date');
-            $this->gen_contents['users_count'] = $this->web_model->get_total_users_count($status = '1');
-            $this->gen_contents['guest_count'] = $this->web_model->get_total_users_count($status = '0');
-            $this->gen_contents['payment_count'] = $this->web_model->get_total_payment_count();
-            $this->gen_contents['agent_count'] = $this->web_model->get_total_agent_count();
+            $current_year = date('Y'); 
+            $this->gen_contents['users_count'] = $this->web_model->get_total_users_count($status = '1',$current_year);
+            $this->gen_contents['guest_count'] = $this->web_model->get_total_users_count($status = '0',$current_year);
+            $this->gen_contents['payment_count'] = $this->web_model->get_total_payment_count($current_year);
+            $this->gen_contents['agent_count'] = $this->web_model->get_total_agent_count($current_year);
             $this->gen_contents['todo'] = $this->web_model->get_todo();
-            $this->gen_contents['total_user_count'] = $this->web_model->get_tot_users_count();
+            $this->gen_contents['total_user_count'] = $this->web_model->get_tot_users_count($current_year);
             $this->gen_contents['Converted_Prospects'] = round(($this->gen_contents['users_count'] / $this->gen_contents['total_user_count']) * 100);
             $this->gen_contents['new_clents_day'] = $this->web_model->get_new_clents_day($status = '1');
             $this->gen_contents['new_prospect_day'] = $this->web_model->get_new_clents_day($status = '0');
             $this->gen_contents['active_agents_today'] = $this->web_model->get_active_agents_today();
-
+            
+            // Graph details ...
+            $last_sixmonth = array();
+            $last_sixmonth_display = array();
+            $graph_data_prospect = array();
+            $graph_data_client = array();
+            
+            for ($i = 5; $i >=0; $i--) {  
+                $last_sixmonth[] = date('m Y', strtotime("-$i month"));
+                $last_sixmonth_display[] = date('F', strtotime("-$i month"));
+            }   
+            foreach ($last_sixmonth as $dates) {
+                $date_month = explode(" ",$dates);
+                $date_val = $date_month[0];
+                $year_val = $date_month[1]; 
+                
+                $graph_data_prospect[]  = $this->web_model->get_graph_data($date_val,$year_val,$status = 0);
+                $graph_data_client[]    = $this->web_model->get_graph_data($date_val,$year_val,$status = 1);
+            } 
+            foreach ($graph_data_prospect as $prospect) {
+                $prospect_data .=  $prospect.',';  
+            }
+            foreach ($graph_data_client as $client) {
+                $client_data .=  $client.',';  
+            }
+            foreach ($last_sixmonth_display as $month) {
+                $month_data .=  '"'.$month.'"'.',';  
+            }
+            $prospect_data = rtrim($prospect_data,',');
+            $client_data = rtrim($client_data,',');
+            $month_data = rtrim($month_data,',');
+           
+            //echo $prospect_data; echo '<br/>';
+            //echo $client_data;  echo '<br/>'; echo $month_data;exit;
+            
+            $this->gen_contents['prospect_data_graph'] = '['.$prospect_data.']';
+            $this->gen_contents['client_data_graph'] = '['.$client_data.']';
+            $this->gen_contents['month_data_graph'] = '['.$month_data.']';   ;
+            
             $this->gen_contents['link_dashboard'] = 'active';
             $this->template->write_view('content', 'dashboard', $this->gen_contents);
             $this->template->render();
@@ -412,6 +451,7 @@ class Web extends CI_Controller {
                     $result['msg'] = '<font color="green" class="text-Success">Note modified successfully</font>';
                     $result['title'] = $data;
                     $result['datas'] = $datas;
+                    $result['currentdate'] = $currentdate;
             }
             else {
                     $result['msg'] = '<font color="green" class="text-success">Note not modified,Please try again later </font>';
@@ -1478,7 +1518,7 @@ class Web extends CI_Controller {
 
                 $tbl_name = 'crm_category';
                 
-                $result = $this->web_model->check_insert($userdata, $tbl_name);
+                $result = $this->web_model->check_insert($userdata, $tbl_name,$userdata_check);
                 if ($result == 1)
                     $output = array("status" => 1, "msg" => "Business category added succcessfully");
                 elseif ($result == 3)
@@ -2248,6 +2288,36 @@ class Web extends CI_Controller {
             }
             echo json_encode($output);
             exit;
+        }
+    }
+    
+    function specified_date_dashboard_count() {
+        if (!($this->session->userdata("ADMIN_USERID"))) {
+            redirect("web");
+        } 
+        else {
+            $from_date  = $this->input->post("from_date");
+            $to_date    = $this->input->post("to_date");
+            if(($from_date != '') && ($to_date != '')){
+                
+                $users_count    = $this->web_model->get_total_users_count_ajax($status = '1',$from_date,$to_date);
+                $guest_count    = $this->web_model->get_total_users_count_ajax($status = '0',$from_date,$to_date);
+                $payment_count  = number_format($this->web_model->get_total_payment_count_ajax($from_date,$to_date));
+                $agent_count    = $this->web_model->get_total_agent_count_ajax($from_date,$to_date);
+                $total_user_count = $this->web_model->get_tot_users_count_ajax($from_date,$to_date);
+                $Converted_Prospects = round(($users_count / $total_user_count) * 100);
+                
+                $frm_date   = date('d-M-Y', strtotime($from_date));  
+                $to_dates   = date('d-M-Y', strtotime($to_date));
+                $dates      =    $frm_date.' TO '.$to_dates;
+                
+                $output = array("status" => 1, "msg" => "","users_count"=> $users_count,"guest_count" => $guest_count,"payment_count" => $payment_count,"agent_count" => $agent_count,"Converted_Prospects" => $Converted_Prospects,"dates" => $dates);
+                echo json_encode($output);
+                exit;
+            }  
+            else {
+                $output = array("status" => 0, "msg" => "No details found.");
+            }
         }
     }
 

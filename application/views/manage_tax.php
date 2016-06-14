@@ -53,9 +53,10 @@
                                 <input type = "text" id = "tax_name" name = "tax_name" class = "form-control"  placeholder="Tax Name" value = "<?php echo set_value('tax_name'); ?>"><div class="validation_msg"></div>  
                             </div>
                             <div class="col-md-4">
-                                <input type = "text" id = "tax_percentage" name = "tax_percentage" class = "form-control"  placeholder="Value" value = "<?php echo set_value('tax_percentage'); ?>"><div class="validation_msg"></div>  
+                                <input type = "text" id = "tax_percentage" name = "tax_percentage" class = "form-control"  placeholder="Value in %" value = "<?php echo set_value('tax_percentage'); ?>"><div class="validation_msg"></div>  
                             </div>
                             <div class="col-md-2">
+                                <span style="margin-right: 25px;margin-left: -25px;">%</span>
                                 <button type="button" class="btn btn-info savetax">Save</button>
                             </div>
                             <input type = "hidden" name = "tax_id" id = "tax_id" value = "">

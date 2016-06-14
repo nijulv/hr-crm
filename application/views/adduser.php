@@ -121,7 +121,7 @@
                                        
                                     </div>
                                     <div class="form-group">
-                                        <label for="txtUserstatus">Status<span class="required">*</span></label>
+                                        <label for="txtUserstatus">Status<span class="required">*</span> <span class = "check_div" id = "payment_status" ></span></label>
                                         <select name="userstatus" id="Userstatus" class="form-control">
                                             <option value="0">Prospect</option>
                                             <option value="1">Client</option>

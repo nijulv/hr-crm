@@ -8,7 +8,13 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard</h1>
+                    <h1 class="page-header">Dashboard - <span id = "date_range" style = "font-size:30px;font-style: italic;">current year</span></h1>
+                    <div class="pull-right">
+                        <input type="text" id="dashboard_fromdate" name = "dashboard_fromdate" class = "" value = "<?php echo set_value('dashboard_fromdate');?>" readonly="readonly"  style="background:white;" placeholder = "From date" />
+                        <input type="text" id="dashboard_todate" name = "dashboard_todate" class = "" value = "<?php echo set_value('dashboard_todate');?>" readonly="readonly"  style="background:white;" placeholder = "To date" />
+                         
+                       <button type="button" class="btn btn-success" id = "dashboard_count_search">Go</button>
+                    </div>
                 </div>
             </div><!--/.row-->
 
@@ -20,7 +26,7 @@
                                 <i class="fa fa-briefcase" aria-hidden="true" style="font-size: 55px;"></i>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
-                                <div class="large"><?php echo $agent_count;?></div>  
+                                <div class="large" id = "tot_agents"><?php echo $agent_count;?></div>  
                                 <div class="text-muted">Total Agents</div>
                             </div>
                         </div>
@@ -33,7 +39,7 @@
                                 <i class="fa fa-trophy" aria-hidden="true" style="font-size: 55px;"></i>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
-                                <div class="large"><?php echo $users_count;?></div>
+                                <div class="large" id = "tot_clients"><?php echo $users_count;?></div>
                                 <div class="text-muted">Total Clients</div>
                             </div>
                         </div>
@@ -46,7 +52,7 @@
                                 <i class="fa fa-users" aria-hidden="true" style="font-size: 55px;"></i>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
-                                <div class="large"><?php echo $guest_count;?></div>
+                                <div class="large" id = "tot_prospects"><?php echo $guest_count;?></div>
                                 <div class="text-muted">Total Prospects</div>
                             </div>
                         </div>
@@ -59,7 +65,7 @@
                                 <i class="fa fa-money" aria-hidden="true" style="font-size: 55px;"></i>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
-                                <div class="large"><?php if($payment_count){echo '<i class="fa fa-inr" aria-hidden="true"></i> '.number_format($payment_count); }else {echo '$ 0';}?></div>  
+                                <div class="large"><i class="fa fa-inr" aria-hidden="true"></i> <span id = "tot_payments"><?php if($payment_count){echo number_format($payment_count); }else {echo '0';}?> </span></div>  
                                 <div class="text-muted">Total Payments</div>
                             </div>
                         </div>
@@ -69,7 +75,12 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="panel panel-default">
-                        <div class="panel-heading">Clients and Prospects in last 6 months</div>
+                        <div class="panel-heading">Clients and Prospects in last 6 months
+                            <div class="pull-right" style="font-size:11px;">
+                                <span style="background-color: #30A4FF;padding: 0px 14px;"></span> &nbsp; Clients &nbsp;&nbsp;
+                                <span style=" background-color: #B9D1E3;padding: 0px 14px;"></span> &nbsp; Prospects
+                            </div>
+                        </div>
                         <div class="panel-body">
                             <div class="canvas-wrapper">
                                 <canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
@@ -110,13 +121,19 @@
                                             <label for="checkbox"><?php echo $res['todo']; ?>    </label>
                                         </div>
                                         <div class="pull-right action-buttons">
-                                            <span class="label <?php echo $label_color; ?> status" style="padding: 0.1em 0.4em 0.1em;"> <?php echo $res['status']; ?></span>
+                                            <span class="label <?php echo $label_color; ?>" style="padding: 0.1em 0.4em 0.1em;"> <?php echo $res['status']; ?></span>
                                             <a href="javascript: void(0)" data-id="<?php echo $res['id']; ?>" data-url='edittodo' title="Edit" class="edittodo"><i class="fa fa-pencil" aria-hidden="true"></i></a> &nbsp;
                                             
                                             <a href="javascript: void(0)" data-id="<?php echo $res['id']; ?>" data-url='deletetodo' title="Delete" class="trash deletetodo"><i class="fa fa-trash" aria-hidden="true"></i></a>
                                         </div>
                                     </li>
-                                <?php } }?>
+                                <?php } } else {?>
+                                    <li class="todo-list-item" style = "border-bottom: #F1F4F7 solid 1px;">
+                                        <div style = "text-align:center;color:red;font-weight:bold;font-size: 16px;">
+                                           Today no notes found. 
+                                        </div>    
+                                    </li>
+                                <?php }?>    
                             </ul>
                         </div>
                         <div class="panel-footer">
@@ -216,7 +233,8 @@
                     <div class="panel panel-default">
                         <div class="panel-body easypiechart-panel">
                             <h4>Converted Prospects</h4>
-                            <div class="easypiechart" id="easypiechart-blue" data-percent= "<?php echo $Converted_Prospects; ?>" ><span class="percent"><?php echo $Converted_Prospects; ?>%</span>
+                            <div class="easypiechart" id="easypiechart-blue" data-percent= "<?php echo $Converted_Prospects; ?>" >
+                                <span class="percent" id = "tot_convert_prospect"><?php echo $Converted_Prospects; ?>%</span>
                             </div>
                         </div>
                     </div>
@@ -225,7 +243,8 @@
                     <div class="panel panel-default">
                         <div class="panel-body easypiechart-panel">
                             <h4>New Clients</h4>
-                            <div class="easypiechart" id="easypiechart-orange" data-percent="<?php echo $new_clents_day; ?>" ><span class="percent"><?php echo $new_clents_day; ?></span>
+                            <div class="easypiechart" id="easypiechart-orange" data-percent="<?php echo $new_clents_day; ?>" >
+                                <span class="percent"><?php echo $new_clents_day; ?></span>
                             </div>
                         </div>
                     </div>
@@ -234,7 +253,8 @@
                     <div class="panel panel-default">
                         <div class="panel-body easypiechart-panel">
                             <h4>New Prospects</h4>  
-                            <div class="easypiechart" id="easypiechart-teal" data-percent="<?php echo $new_prospect_day; ?>" ><span class="percent"><?php echo $new_prospect_day; ?></span>
+                            <div class="easypiechart" id="easypiechart-teal" data-percent="<?php echo $new_prospect_day; ?>" >
+                                <span class="percent"><?php echo $new_prospect_day; ?></span>
                             </div>
                         </div>
                     </div>
@@ -243,7 +263,8 @@
                     <div class="panel panel-default">
                         <div class="panel-body easypiechart-panel">
                             <h4>Active Agents Today</h4>
-                            <div class="easypiechart" id="easypiechart-red" data-percent="<?php echo $active_agents_today; ?>" ><span class="percent"><?php echo $active_agents_today; ?></span>
+                            <div class="easypiechart" id="easypiechart-red" data-percent="<?php echo $active_agents_today; ?>" >
+                                <span class="percent"><?php echo $active_agents_today; ?></span>
                             </div>
                         </div>
                     </div>

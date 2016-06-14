@@ -702,8 +702,10 @@ class Web_model extends CI_Model {
             return false;
     }
     
-    public function get_tot_users_count(){
+    public function get_tot_users_count($current_year = 0){
         $this->db->where('status !=', '2');
+        $where = "YEAR(date) = $current_year";
+        $this->db->where($where);
         $this->db->from('crm_users');
         if(s('ADMIN_TYPE') == 1){
              $this->db->where('agent_id',s('ADMIN_USERID'));
@@ -750,14 +752,60 @@ class Web_model extends CI_Model {
             return false;
     }
 
-        public function get_total_users_count ($status = '') {
+    public function get_total_users_count ($status = '',$current_year = 0) {
         $this->db->where('status', $status);
-        $this->db->from('crm_users');
-        
+        $where = "YEAR(date) = $current_year"; 
+        $this->db->where($where);       
         if(s('ADMIN_TYPE') == 1){
              $this->db->where('agent_id',s('ADMIN_USERID'));
         }
+        $this->db->from('crm_users');
+        return $this->db->count_all_results();
+    }
+    
+    public function get_total_users_count_ajax ($status = '',$from_date = 0,$to_date = 0) {
+        $this->db->where('status', $status);
+        $this->db->where('date >=', $from_date);
+        $this->db->where('date <=', $to_date);    
+        if(s('ADMIN_TYPE') == 1){
+             $this->db->where('agent_id',s('ADMIN_USERID'));
+        }
+        $this->db->from('crm_users');
+        return $this->db->count_all_results();
+    }
+    
+    public function get_total_payment_count_ajax ($from_date = 0,$to_date = 0) {
         
+        $this->db->select_sum('amount', 'amount');
+        $this->db->where('status','1');
+        $this->db->where('date >=', $from_date);
+        $this->db->where('date <=', $to_date);  
+        if(s('ADMIN_TYPE') == 1){
+             $this->db->where('agent_id',s('ADMIN_USERID'));
+        } 
+        $query = $this->db->get('payments');   
+        $result = $query->result();
+
+        return $result[0]->amount;
+    }
+    
+    public function get_total_agent_count_ajax ($from_date = 0,$to_date = 0) {
+        $this->db->where('status', '1');
+        $this->db->where('date >=', $from_date);
+        $this->db->where('date <=', $to_date); 
+        $this->db->from('crm_agents');
+        
+        return $this->db->count_all_results();
+    }
+    
+    public function get_tot_users_count_ajax($from_date = 0,$to_date = 0){
+        $this->db->where('status !=', '2');
+        $this->db->where('date >=', $from_date);
+        $this->db->where('date <=', $to_date);
+        $this->db->from('crm_users');
+        if(s('ADMIN_TYPE') == 1){
+             $this->db->where('agent_id',s('ADMIN_USERID'));
+        }
         return $this->db->count_all_results();
     }
     
@@ -769,21 +817,25 @@ class Web_model extends CI_Model {
        return $this->db->count_all_results();
     }
     
-    public function get_total_agent_count () {
+    public function get_total_agent_count ($current_year = 0) {
         $this->db->where('status', '1');
+        $where = "YEAR(date) = $current_year";
+        $this->db->where($where);
         $this->db->from('crm_agents');
         
         return $this->db->count_all_results();
     }
     
-    public function get_total_payment_count () {
+    public function get_total_payment_count ($current_year = 0) {
         
         $this->db->select_sum('amount', 'amount');
         $this->db->where('status','1');
+        $where = "YEAR(date) = $current_year";
+        $this->db->where($where);
         if(s('ADMIN_TYPE') == 1){
              $this->db->where('agent_id',s('ADMIN_USERID'));
-        }
-        $query = $this->db->get('payments');
+        } 
+        $query = $this->db->get('payments');   
         $result = $query->result();
 
         return $result[0]->amount;
@@ -1215,6 +1267,22 @@ class Web_model extends CI_Model {
             return false;
     }
     
+    function get_graph_data ($date_val = 0,$year_val = 0,$status = '') {
+        $this->db->select("COUNT(user_id) AS cnt");
+        $where = "MONTH(date) = $date_val"; // comparing on April
+        $where2 = "YEAR(date) = $year_val"; 
+        $this->db->where($where);
+        $this->db->where($where2);
+        $this->db->where("status",$status);
+        if(s('ADMIN_TYPE') == 1){
+             $this->db->where('agent_id',s('ADMIN_USERID'));
+        }
+        $query = $this->db->get('crm_users');  //echo $this->db->last_query();
+        $row = $query->row();
+        return intval($row->cnt);
+    }
+
+
     public function get_agentcode_previous () {
         $this->db->order_by("agent_id","desc");
         $query = $this->db->get("crm_agents");    

@@ -3,7 +3,7 @@ var randomScalingFactor = function () {
 };
 
 var lineChartData = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    labels: months,
     datasets: [
         {
             label: "My First dataset",
