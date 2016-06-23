@@ -122,10 +122,22 @@ var Manageagent = function(){
     
     $('#bank_payment').on('blur', function(e){  
         var amount_to_bank = parseInt($("#bank_payment").val());
-        var balance_amount = parseInt($("#balance_amount").val()); 
-        var amount_hand =  balance_amount - amount_to_bank;  
+        var balance_amount = parseInt($("#balance_amount").val());   
+        var amount_hand =  balance_amount - amount_to_bank; 
         
-        $("#amount_hand").val(amount_hand);
+        if(balance_amount >= amount_to_bank) {
+            $("#amount_hand").val(amount_hand);
+        }
+        else {
+            $("#bank_payment").val('');
+            
+            $("#amonut_error_msg").css("color", "red");
+            $("#amonut_error_msg").html("Please enter correct amount");
+            $(".check_div").fadeIn();
+            setTimeout(function() {
+                    $(".check_div").fadeOut();
+            }, 3000);
+        }
     });
     
     $('#total_payment').on('blur', function(e){  
@@ -155,7 +167,7 @@ var Manageagent = function(){
         else if(from == 'bank_payment')
             $('#data-title').html("Bank Statement: More details");
         else if(from == 'user')
-            $('#data-title').html("User: More details");
+            $('#data-title').html("Client/Prospect: More details");
 
         var id              = $(this).attr("data-id");
 

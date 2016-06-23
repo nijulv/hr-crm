@@ -52,9 +52,15 @@
                                         <label>Payment Title <span class="required">*</span><small class="text-muted"><i>(It should be easy to identify later)</i></small></label>
                                         <input type="text" name="title"id="title" class="form-control" maxlength="60" placeholder="Payment Title" value = "<?php echo set_value('title',$details['title']); ?>" required>
                                     </div>
+                                    <?php if(s('ADMIN_TYPE') == 1){ 
+                                        $premision = "readonly = 'readonly'";
+                                    }
+                                    else {
+                                        $premision = '';   
+                                    } ?>
                                     <div class="form-group">
                                         <label>Amount <span class="required">*</span></label>
-                                        <input type="text" name="amount" id="amount" class="form-control" maxlength="9" placeholder="Amount" value = "<?php echo set_value('amount',$details['amount']); ?>" required onkeypress="return numberValidate(event);">
+                                        <input type="text" <?php echo $premision;?>name="amount" id="amount" class="form-control" maxlength="9" placeholder="Amount" value = "<?php echo set_value('amount',$details['amount']); ?>" required onkeypress="return numberValidate(event);">
                                     </div>
                                     <div class="form-group">
                                         <label>Comments <small class="text-muted"></small></label>

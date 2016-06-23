@@ -17,7 +17,7 @@
                         
                         <div class="col-md-12">
                             <div class="col-md-3">
-                                <input type = "text" name = "search_user" class = "form-control" placeholder="User name or Phone" value = "<?php echo set_value('search_user'); ?>">
+                                <input type = "text" name = "search_user" class = "form-control" placeholder="Client name" value = "<?php echo set_value('search_user'); ?>">
                             </div>
                             <div class="col-md-3">
                                 <input type = "text" name = "search_title" class = "form-control" placeholder="Title or amount" value = "<?php echo set_value('search_title'); ?>">
@@ -34,16 +34,18 @@
                         <button type="button" class="btn btn-default reportclear" style = "" >Clear</button><br>
                          <?php echo form_close(); ?>
                         <br>
-                        <div class="form-group pull-right">
-                            <button name="print" class="btn btn-default" onclick="#"><i class="fa fa-print"></i> Print</button>
-                            <button name="print" class="btn btn-info" onclick="#"><i class="fa fa-share-square"></i> Share</button>
-                            <button name="print" class="btn btn-success" onclick="#"><i class="fa fa-file-excel-o"></i> Export excel</button>
-
+                         <?php if (!empty($details)) { 
+                             $details_values = base64_encode(serialize($details));?>
+                        <div class = "form-group pull-right">
+                            <form name="excel_report" id="excel_report" role="form" method="post"  novalidate="novalidate" class="form-horizontal" action="<?php echo base_url(); ?>excel_payment_report">
+                            <button class="btn btn-primary" onclick="printDiv('printableArea')"><i class="fa fa-print"></i> Print</button>
+                                <input type = "hidden" name = "details_values"  id = "details_values" value = "<?php echo $details_values;?>" >
+                            <button id = "export_excel_submit" class="btn btn-success"><i class="fa fa-file-excel-o"></i> Export excel</button>
+                            </form>
                         </div>
-                        <?php if (!empty($details)) { ?>
                         <div class="row">  
                             <div class = "col-md-12">
-                            <div class="table-container table-responsive">  
+                            <div class="table-container table-responsive" id="printableArea">  
                                 <?php echo $links; ?> 
                             <table class="table table-bordered table-striped table-hover table-responsive">
                                 <thead>
@@ -53,9 +55,9 @@
                                             <th>Agent Name</th>
                                         <?php }?>
                                         <th>Payment Code</th>
-                                        <th>User Name</th>
-                                         <th>Contact Number</th>
-                                        <th>Title</th>
+                                        <th>Client Name</th>
+                                        <th style = "text-align:center;">Payment Date</th>
+                                        <th>Payment Title</th>
                                         <th style="text-align: right">Amount</th>
                                         <th style = "text-align:center;">Actions</th>
                                     </tr>
@@ -69,11 +71,11 @@
                                         <tr>
                                             <td style = "text-align:center;"><?php echo $i++; ?></td>
                                             <?php if(s('ADMIN_TYPE') == 0){ ?>
-                                                <td><?php echo $data['afirstname'].' '.$data['alastname'];?></td> 
+                                                <td><?php if($data['afirstname'] != ''){ echo $data['afirstname'].' '.$data['alastname'];}else {echo 'Admin';}?></td> 
                                             <?php }?>
                                              <td><?php echo $data['payment_code'];?></td>
                                             <td><?php echo $data['first_name'].' '.$data['last_name'];?></td> 
-                                             <td><?php echo $data['phone'];?></td>
+                                            <td style = "text-align:center;"><?php echo date('d-M-Y', strtotime($data['date']));?></td>
                                             <td><?php echo $data['title'];?></td>     
                                             <td style="text-align: right"><?php echo number_format($data['amount']);?></td>
                                             <td style = "text-align:center;">
@@ -83,7 +85,7 @@
                                     <?php }?>
                                 </tbody>
                                 <tr>
-                                   <?php if(s('ADMIN_TYPE') == 0){ $colspan = 5;?><?php } else { $colspan = 4; }?>
+                                   <?php if(s('ADMIN_TYPE') == 0){ $colspan = 6;?><?php } else { $colspan = 5; }?>
                                     <td colspan = <?php echo $colspan;?>  style = "text-align:right;"><b>Total Amount</b></td>
                                     <td style = "text-align:right;"><b><?php echo number_format($Total_amount);?></b></td>
                                     <td ><b>&nbsp;</b></td>
@@ -100,3 +102,14 @@
             </div>
         </div>
     </div>
+
+<script type="text/javascript">
+
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+</script>

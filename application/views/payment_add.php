@@ -2,13 +2,13 @@
             <div class="row">
                 <ol class="breadcrumb">
                     <li><a href="<?php echo base_url()?>dashboard"><i class="fa fa-home" aria-hidden="true" style="font-size: 20px;"></i></a></li>
-                    <li class="active">Payments</li>
+                    <li class="active">Collection</li>
                 </ol>
             </div><!--/.row-->
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Add Payment</h1>
+                    <h1 class="page-header">Add Collection</h1>
                 </div>
             </div><!--/.row-->
             <?php

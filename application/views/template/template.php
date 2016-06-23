@@ -58,9 +58,10 @@
             <ul class="nav menu"> 
                 <li class="<?php echo $link_dashboard;?>"><a href="<?php echo base_url()?>dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> &nbsp;&nbsp;Dashboard</a></li>
                 <?php if(s('ADMIN_TYPE') == 0) {?>
-                <li class="<?php echo $link_agent;?>"><a href="<?php echo base_url()?>manage_agents"><i class="fa fa-user-secret" aria-hidden="true"></i> &nbsp;&nbsp;Manage Agents</a></li>
                 <li class="<?php echo $link_category;?>"><a href="<?php echo base_url()?>manage_category"><i class="fa fa-cogs fa-fw"></i> &nbsp;&nbsp;Manage Business Category</a></li>
                 <li class="<?php echo $link_tax;?>"><a href="<?php echo base_url()?>manage_tax"><i class="fa fa-percent" aria-hidden="true"></i> &nbsp;&nbsp;Manage Tax</a></li>
+                <li class="<?php echo $link_bill;?>"><a href="<?php echo base_url()?>bill_data_contents"><i class="fa fa-newspaper-o" aria-hidden="true"></i>&nbsp;&nbsp;Manage Bill Contents</a></li>
+                <li class="<?php echo $link_agent;?>"><a href="<?php echo base_url()?>manage_agents"><i class="fa fa-user-secret" aria-hidden="true"></i> &nbsp;&nbsp;Manage Agents</a></li>
                 <?php }?>
                     <li class="<?php echo $link_user;?>"><a href="<?php echo base_url()?>manageuser"><i class="fa fa-users" aria-hidden="true"></i> &nbsp;&nbsp;Manage Client/Prospect</a></li>
                     <li class="<?php echo $link_payment;?>"><a href="<?php echo base_url()?>manage_payment"><i class="fa fa-money" aria-hidden="true"></i> &nbsp;&nbsp;Manage Collection</a></li>
@@ -90,9 +91,9 @@
         ?>
         <script type="text/javascript">
             
-            var data1 = <?php echo $prospect_data_graph;?>;  
-            var data2 = <?php echo $client_data_graph;?>;   
-            var months = <?php echo $month_data_graph;?>;    
+            var data1 = <?php if($prospect_data_graph){echo $prospect_data_graph;} else {echo '0';}?>;  
+            var data2 = <?php if($client_data_graph){echo $client_data_graph;} else {echo '0';}?>;   
+            var months = <?php if($month_data_graph){echo $month_data_graph;} else {echo '0';}?>;    
         </script>
         <script src="<?php echo assets_url(); ?>js/jquery-1.11.1.min.js"></script>
         <script src="<?php echo assets_url(); ?>js/bootstrap.min.js"></script>
@@ -109,7 +110,7 @@
         <script src="<?php echo assets_url(); ?>js/managepayments.js"></script>
         <script src="<?php echo assets_url(); ?>js/manageagent.js"></script>
         <script src="<?php echo assets_url(); ?>js/manageprofile.js"></script>
-        <script src="<?php echo assets_url(); ?>js/managepayments.js"></script>
+        <script src="<?php echo assets_url(); ?>js/managebill.js"></script>
         <script src="<?php echo assets_url(); ?>js/managebankdetails.js"></script>
         <script src="<?php echo assets_url(); ?>js/bootstrap-table.js"></script>
         <script src="<?php echo assets_url(); ?>js/bootbox.min.js"></script>
@@ -183,11 +184,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">View User</h4>
+                <h4 class="modal-title">View Client/Prospect</h4>
             </div>
-            <div class="modal-body" id="content">
-
-            </div>
+            <div class="modal-body" id="content"></div>
             <div class="modal-footer ">
                 <button type="button" class="btn btn-default" id ="ok" data-dismiss="modal">Cancel</button>
             </div>

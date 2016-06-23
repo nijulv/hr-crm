@@ -48,7 +48,7 @@ if ($from == "agent") { ?>
                 <td><?php echo $result['pincode']; ?></td>
             </tr>
             <tr>
-                <td>Status: </td> <?php if($result['status'] == '1') { $status = 'Active';} else { $status = 'Deactive';}?>
+                <td>Status: </td> <?php if($result['status'] == '1') { $status = 'Active';} else { $status = 'Inactive';}?>
                 <td><?php echo $status; ?></td>
             </tr>
             <tr style="border-bottom: 1px solid #FFF ! important;">
@@ -104,6 +104,14 @@ if ($from == "agent") { ?>
                     <td><?php echo $result['address']; ?></td>
                 </tr>
                 <tr>
+                    <td>Quality Rating: </td>
+                    <td><?php echo $result['star_rate'].' Star'; ?></td>
+                </tr>
+                <tr>
+                    <td>Business Category: </td>
+                    <td><?php echo $result['category_name']; ?></td>
+                </tr>
+                <tr>
                     <td colspan="2" ><b>Payment Details</b></td>
                 </tr>
                 <tr>
@@ -143,16 +151,16 @@ if ($from == "agent") { ?>
                         <td><?php echo number_format($result['bank_payment']); ?></td>
                     </tr>
                     <tr>
-                        <td>Amount In Hand: </td>
-                        <td><?php echo number_format($result['amount_hand']); ?></td>
-                    </tr>
-                    <tr>
                         <td>Comments: </td>
                         <td><?php echo $result['reason']; ?></td>
                     </tr>
                     <tr>
-                        <td>Admin Status: </td> <?php if($result['agree_status'] == '0') { $status = 'Pending';} else if($result['agree_status'] == '2') { $status = 'Admin rejected';} else { $status = 'Admin approved';}?>
+                        <td>Admin Status: </td> <?php if($result['agree_status'] == '0') { $status = 'Pending for admin approval';} else if($result['agree_status'] == '2') { $status = 'Admin not received';} else { $status = 'Admin Received';}?>
                         <td><?php echo $status; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Admin Comments: </td> 
+                        <td><?php echo $result['admin_comments']; ?></td>
                     </tr>
                     <tr style="border-bottom: 1px solid #FFF ! important;">
                         <td>Payment Date: </td>
@@ -203,8 +211,38 @@ if ($from == "agent") { ?>
                     <td><?php echo $result['pincode']; ?></td>
                 </tr>
                 <tr>
-                    <td>Status: </td> <?php if($result['status'] == '1') { $status = 'User';} else { $status = 'Client';}?>
+                    <td>Quality Rating: </td>
+                    <td><?php echo $result['star_rate'].' Star'; ?></td>
+                </tr>
+                <tr>
+                    <td>Business Category: </td>
+                    <td><?php echo $result['category_name']; ?></td>
+                </tr>
+                <?php if($result['attachments'] != '') {?>
+                    <tr>
+                        <td>Attachment 1: </td>
+                        <td><?php echo $result['attachments']; ?></td>
+                    </tr>
+                <?php }
+                if($result['attachments2'] != '') {?>
+                    <tr>
+                        <td>Attachment 2: </td>
+                        <td><?php echo $result['attachments2']; ?></td>
+                    </tr>
+                <?php }
+                if($result['attachments3'] != '') {?>
+                    <tr>
+                        <td>Attachment 3: </td>
+                        <td><?php echo $result['attachments3']; ?></td>
+                    </tr>
+                <?php }?>
+                <tr>
+                    <td>Status: </td> <?php if($result['status'] == '1') { $status = 'Client';} else { $status = 'Prospect';}?>
                     <td><?php echo $status; ?></td>
+                </tr>
+                <tr>
+                    <td>comments: </td>
+                    <td><?php echo $result['comments']; ?></td>
                 </tr>
                 <tr style="border-bottom: 1px solid #FFF ! important;">
                     <td>Created Date: </td>

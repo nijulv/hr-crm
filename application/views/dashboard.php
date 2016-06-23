@@ -7,14 +7,19 @@
             </div><!--/.row-->
 
             <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard - <span id = "date_range" style = "font-size:30px;font-style: italic;">current year</span></h1>
-                    <div class="pull-right">
-                        <input type="text" id="dashboard_fromdate" name = "dashboard_fromdate" class = "" value = "<?php echo set_value('dashboard_fromdate');?>" readonly="readonly"  style="background:white;" placeholder = "From date" />
-                        <input type="text" id="dashboard_todate" name = "dashboard_todate" class = "" value = "<?php echo set_value('dashboard_todate');?>" readonly="readonly"  style="background:white;" placeholder = "To date" />
-                         
-                       <button type="button" class="btn btn-success" id = "dashboard_count_search">Go</button>
-                    </div>
+                <div class="col-lg-6">
+                    <h1 class="page-header">Dashboard - <span id = "date_range" style = "font-size:24px;font-style: italic;">current year</span></h1>
+                </div>    
+                <div class="col-lg-6">
+                    <form class="form-inline pull-right" style = "background-color:transparent;">
+                        <div class="form-group">
+                            <input type="text" class = "form-control" id="dashboard_fromdate" name = "dashboard_fromdate" class = "" value = "<?php echo set_value('dashboard_fromdate');?>" readonly="readonly"  style="background:white;" placeholder = "From date" />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class = "form-control" id="dashboard_todate" name = "dashboard_todate" class = "" value = "<?php echo set_value('dashboard_todate');?>" readonly="readonly"  style="background:white;" placeholder = "To date" />
+                        </div>
+                        <button type="button" class="btn btn-success" id = "dashboard_count_search">Go</button>
+                    </form>
                 </div>
             </div><!--/.row-->
 
@@ -111,8 +116,11 @@
                                         else if($res['status'] == 'Pending'){
                                             $label_color = 'label-danger';
                                         }
-                                        else {
+                                        else if ($res['status'] == 'Partially completed') {
                                             $label_color = 'label-warning';
+                                        }
+                                        else {
+                                            $label_color = '';
                                         }
                                         ?>
                                     <li class="todo-list-item" id='<?php echo $res['id']; ?>' style = "border-bottom: #F1F4F7 solid 1px;">
@@ -165,6 +173,19 @@
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
+                            </div> <br>
+                            <div class="row" style="padding-bottom: 15px;">
+                                <div class="col-lg-2 col-sm-2 col-md-2" style = "padding-top:2%;">
+                                    <b>Status : </b>
+                                </div>
+                                <div class="col-lg-10 col-sm-10 col-md-10">
+                                    <select name = "todostatus" id = "todostatus" class= "form-control">
+                                        <option value = "">No status</option>
+                                        <option value = "Pending">Pending</option>
+                                        <option value = "Partially completed">Partially completed</option>
+                                        <option value = "Completed">Completed</option>
+                                    </select> 
+                                </div>
                             </div>
                          </div>
                         <div class="modal-footer">
@@ -213,6 +234,7 @@
                                     </div>
                                     <div class="col-lg-8 col-sm-8 col-md-8">
                                         <select name = "todostatus_edit" id = "todostatus_edit" class= "form-control">
+                                            <option value = "">No status</option>
                                             <option value = "Pending">Pending</option>
                                             <option value = "Partially completed">Partially completed</option>
                                             <option value = "Completed">Completed</option>
@@ -242,7 +264,7 @@
                 <div class="col-xs-6 col-md-3">
                     <div class="panel panel-default">
                         <div class="panel-body easypiechart-panel">
-                            <h4>New Clients</h4>
+                            <h4>New Clients Today</h4>
                             <div class="easypiechart" id="easypiechart-orange" data-percent="<?php echo $new_clents_day; ?>" >
                                 <span class="percent"><?php echo $new_clents_day; ?></span>
                             </div>
@@ -252,7 +274,7 @@
                 <div class="col-xs-6 col-md-3">
                     <div class="panel panel-default">
                         <div class="panel-body easypiechart-panel">
-                            <h4>New Prospects</h4>  
+                            <h4>New Prospects Today</h4>  
                             <div class="easypiechart" id="easypiechart-teal" data-percent="<?php echo $new_prospect_day; ?>" >
                                 <span class="percent"><?php echo $new_prospect_day; ?></span>
                             </div>

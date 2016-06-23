@@ -976,3 +976,23 @@ ul#district-auto-complete li:hover {
 }
 
 
+.teal-border {
+
+    border: #1EBFAE solid 1px;
+
+}
+
+.blue-border {
+
+   border: #30A5FF solid 1px;
+
+}
+
+.green-border {
+
+   border: #51B911 solid 1px;
+}
+
+.panel-green {
+    background: #51B911 !important; color: #fff !important;
+}

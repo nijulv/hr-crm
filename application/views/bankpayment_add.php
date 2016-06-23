@@ -39,7 +39,7 @@
                                     <input type="text" name="bank_payment_code" id="bank_payment_code" class="form-control" required maxlength="20" readonly="readonly" value="<?php echo set_value('bank_payment_code',$bank_payment_code_value) ?>">
                                 </div>
                                 <div class="form-group">
-                                    <label>Amount to bank <span class="required">*</span></label>
+                                    <label>Amount to bank <span class="required">*</span> <span class = "check_div" id = "amonut_error_msg" ></span></label>
                                     <input type="text" name="bank_payment" id="bank_payment" class="form-control" placeholder="Amount to bank" maxlength="9" value = "<?php echo set_value('bank_payment',$balance_amount); ?>" required onkeypress="return numberValidate(event);">
                                 </div>
                                 <div class="form-group">

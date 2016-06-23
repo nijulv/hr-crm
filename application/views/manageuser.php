@@ -48,13 +48,23 @@
                         <div class="row">
                             <?php if(s('ADMIN_TYPE') == 0){ ?>
                                 <div class="col-md-2">
-                                     <input type = "text" id = "search_name_agent" name = "search_name_agent" class="form-control" placeholder="Agent name" value = "<?php echo set_value('search_name_agent'); ?>">
-                                     <div class = "suggesstion-box-agent"></div>
+                                    <input type = "text" id = "search_name_agent" name = "search_name_agent" class="form-control" placeholder="Agent name" value = "<?php echo set_value('search_name_agent'); ?>">
+                                    <div class = "suggesstion-box-agent"></div>
                                 </div>
                             <?php }?>
                             <div class="col-md-2">
                                 <input type = "text" name = "search_user" id = "search_user" class="form-control" placeholder="Client/Prospect name" value = "<?php echo set_value('search_user'); ?>">
                                  <div class = "suggesstion-box"></div>
+                            </div>
+                            <div class="col-md-2">
+                                <select name="business_category_search" id="business_category_search" class="form-control">
+                                    <option value="">Business category</option>
+                                    <?php if($business_category_list){ ?>
+                                        <?php foreach($business_category_list as $data){ ?> 
+                                            <option value="<?php echo $data['category_id'] ; ?>" <?php echo set_select('business_category_search', $data['category_id'], False); ?> ><?php echo $data['category_name'] ; ?> </option> 
+                                        <?php } ?>
+                                    <?php } ?>
+                                </select>
                             </div>
                             <div class="col-md-2">
                                 <select name="state_search" id="state" class="form-control">
@@ -75,15 +85,19 @@
                                     <?php } ?>
                                 </select>
                             </div> 
-                             <div class="col-md-2">
+                            <div class="col-md-2">
                                  <input type = "text" name = "city_search" class = "form-control"  placeholder="City" value = "<?php echo set_value('city_search'); ?>">
                             </div>
+                        </div> <br>
+                        <div class="row">
                             <div class="col-md-2">
                                 <button type="submit" class="btn btn-info">Search</button>
                                 <button type="button" class="btn btn-default reportclear" style = "" >Clear</button>
                             </div>
                         </div> 
                          <input type = "hidden" name = "search_result" value = "1">
+                         <input type = "hidden" name = "search_agent_id_hidden" id = "search_agent_id_hidden">
+                         <input type = "hidden" name = "search_user_id_hidden" id = "search_user_id_hidden">
                         <?php form_close(); ?>
                         <br>
                         <?php if (!empty($details)) { ?>
@@ -100,11 +114,12 @@
                                             <?php }?>
                                             <th>Client Name</th>
                                             <th>Phone</th>
+                                            <th>Business Category</th>
                                             <th>State</th>
                                             <th>District</th>
                                             <th>City</th>
                                             <th style = "text-align:center;">Status</th>
-                                            <th style = "text-align:center;">Actions</th>
+                                            <th style = "text-align:center;" width = "16%">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -126,10 +141,11 @@
                                             <tr>
                                                 <td style = "text-align:center;"><?php echo $i++; ?></td>
                                                 <?php if(s('ADMIN_TYPE') == 0){ ?>
-                                                    <td><?php echo $data['afirstname'].' '.$data['alastname'];?></td> 
+                                                    <td><?php if($data['afirstname'] != ''){ echo $data['afirstname'].' '.$data['alastname'];}else {echo 'Admin';}?></td> 
                                                 <?php }?>
                                                 <td><?php echo $data['first_name'].' '.$data['last_name'];?></td> 
                                                 <td><?php echo $data['phone'];?></td>
+                                                <td><?php echo $data['category_name'];?></td>
                                                 <td><?php echo $data['state'];?></td>
                                                 <td><?php echo $data['district'];?></td>
                                                 <td><?php echo $data['city'];?></td>

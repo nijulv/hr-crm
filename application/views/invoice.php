@@ -40,12 +40,17 @@
                         <div class="panel panel-default" style="border: #ccc dashed 2px; background: #f1f1f1;" >
                             <div class="panel-heading" style="height: 150px;">
                                 <div class="col-md-6">
-                                    <h4>Rain-CRM</h4>
-                                    <h5>Email: <?php echo $admin_email; ?><br>Phone: <?php echo $admin_phone; ?></h5>
+                                    <img src = "<?php echo assets_url()?>images/bill/<?php echo $logo?>" width="40%">
+                                    <h4><?php echo $company_name;?></h4>
+                                    <h5>
+                                        Email: <?php echo $company_email; ?><br>
+                                        Phone: <?php echo $company_phone; ?>
+                                    </h5>
                                 </div>
                                 <div class="col-md-6" style="text-align: right;">
-                                    <h2 style="color: #8C1515;">Bill Receipt</h2>
-                                    <h4>Date: <?php echo date('d-M-Y'); ?></h4>
+                                    <h2 style="color: #8C1515;"> Receipt </h2>
+                                    <h4>Date: <?php echo $paid_date; ?></h4>                                
+                                    <h4 style="color:red;"><?php echo $bill_number;?></h4>
                                 </div>
                             </div>
                             <div class="panel-body">
@@ -59,20 +64,20 @@
                                     <thead>
                                         <tr>
                                             <th colspan="4" style="text-align:center;"><h4><b>Payment Details</b></h4></th>
-                                    </tr>
-                                    <tr>
-                                        <th>Payment Code</th>
-                                        <th>Paid date</th>
-                                        <th>Title</th>                                        
-                                        <th>Amount</th>
-                                    </tr>
+                                        </tr>
+                                        <tr>
+                                            <th>Payment Code</th>
+                                            <th>Paid date</th>
+                                            <th>Title</th>                                        
+                                            <th style = "text-align:right;">Amount</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td><?php echo $payment_code; ?> </td> 
                                             <td><?php echo $paid_date; ?> </td> 
                                             <td><?php echo $title; ?> </td>                                                 
-                                            <td><?php echo number_format($amount - $total_tax); ?></td>
+                                            <td style = "text-align:right;"><?php echo number_format($amount - $total_tax); ?></td>
                                         </tr>
                                         <?php
                                         foreach ($tax_data as $tax_d => $value) {
@@ -81,7 +86,7 @@
                                                 <td></td> 
                                                 <td></td> 
                                                 <td><?php echo $tax_d; ?> </td>                                                 
-                                                <td><?php echo $value; ?></td>
+                                                <td style = "text-align:right;"><?php echo $value; ?></td>
                                             </tr>
                                             <?php
                                         }
@@ -90,17 +95,17 @@
                                             <th></th>
                                             <th></th>
                                             <th>Total</th>                                        
-                                            <th align="right"><?php echo number_format($amount);  ?>/-</th>
+                                            <th style = "text-align:right;"><?php echo number_format($amount);  ?>/-</th>
                                         </tr>
                                     </tbody>
                                 </table>
                                 <div class="clearfix"></div> <br/><br/><br/>
-                                <div class="pull-left">
-                                    <p>Place: ---------------</p>
-                                    <p>Date: ----------------</p>
-                                </div>
+                                
                                 <div class="pull-right">
                                     <p>Sign/Seal: ---------------</p> 
+                                </div> <br>
+                                <div class="col-md-12">
+                                    <?php echo $footer_content;?>
                                 </div>
                             </div>
                         </div>

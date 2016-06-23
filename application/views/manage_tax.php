@@ -84,7 +84,7 @@
                                             <tr>
                                                 <td style = "text-align:center;"><?php echo $i++; ?></td>
                                                 <td><?php echo $data['tax_name'];?></td>
-                                                <td><?php echo $data['tax_percentage'];?></td>
+                                                <td><?php echo $data['tax_percentage'];?> %</td>
                                                 <td style = "text-align:center;">
                                                     <a title="Modify"href="javascript: void(0)" data-value="<?php echo $data['tax_percentage']?>" data-name="<?php echo $data['tax_name']?>" data-id="<?php echo $data['id']?>" class="label label-default edit_tax"><span class="fa fa-pencil"></span>  Edit</a>
                                                     <a  title="Delete" id="delete" class="label label-danger delete" data-id="<?php echo $data['id']?>" data-url="deletetax"><span class="fa fa-trash"></span>  Delete</a>

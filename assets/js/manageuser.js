@@ -204,7 +204,7 @@ var Manageuser = function(){
             // Disagree payment
             $(".disagree_bankpayment").click(function () {
                 $('#moreDetails').modal('show');
-                $('#data-title').html("Disagree bank payment");
+                $('#data-title').html("Disagree Bank Payment");
                 var id              = $(this).attr("data-id");         
                 var request_path    = base_url+"disagree_bankpayment/"+id;
                 console.log(request_path);
@@ -255,6 +255,7 @@ var Manageuser = function(){
                       })
                  
             })
+            
             $('#todo-panel').on('click','.edittodo', function(){ 
                  var todo_id = $(this).data('id'); 
                  var todourl = $(this).data('url'); 
@@ -268,10 +269,12 @@ var Manageuser = function(){
                             var todoid = data["todoid"];
                             var todotext = data["todotext"];
                             var date = data["date"];
+                            var status = data["status"];
                             
                             $("#todoid_edit").val(todoid);
                             $("#todotext_edit").val(todotext);
                             $("#popup_calender").val(date);
+                            $("#todostatus_edit").val(status);
                             
                             $('#editModal').modal();
                         }
@@ -412,6 +415,18 @@ var Manageuser = function(){
                  }
             });
             
+            $(".removelogo").click(function () {   
+                var answer = confirm("Are you sure you want to delete this logo?");
+                if(answer){
+                    var id    = $(this).attr("data-id");     
+                    var request_path    = base_url+"remove_logo/"+id;
+                    console.log(request_path);
+                    $.post(request_path,function(data){  
+                        $("#logodiv").html('');
+                    });
+                }
+            })
+            
             $(".removeimage").click(function () {   
                 var answer = confirm("Are you sure you want to delete this attachment?");
                 if(answer){
@@ -463,6 +478,42 @@ var Manageuser = function(){
             });
             
              
+            // check autocomplete valid or not 
+            $(document).on('blur','#search_name_agent',function () {  
+
+                var agent_id = $("#search_agent_id_hidden").val();  
+                if(agent_id == ''){
+                    $("#search_name_agent").val('');
+                }
+            });
+            
+            $(document).on('keydown','#search_name_agent',function () {  
+                $("#search_agent_id_hidden").val('');
+            }); 
+
+            $(document).on('keypress','#search_name_agent',function () {  
+                $("#search_agent_id_hidden").val(''); 
+            });
+        
+        
+            $(document).on('blur','#search_user',function () {  
+
+                var user_id = $("#search_user_id_hidden").val();  
+                if(user_id == ''){
+                    $("#search_user").val('');
+                }
+            });
+            
+            $(document).on('keydown','#search_user',function () {  
+                $("#search_user_id_hidden").val('');
+            }); 
+
+            $(document).on('keypress','#search_user',function () {  
+                $("#search_user_id_hidden").val(''); 
+            });
+            
+              
+            
             $("#search_name_agent").keyup(function () { 
                 var id = $(this).attr("id");    
                 if (this.value.length > 1) {
@@ -488,7 +539,9 @@ var Manageuser = function(){
             $('.panel-body').on('click','.agentautolist', function(){  
                 
                 var val = $(this).attr("data-value");    
+                var id = $(this).attr("data-id");      
                 $("#search_name_agent").val(val);
+                $("#search_agent_id_hidden").val(id);
                 $(".suggesstion-box-agent").hide();
             });
             
@@ -517,7 +570,9 @@ var Manageuser = function(){
             $('.panel-body').on('click','.userautolist', function(){  
                 
                 var val = $(this).attr("data-value");    
+                var id = $(this).attr("data-id");    
                 $("#search_user").val(val);
+                $("#search_user_id_hidden").val(id);
                 $(".suggesstion-box").hide();
             });
             
@@ -579,9 +634,5 @@ var Manageuser = function(){
                 $(".suggesstion-box").hide();
             });
             
-//            $("#main_calendar").datepicker({
-//                 startDate: new Date(),
-//                 autoclose: true,
-//            });
             
 }();    

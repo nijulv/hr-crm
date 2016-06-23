@@ -38,7 +38,7 @@
                         
                         <div class="pull-right">
                             <div class="form-group">
-                                <a href = "<?php echo base_url()?>add_payments"><button class="btn btn-primary"><i class="fa fa-plus"></i> Add New</button></a>
+                                <?php if (s('ADMIN_TYPE') == 1) { ?><a href = "<?php echo base_url()?>add_payments"><button class="btn btn-primary"><i class="fa fa-plus"></i> Add New</button></a><?php } ?>
                             </div>
                         </div>
                     </div>
@@ -70,6 +70,8 @@
                             </div>
                         </div> 
                         <input type = "hidden" name = "search_result" value = "1">
+                        <input type = "hidden" name = "search_agent_id_hidden" id = "search_agent_id_hidden">
+                        <input type = "hidden" name = "search_user_id_hidden" id = "search_user_id_hidden">
                         <?php form_close(); ?>
                         <br>
                         <?php if (!empty($details)) { ?>
@@ -85,7 +87,7 @@
                                         <th> Client Name</th>
                                         <th>Payment Code</th>
                                         <th>Payment Title</th>
-                                        <th>Payment Date</th>
+                                        <th style = "text-align:center;">Payment Date</th>
                                         <th style = "text-align:right;">Amount</th>
                                         <th style = "text-align:center;">Actions</th>
                                     </tr>
@@ -100,7 +102,7 @@
                                         <tr>
                                             <td style = "text-align:center;"><?php echo $i++; ?></td>
                                             <?php if(s('ADMIN_TYPE') == 0){ ?>
-                                                <td><?php echo $data['afirstname'].' '.$data['alastname'];?></td> 
+                                                <td><?php if($data['afirstname'] != ''){echo $data['afirstname'].' '.$data['alastname'];} else {echo 'Admin';}?></td> 
                                             <?php }?>
                                             <td><?php echo $data['first_name'].' '.$data['last_name'];?></td> 
                                             <td><?php echo $data['payment_code'];?></td>
@@ -109,8 +111,8 @@
                                             <td  style = "text-align:right;"><?php echo number_format($data['amount']);?></td>
                                             <td style = "text-align:center;">
                                                 <a href="javascript: void(0)" data-id="<?php echo $data['payment_id']?>" class="label label-success generate_invoice"><i class="fa fa-file-text-o" aria-hidden="true"></i> Invoice</a>
-                                                <a href="<?php echo base_url(); ?>edit_payments/<?php echo $data['payment_id'] ?>" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
-                                                <a id="delete" class="label label-danger delete" data-id="<?php echo $data['payment_id']?>" data-url="deletepayments"><span class="fa fa-trash"></span> Delete</a>
+                                                <!--<a href="<?php echo base_url(); ?>edit_payments/<?php echo $data['payment_id'] ?>" class="label label-default"><span class="fa fa-pencil"></span> Edit</a>
+                                                <a id="delete" class="label label-danger delete" data-id="<?php echo $data['payment_id']?>" data-url="deletepayments"><span class="fa fa-trash"></span> Delete</a> -->
                                             </td>
                                         </tr>
                                     <?php }?>
